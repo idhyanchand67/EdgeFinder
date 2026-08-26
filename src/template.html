@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NFL Prop Hit Rates</title>
+<style>
+  :root {
+    --bg: #0f1115; --panel: #171a21; --border: #2a2f3a; --text: #e8eaed;
+    --muted: #8b93a3; --accent: #4ea1ff; --green: #35c076; --red: #ff5c5c;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #f5f6f8; --panel: #ffffff; --border: #dde1e7; --text: #14161a; --muted: #5b6472; --accent: #1c6fd6; --green: #1a9e5c; --red: #d63b3b; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.4 -apple-system, Segoe UI, Roboto, sans-serif; }
+  header { padding: 20px 24px 8px; }
+  h1 { margin: 0 0 4px; font-size: 20px; }
+  .sub { color: var(--muted); font-size: 12.5px; }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; padding: 14px 24px; background: var(--panel); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 2; }
+  .controls label { display: flex; flex-direction: column; gap: 3px; font-size: 11.5px; color: var(--muted); }
+  input, select { background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; font-size: 13px; }
+  input[type="range"] { padding: 0; }
+  .rangeval { color: var(--text); font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  th { position: sticky; top: 62px; background: var(--panel); cursor: pointer; font-size: 11.5px; text-transform: uppercase; color: var(--muted); user-select: none; }
+  th:hover { color: var(--text); }
+  tbody tr:hover { background: rgba(128,128,128,0.08); }
+  .hit { font-weight: 700; }
+  .hit.good { color: var(--green); }
+  .hit.bad { color: var(--red); }
+  .side { font-size: 11px; color: var(--muted); }
+  .sparkline { display: inline-flex; gap: 1px; align-items: flex-end; height: 16px; vertical-align: middle; }
+  .sparkline i { display: block; width: 3px; background: var(--muted); border-radius: 1px; }
+  .sparkline i.hit-bar { background: var(--accent); }
+  .empty { padding: 40px 24px; color: var(--muted); text-align: center; }
+  footer { padding: 16px 24px 40px; color: var(--muted); font-size: 11.5px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>NFL Prop Hit Rates</h1>
+  <div class="sub" id="genAt"></div>
+</header>
+<div class="controls">
+  <label>Search player
+    <input type="text" id="fSearch" placeholder="e.g. Chase">
+  </label>
+  <label>Position
+    <select id="fPos"><option value="">All</option></select>
+  </label>
+  <label>Market
+    <select id="fMarket"><option value="">All</option></select>
+  </label>
+  <label>Min hit rate: <span class="rangeval" id="fHitVal">70%</span>
+    <input type="range" id="fHit" min="0" max="100" value="70" step="5">
+  </label>
+  <label>Min sample (games)
+    <input type="number" id="fSample" min="1" max="20" value="5" style="width:70px">
+  </label>
+</div>
+<table id="tbl">
+  <thead>
+    <tr>
+      <th data-key="player">Player</th>
+      <th data-key="team">Team</th>
+      <th data-key="position">Pos</th>
+      <th data-key="market">Market</th>
+      <th data-key="line">Line</th>
+      <th data-key="best_side">Side</th>
+      <th data-key="best_hit_rate">Hit rate</th>
+      <th data-key="games_sample">Sample</th>
+      <th data-key="best_price">Odds</th>
+      <th data-key="sportsbook">Book</th>
+      <th data-key="commence_time">Kickoff</th>
+    </tr>
+  </thead>
+  <tbody id="tbody"></tbody>
+</table>
+<div class="empty" id="empty" style="display:none">No props match the current filters.</div>
+<footer id="footNote"></footer>
+
+<script>
+const DATA = /*PROP_DATA_JSON*/[]/*PROP_DATA_JSON*/;
+const META = /*META_JSON*/{}/*META_JSON*/;
+
+const MARKET_LABELS = {
+  player_pass_yds: "Pass Yds", player_pass_tds: "Pass TDs", player_pass_completions: "Completions",
+  player_pass_attempts: "Pass Att", player_pass_interceptions: "INTs", player_rush_yds: "Rush Yds",
+  player_rush_attempts: "Carries", player_rush_tds: "Rush TDs", player_reception_yds: "Rec Yds",
+  player_receptions: "Receptions", player_reception_tds: "Rec TDs",
+  player_rush_reception_yds: "Rush+Rec Yds", player_pass_rush_reception_yds: "Pass+Rush+Rec Yds",
+  player_rush_reception_tds: "Rush+Rec TDs", player_pass_rush_reception_tds: "Total TDs",
+};
+
+// Flatten each prop into whichever side (Over/Under) hit more often.
+const rows = DATA.map(p => {
+  const overBetter = p.hit_rate_over >= p.hit_rate_under;
+  return {
+    ...p,
+    best_side: overBetter ? "Over" : "Under",
+    best_hit_rate: overBetter ? p.hit_rate_over : p.hit_rate_under,
+    best_price: overBetter ? p.price_over : p.price_under,
+  };
+});
+
+document.getElementById("genAt").textContent =
+  `Generated ${META.generated_at || ""} - lookback ${META.lookback} games, min ${META.min_games} games sample. ` +
+  `Odds and hit rates are informational, not betting advice.`;
+document.getElementById("footNote").textContent =
+  `${rows.length} props scored from ${META.stats_rows || "?"} player-game rows across seasons ${(META.seasons || []).join(", ")}.`;
+
+const posSel = document.getElementById("fPos");
+[...new Set(rows.map(r => r.position).filter(Boolean))].sort().forEach(pos => {
+  const o = document.createElement("option"); o.value = pos; o.textContent = pos; posSel.appendChild(o);
+});
+const marketSel = document.getElementById("fMarket");
+[...new Set(rows.map(r => r.market))].sort().forEach(m => {
+  const o = document.createElement("option"); o.value = m; o.textContent = MARKET_LABELS[m] || m; marketSel.appendChild(o);
+});
+
+let sortKey = "best_hit_rate", sortDir = -1;
+
+function fmtPct(x) { return (x * 100).toFixed(0) + "%"; }
+function fmtOdds(x) { if (x == null) return "-"; return x > 0 ? `+${x}` : `${x}`; }
+function fmtKickoff(iso) {
+  if (!iso) return "-";
+  const d = new Date(iso);
+  return d.toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+}
+function sparkline(values, line) {
+  if (!values || !values.length) return "";
+  const max = Math.max(...values, line);
+  const bars = values.slice().reverse().map(v => {
+    const h = Math.max(2, Math.round((v / max) * 16));
+    const cls = v > line ? "hit-bar" : "";
+    return `<i class="${cls}" style="height:${h}px" title="${v}"></i>`;
+  }).join("");
+  return `<span class="sparkline">${bars}</span>`;
+}
+
+function render() {
+  const search = document.getElementById("fSearch").value.trim().toLowerCase();
+  const pos = document.getElementById("fPos").value;
+  const market = document.getElementById("fMarket").value;
+  const minHit = document.getElementById("fHit").value / 100;
+  const minSample = Number(document.getElementById("fSample").value) || 0;
+
+  let filtered = rows.filter(r =>
+    (!search || r.player.toLowerCase().includes(search)) &&
+    (!pos || r.position === pos) &&
+    (!market || r.market === market) &&
+    r.best_hit_rate >= minHit &&
+    r.games_sample >= minSample
+  );
+
+  filtered.sort((a, b) => {
+    const av = a[sortKey], bv = b[sortKey];
+    if (av < bv) return -1 * sortDir;
+    if (av > bv) return 1 * sortDir;
+    return 0;
+  });
+
+  const tbody = document.getElementById("tbody");
+  tbody.innerHTML = filtered.map(r => `
+    <tr>
+      <td>${r.player}</td>
+      <td>${r.team || "-"}</td>
+      <td>${r.position || "-"}</td>
+      <td>${MARKET_LABELS[r.market] || r.market}</td>
+      <td>${r.line}</td>
+      <td><span class="side">${r.best_side}</span></td>
+      <td><span class="hit ${r.best_hit_rate >= 0.7 ? "good" : (r.best_hit_rate <= 0.4 ? "bad" : "")}">${fmtPct(r.best_hit_rate)}</span> ${sparkline(r.recent_values, r.line)}</td>
+      <td>${r.games_sample}</td>
+      <td>${fmtOdds(r.best_price)}</td>
+      <td>${r.sportsbook || "-"}</td>
+      <td>${fmtKickoff(r.commence_time)}</td>
+    </tr>
+  `).join("");
+
+  document.getElementById("empty").style.display = filtered.length ? "none" : "block";
+}
+
+document.querySelectorAll("th[data-key]").forEach(th => {
+  th.addEventListener("click", () => {
+    const key = th.dataset.key;
+    sortDir = (sortKey === key) ? -sortDir : -1;
+    sortKey = key;
+    render();
+  });
+});
+["fSearch", "fPos", "fMarket", "fSample"].forEach(id =>
+  document.getElementById(id).addEventListener("input", render)
+);
+document.getElementById("fHit").addEventListener("input", (e) => {
+  document.getElementById("fHitVal").textContent = e.target.value + "%";
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
