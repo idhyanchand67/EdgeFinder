@@ -59,13 +59,12 @@ always shows the latest scored props, no local run needed.
 One-time setup, both in the repo's GitHub settings:
 
 1. **Add your Odds API key as a secret** so the workflow can use it without it
-   ever being committed or visible in logs:
-   ```bash
-   gh secret set ODDS_API_KEY --repo idhyanchand67/EdgeFinder
-   ```
-   (run this yourself, in your own terminal - it prompts for the value rather
-   than taking it as a visible argument). Or add it via
-   **Settings -> Secrets and variables -> Actions -> New repository secret**.
+   ever being committed or visible in logs: on the repo's GitHub page, go to
+   **Settings -> Secrets and variables -> Actions -> New repository secret**,
+   name it `ODDS_API_KEY`, and paste in the value. (If you have the `gh` CLI
+   installed, `gh secret set ODDS_API_KEY --repo idhyanchand67/EdgeFinder` does
+   the same thing from your own terminal - it prompts for the value rather
+   than taking it as a visible argument.)
 2. **Enable Pages**: **Settings -> Pages -> Source -> GitHub Actions**.
 
 After that, either wait for the next scheduled run or trigger one immediately
