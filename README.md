@@ -50,6 +50,36 @@ API - that costs API quota per event/market/region, so trim a sport's
 `MARKET_MAP` in `src/sports/<sport>.py` to only the props you care about if
 you're on a limited plan.
 
+## Live, auto-refreshing results
+
+`.github/workflows/refresh.yml` runs `main.py` on a schedule (every 6 hours by
+default) and publishes `report.html` to GitHub Pages - a stable URL that
+always shows the latest scored props, no local run needed.
+
+One-time setup, both in the repo's GitHub settings:
+
+1. **Add your Odds API key as a secret** so the workflow can use it without it
+   ever being committed or visible in logs:
+   ```bash
+   gh secret set ODDS_API_KEY --repo idhyanchand67/EdgeFinder
+   ```
+   (run this yourself, in your own terminal - it prompts for the value rather
+   than taking it as a visible argument). Or add it via
+   **Settings -> Secrets and variables -> Actions -> New repository secret**.
+2. **Enable Pages**: **Settings -> Pages -> Source -> GitHub Actions**.
+
+After that, either wait for the next scheduled run or trigger one immediately
+from the **Actions** tab (`Refresh props and publish` -> **Run workflow**).
+The published page's URL shows up under **Settings -> Pages** once the first
+run finishes.
+
+The 6-hour cadence is a starting point, not a rule - each run costs Odds API
+quota per event/market/region, so widen the cron in `refresh.yml` if you're on
+a limited plan, or narrow it close to game days if you want fresher lines.
+The stats caches (`data/*_stats.csv`) persist between runs via
+`actions/cache`, so only new games are fetched each time, not a full
+re-backfill.
+
 ## Options
 
 ```
@@ -77,6 +107,7 @@ src/sports/nhl.py           ESPN fetch + NHL market map/labels (skaters + goalie
 src/sports/espn_common.py   shared scoreboard/boxscore fetch + incremental local cache
 data/props_sample.json      demo data for --demo, keyed by sport (real players, made-up lines)
 data/<sport>_stats.csv      cached per-sport stats (gitignored, rebuilt/backfilled on demand)
+.github/workflows/refresh.yml  scheduled run -> publishes report.html to GitHub Pages
 ```
 
 ## Adding another sport

@@ -4,65 +4,225 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>EdgeFinder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0f1115; --panel: #171a21; --border: #2a2f3a; --text: #e8eaed;
-    --muted: #8b93a3; --accent: #4ea1ff; --green: #35c076; --red: #ff5c5c;
+    --ground: #f7f5f0;
+    --panel: #ffffff;
+    --panel-2: #f1ede4;
+    --border: #e3ddd0;
+    --text: #201d17;
+    --muted: #736c5e;
+    --accent: #a9762a;
+    --accent-ink: #ffffff;
+    --good: #2e8f5e;
+    --good-bg: rgba(46, 143, 94, 0.12);
+    --bad: #c04a3a;
+    --bad-bg: rgba(192, 74, 58, 0.12);
+    --focus: #a9762a;
+    --shadow: 0 1px 2px rgba(32, 29, 23, 0.06);
   }
-  @media (prefers-color-scheme: light) {
-    :root { --bg: #f5f6f8; --panel: #ffffff; --border: #dde1e7; --text: #14161a; --muted: #5b6472; --accent: #1c6fd6; --green: #1a9e5c; --red: #d63b3b; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #15171b;
+      --panel: #1c1f24;
+      --panel-2: #23262c;
+      --border: #33373f;
+      --text: #ecebe6;
+      --muted: #9a978d;
+      --accent: #d9a441;
+      --accent-ink: #1a1409;
+      --good: #4fb884;
+      --good-bg: rgba(79, 184, 132, 0.14);
+      --bad: #e2705f;
+      --bad-bg: rgba(226, 112, 95, 0.14);
+      --focus: #d9a441;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
   }
+  :root[data-theme="dark"] {
+    --ground: #15171b;
+    --panel: #1c1f24;
+    --panel-2: #23262c;
+    --border: #33373f;
+    --text: #ecebe6;
+    --muted: #9a978d;
+    --accent: #d9a441;
+    --accent-ink: #1a1409;
+    --good: #4fb884;
+    --good-bg: rgba(79, 184, 132, 0.14);
+    --bad: #e2705f;
+    --bad-bg: rgba(226, 112, 95, 0.14);
+    --focus: #d9a441;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.4 -apple-system, Segoe UI, Roboto, sans-serif; }
-  header { padding: 20px 24px 8px; }
-  h1 { margin: 0 0 4px; font-size: 20px; }
-  .sub { color: var(--muted); font-size: 12.5px; }
-  .controls { display: flex; flex-wrap: wrap; gap: 10px; padding: 14px 24px; background: var(--panel); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 2; }
-  .controls label { display: flex; flex-direction: column; gap: 3px; font-size: 11.5px; color: var(--muted); }
-  input, select { background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; font-size: 13px; }
-  input[type="range"] { padding: 0; }
-  .rangeval { color: var(--text); font-weight: 600; }
-  table { width: 100%; border-collapse: collapse; }
-  th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
-  th { position: sticky; top: 62px; background: var(--panel); cursor: pointer; font-size: 11.5px; text-transform: uppercase; color: var(--muted); user-select: none; }
-  th:hover { color: var(--text); }
-  tbody tr:hover { background: rgba(128,128,128,0.08); }
-  .hit { font-weight: 700; }
-  .hit.good { color: var(--green); }
-  .hit.bad { color: var(--red); }
-  .side { font-size: 11px; color: var(--muted); }
-  .sparkline { display: inline-flex; gap: 1px; align-items: flex-end; height: 16px; vertical-align: middle; }
-  .sparkline i { display: block; width: 3px; background: var(--muted); border-radius: 1px; }
-  .sparkline i.hit-bar { background: var(--accent); }
-  .empty { padding: 40px 24px; color: var(--muted); text-align: center; }
-  footer { padding: 16px 24px 40px; color: var(--muted); font-size: 11.5px; }
+  html, body { height: auto; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--text);
+    font: 400 14px/1.5 "IBM Plex Sans", -apple-system, Segoe UI, Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+  :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+  a { color: var(--accent); }
+
+  .num { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace; font-variant-numeric: tabular-nums; }
+
+  header {
+    padding: 28px 28px 18px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand { display: flex; align-items: baseline; gap: 12px; }
+  h1 {
+    margin: 0;
+    font-family: "Big Shoulders Display", "Arial Narrow", sans-serif;
+    font-weight: 800;
+    font-size: 34px;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+    line-height: 1;
+  }
+  .tagline { color: var(--muted); font-size: 12.5px; }
+  .meta { color: var(--muted); font-size: 12px; text-align: right; max-width: 380px; }
+
+  .summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .stat {
+    background: var(--panel);
+    padding: 14px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .stat .label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+  .stat .value { font-family: "Big Shoulders Display", sans-serif; font-weight: 700; font-size: 26px; line-height: 1; }
+  .stat .value.accent { color: var(--accent); }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 16px;
+    padding: 16px 28px;
+    background: var(--panel-2);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 3;
+  }
+  .controls .field { display: flex; flex-direction: column; gap: 5px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  input, select {
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 7px 9px;
+    font: 13px "IBM Plex Sans", sans-serif;
+  }
+  select { min-width: 108px; }
+  input[type="range"] { padding: 0; accent-color: var(--accent); width: 130px; }
+  input[type="number"] { width: 64px; }
+  .rangeval { color: var(--text); font-weight: 600; text-transform: none; letter-spacing: 0; font-family: "IBM Plex Mono", monospace; }
+
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; min-width: 920px; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  th {
+    background: var(--panel);
+    cursor: pointer;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--muted);
+    user-select: none;
+    z-index: 2;
+  }
+  th:hover { color: var(--accent); }
+  th.sorted { color: var(--accent); }
+  tbody tr:hover { background: var(--panel-2); }
+  td.num, th.num { text-align: right; }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 9px 3px 3px;
+    border-radius: 999px;
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 500;
+    font-size: 13px;
+  }
+  .pill .dot { width: 7px; height: 7px; border-radius: 50%; margin-left: 4px; }
+  .pill.good { background: var(--good-bg); color: var(--good); }
+  .pill.good .dot { background: var(--good); }
+  .pill.bad { background: var(--bad-bg); color: var(--bad); }
+  .pill.bad .dot { background: var(--bad); }
+  .pill.mid { background: var(--panel-2); color: var(--text); }
+  .pill.mid .dot { background: var(--muted); }
+
+  .side-tag { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+
+  .spark { position: relative; display: inline-flex; align-items: flex-end; gap: 2px; height: 22px; width: 74px; vertical-align: middle; }
+  .spark .baseline { position: absolute; left: 0; right: 0; border-top: 1px dashed var(--muted); opacity: 0.55; }
+  .spark i { display: block; flex: 1; border-radius: 1.5px 1.5px 0 0; background: var(--border); position: relative; z-index: 1; }
+  .spark i.over { background: var(--good); }
+  .spark i.under { background: var(--bad); opacity: 0.85; }
+
+  .empty { padding: 56px 24px; color: var(--muted); text-align: center; font-size: 14px; }
+  footer { padding: 18px 28px 44px; color: var(--muted); font-size: 11.5px; border-top: 1px solid var(--border); margin-top: 8px; }
+  footer p { margin: 0 0 4px; }
 </style>
 </head>
 <body>
 <header>
-  <h1>EdgeFinder</h1>
-  <div class="sub" id="genAt"></div>
+  <div class="brand">
+    <h1>EdgeFinder</h1>
+    <span class="tagline">Prop lines vs. recent history</span>
+  </div>
+  <div class="meta" id="genAt"></div>
 </header>
+
+<div class="summary" id="summary"></div>
+
 <div class="controls">
-  <label>Search player
+  <div class="field">Search player
     <input type="text" id="fSearch" placeholder="e.g. Chase">
-  </label>
-  <label>Sport
+  </div>
+  <div class="field">Sport
     <select id="fSport"><option value="">All</option></select>
-  </label>
-  <label>Position
+  </div>
+  <div class="field">Position
     <select id="fPos"><option value="">All</option></select>
-  </label>
-  <label>Market
+  </div>
+  <div class="field">Market
     <select id="fMarket"><option value="">All</option></select>
-  </label>
-  <label>Min hit rate: <span class="rangeval" id="fHitVal">70%</span>
+  </div>
+  <div class="field">Min hit rate: <span class="rangeval" id="fHitVal">70%</span>
     <input type="range" id="fHit" min="0" max="100" value="70" step="5">
-  </label>
-  <label>Min sample (games)
-    <input type="number" id="fSample" min="1" max="20" value="5" style="width:70px">
-  </label>
+  </div>
+  <div class="field">Min sample
+    <input type="number" id="fSample" min="1" max="20" value="5">
+  </div>
 </div>
+
+<div class="table-wrap">
 <table id="tbl">
   <thead>
     <tr>
@@ -71,17 +231,18 @@
       <th data-key="team">Team</th>
       <th data-key="position">Pos</th>
       <th data-key="market">Market</th>
-      <th data-key="line">Line</th>
+      <th data-key="line" class="num">Line</th>
       <th data-key="best_side">Side</th>
       <th data-key="best_hit_rate">Hit rate</th>
-      <th data-key="games_sample">Sample</th>
-      <th data-key="best_price">Odds</th>
+      <th data-key="games_sample" class="num">Sample</th>
+      <th data-key="best_price" class="num">Odds</th>
       <th data-key="sportsbook">Book</th>
       <th data-key="commence_time">Kickoff</th>
     </tr>
   </thead>
   <tbody id="tbody"></tbody>
 </table>
+</div>
 <div class="empty" id="empty" style="display:none">No props match the current filters.</div>
 <footer id="footNote"></footer>
 
@@ -101,10 +262,26 @@ const rows = DATA.map(p => {
 });
 
 document.getElementById("genAt").textContent =
-  `Generated ${META.generated_at || ""} - lookback ${META.lookback} games, min ${META.min_games} games sample. ` +
-  `Odds and hit rates are informational, not betting advice.`;
-document.getElementById("footNote").textContent =
-  `${rows.length} props scored across ${(META.sports || []).join(", ") || "no sports"}.`;
+  `Generated ${META.generated_at || ""} — lookback ${META.lookback} games, min ${META.min_games} games sample. ` +
+  `Informational only, not betting advice.`;
+
+function renderSummary() {
+  const best = rows.reduce((m, r) => Math.max(m, r.best_hit_rate), 0);
+  const sports = (META.sports || []).length;
+  const stats = [
+    { label: "Props scored", value: String(rows.length) },
+    { label: "Best hit rate", value: rows.length ? `${(best * 100).toFixed(0)}%` : "–", accent: true },
+    { label: "Sports covered", value: sports ? (META.sports || []).join(" / ") : "–" },
+    { label: "Lookback window", value: `${META.lookback} gm` },
+  ];
+  document.getElementById("summary").innerHTML = stats.map(s => `
+    <div class="stat">
+      <span class="label">${s.label}</span>
+      <span class="value${s.accent ? " accent" : ""}">${s.value}</span>
+    </div>
+  `).join("");
+}
+renderSummary();
 
 const sportSel = document.getElementById("fSport");
 [...new Set(rows.map(r => r.sport_label).filter(Boolean))].sort().forEach(s => {
@@ -122,21 +299,26 @@ const marketSel = document.getElementById("fMarket");
 let sortKey = "best_hit_rate", sortDir = -1;
 
 function fmtPct(x) { return (x * 100).toFixed(0) + "%"; }
-function fmtOdds(x) { if (x == null) return "-"; return x > 0 ? `+${x}` : `${x}`; }
+function fmtOdds(x) { if (x == null) return "–"; return x > 0 ? `+${x}` : `${x}`; }
 function fmtKickoff(iso) {
-  if (!iso) return "-";
+  if (!iso) return "–";
   const d = new Date(iso);
   return d.toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
 }
+function hitPill(rate) {
+  const cls = rate >= 0.7 ? "good" : (rate <= 0.4 ? "bad" : "mid");
+  return `<span class="pill ${cls}"><span class="dot"></span>${fmtPct(rate)}</span>`;
+}
 function sparkline(values, line) {
   if (!values || !values.length) return "";
-  const max = Math.max(...values, line);
+  const max = Math.max(...values, line) || 1;
+  const baselinePct = Math.max(0, Math.min(100, (line / max) * 100));
   const bars = values.slice().reverse().map(v => {
-    const h = Math.max(2, Math.round((v / max) * 16));
-    const cls = v > line ? "hit-bar" : "";
-    return `<i class="${cls}" style="height:${h}px" title="${v}"></i>`;
+    const h = Math.max(8, Math.round((v / max) * 100));
+    const cls = v > line ? "over" : (v < line ? "under" : "");
+    return `<i class="${cls}" style="height:${h}%" title="${v}"></i>`;
   }).join("");
-  return `<span class="sparkline">${bars}</span>`;
+  return `<span class="spark"><span class="baseline" style="bottom:${baselinePct}%"></span>${bars}</span>`;
 }
 
 function render() {
@@ -166,17 +348,17 @@ function render() {
   const tbody = document.getElementById("tbody");
   tbody.innerHTML = filtered.map(r => `
     <tr>
-      <td>${r.sport_label || "-"}</td>
+      <td>${r.sport_label || "–"}</td>
       <td>${r.player}</td>
-      <td>${r.team || "-"}</td>
-      <td>${r.position || "-"}</td>
+      <td>${r.team || "–"}</td>
+      <td>${r.position || "–"}</td>
       <td>${r.market_label || r.market}</td>
-      <td>${r.line}</td>
-      <td><span class="side">${r.best_side}</span></td>
-      <td><span class="hit ${r.best_hit_rate >= 0.7 ? "good" : (r.best_hit_rate <= 0.4 ? "bad" : "")}">${fmtPct(r.best_hit_rate)}</span> ${sparkline(r.recent_values, r.line)}</td>
-      <td>${r.games_sample}</td>
-      <td>${fmtOdds(r.best_price)}</td>
-      <td>${r.sportsbook || "-"}</td>
+      <td class="num">${r.line}</td>
+      <td><span class="side-tag">${r.best_side}</span></td>
+      <td>${hitPill(r.best_hit_rate)} ${sparkline(r.recent_values, r.line)}</td>
+      <td class="num">${r.games_sample}</td>
+      <td class="num">${fmtOdds(r.best_price)}</td>
+      <td>${r.sportsbook || "–"}</td>
       <td>${fmtKickoff(r.commence_time)}</td>
     </tr>
   `).join("");
@@ -189,6 +371,7 @@ document.querySelectorAll("th[data-key]").forEach(th => {
     const key = th.dataset.key;
     sortDir = (sortKey === key) ? -sortDir : -1;
     sortKey = key;
+    document.querySelectorAll("th[data-key]").forEach(t => t.classList.toggle("sorted", t === th));
     render();
   });
 });
@@ -199,6 +382,10 @@ document.getElementById("fHit").addEventListener("input", (e) => {
   document.getElementById("fHitVal").textContent = e.target.value + "%";
   render();
 });
+
+document.getElementById("footNote").innerHTML =
+  `<p>${rows.length} props scored across ${(META.sports || []).join(", ") || "no sports"}.</p>` +
+  `<p>Hit rate against a line's history doesn't mean the current line hasn't already priced that pattern in — use this as a research filter, not a signal to bet blind.</p>`;
 
 render();
 </script>
