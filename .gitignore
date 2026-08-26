@@ -1,6 +1,6 @@
 .env
 __pycache__/
 *.pyc
-data/player_stats.csv
-data/props.json
+data/*_stats.csv
+data/*_props.json
 report.html

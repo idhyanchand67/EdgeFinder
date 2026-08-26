@@ -35,6 +35,6 @@ def resolve_player_id(name: str, team: str, name_index: dict, stats_df) -> str |
         team_norm = team.strip().upper()
         for pid in candidates:
             rows = stats_df[stats_df["player_id"] == pid]
-            if not rows.empty and rows["recent_team"].iloc[-1].strip().upper() == team_norm:
+            if not rows.empty and str(rows["team"].iloc[-1]).strip().upper() == team_norm:
                 return pid
     return next(iter(candidates))

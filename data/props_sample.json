@@ -1,18 +1,42 @@
-[
-  {"player_name": "Ja'Marr Chase", "market": "player_reception_yds", "side": "Over", "line": 74.5, "price": -115, "sportsbook": "DraftKings", "home_team": "Cincinnati Bengals", "away_team": "Cleveland Browns", "commence_time": "2026-09-07T17:00:00Z"},
-  {"player_name": "Ja'Marr Chase", "market": "player_reception_yds", "side": "Under", "line": 74.5, "price": -105, "sportsbook": "DraftKings", "home_team": "Cincinnati Bengals", "away_team": "Cleveland Browns", "commence_time": "2026-09-07T17:00:00Z"},
-  {"player_name": "Christian McCaffrey", "market": "player_rush_yds", "side": "Over", "line": 79.5, "price": -110, "sportsbook": "FanDuel", "home_team": "San Francisco 49ers", "away_team": "Seattle Seahawks", "commence_time": "2026-09-07T20:25:00Z"},
-  {"player_name": "Christian McCaffrey", "market": "player_rush_yds", "side": "Under", "line": 79.5, "price": -110, "sportsbook": "FanDuel", "home_team": "San Francisco 49ers", "away_team": "Seattle Seahawks", "commence_time": "2026-09-07T20:25:00Z"},
-  {"player_name": "Josh Allen", "market": "player_pass_yds", "side": "Over", "line": 229.5, "price": -112, "sportsbook": "DraftKings", "home_team": "Buffalo Bills", "away_team": "New York Jets", "commence_time": "2026-09-07T17:00:00Z"},
-  {"player_name": "Josh Allen", "market": "player_pass_yds", "side": "Under", "line": 229.5, "price": -108, "sportsbook": "DraftKings", "home_team": "Buffalo Bills", "away_team": "New York Jets", "commence_time": "2026-09-07T17:00:00Z"},
-  {"player_name": "Travis Kelce", "market": "player_receptions", "side": "Over", "line": 5.5, "price": -120, "sportsbook": "BetMGM", "home_team": "Kansas City Chiefs", "away_team": "Los Angeles Chargers", "commence_time": "2026-09-08T00:20:00Z"},
-  {"player_name": "Travis Kelce", "market": "player_receptions", "side": "Under", "line": 5.5, "price": 100, "sportsbook": "BetMGM", "home_team": "Kansas City Chiefs", "away_team": "Los Angeles Chargers", "commence_time": "2026-09-08T00:20:00Z"},
-  {"player_name": "CeeDee Lamb", "market": "player_reception_yds", "side": "Over", "line": 82.5, "price": -110, "sportsbook": "Caesars", "home_team": "Dallas Cowboys", "away_team": "Philadelphia Eagles", "commence_time": "2026-09-07T20:25:00Z"},
-  {"player_name": "CeeDee Lamb", "market": "player_reception_yds", "side": "Under", "line": 82.5, "price": -110, "sportsbook": "Caesars", "home_team": "Dallas Cowboys", "away_team": "Philadelphia Eagles", "commence_time": "2026-09-07T20:25:00Z"},
-  {"player_name": "Saquon Barkley", "market": "player_rush_yds", "side": "Over", "line": 89.5, "price": -115, "sportsbook": "DraftKings", "home_team": "Philadelphia Eagles", "away_team": "Dallas Cowboys", "commence_time": "2026-09-07T20:25:00Z"},
-  {"player_name": "Saquon Barkley", "market": "player_rush_yds", "side": "Under", "line": 89.5, "price": -105, "sportsbook": "DraftKings", "home_team": "Philadelphia Eagles", "away_team": "Dallas Cowboys", "commence_time": "2026-09-07T20:25:00Z"},
-  {"player_name": "Amon-Ra St. Brown", "market": "player_receptions", "side": "Over", "line": 6.5, "price": -125, "sportsbook": "FanDuel", "home_team": "Detroit Lions", "away_team": "Green Bay Packers", "commence_time": "2026-09-07T17:00:00Z"},
-  {"player_name": "Amon-Ra St. Brown", "market": "player_receptions", "side": "Under", "line": 6.5, "price": 105, "sportsbook": "FanDuel", "home_team": "Detroit Lions", "away_team": "Green Bay Packers", "commence_time": "2026-09-07T17:00:00Z"},
-  {"player_name": "Lamar Jackson", "market": "player_pass_rush_reception_yds", "side": "Over", "line": 249.5, "price": -110, "sportsbook": "BetMGM", "home_team": "Baltimore Ravens", "away_team": "Kansas City Chiefs", "commence_time": "2026-09-07T20:25:00Z"},
-  {"player_name": "Lamar Jackson", "market": "player_pass_rush_reception_yds", "side": "Under", "line": 249.5, "price": -110, "sportsbook": "BetMGM", "home_team": "Baltimore Ravens", "away_team": "Kansas City Chiefs", "commence_time": "2026-09-07T20:25:00Z"}
-]
+{
+  "nfl": [
+    {"player_name": "Ja'Marr Chase", "market": "player_reception_yds", "side": "Over", "line": 74.5, "price": -115, "sportsbook": "DraftKings", "home_team": "Cincinnati Bengals", "away_team": "Cleveland Browns", "commence_time": "2026-09-07T17:00:00Z"},
+    {"player_name": "Ja'Marr Chase", "market": "player_reception_yds", "side": "Under", "line": 74.5, "price": -105, "sportsbook": "DraftKings", "home_team": "Cincinnati Bengals", "away_team": "Cleveland Browns", "commence_time": "2026-09-07T17:00:00Z"},
+    {"player_name": "Christian McCaffrey", "market": "player_rush_yds", "side": "Over", "line": 79.5, "price": -110, "sportsbook": "FanDuel", "home_team": "San Francisco 49ers", "away_team": "Seattle Seahawks", "commence_time": "2026-09-07T20:25:00Z"},
+    {"player_name": "Christian McCaffrey", "market": "player_rush_yds", "side": "Under", "line": 79.5, "price": -110, "sportsbook": "FanDuel", "home_team": "San Francisco 49ers", "away_team": "Seattle Seahawks", "commence_time": "2026-09-07T20:25:00Z"},
+    {"player_name": "Josh Allen", "market": "player_pass_yds", "side": "Over", "line": 229.5, "price": -112, "sportsbook": "DraftKings", "home_team": "Buffalo Bills", "away_team": "New York Jets", "commence_time": "2026-09-07T17:00:00Z"},
+    {"player_name": "Josh Allen", "market": "player_pass_yds", "side": "Under", "line": 229.5, "price": -108, "sportsbook": "DraftKings", "home_team": "Buffalo Bills", "away_team": "New York Jets", "commence_time": "2026-09-07T17:00:00Z"},
+    {"player_name": "Travis Kelce", "market": "player_receptions", "side": "Over", "line": 5.5, "price": -120, "sportsbook": "BetMGM", "home_team": "Kansas City Chiefs", "away_team": "Los Angeles Chargers", "commence_time": "2026-09-08T00:20:00Z"},
+    {"player_name": "Travis Kelce", "market": "player_receptions", "side": "Under", "line": 5.5, "price": 100, "sportsbook": "BetMGM", "home_team": "Kansas City Chiefs", "away_team": "Los Angeles Chargers", "commence_time": "2026-09-08T00:20:00Z"},
+    {"player_name": "CeeDee Lamb", "market": "player_reception_yds", "side": "Over", "line": 82.5, "price": -110, "sportsbook": "Caesars", "home_team": "Dallas Cowboys", "away_team": "Philadelphia Eagles", "commence_time": "2026-09-07T20:25:00Z"},
+    {"player_name": "CeeDee Lamb", "market": "player_reception_yds", "side": "Under", "line": 82.5, "price": -110, "sportsbook": "Caesars", "home_team": "Dallas Cowboys", "away_team": "Philadelphia Eagles", "commence_time": "2026-09-07T20:25:00Z"},
+    {"player_name": "Saquon Barkley", "market": "player_rush_yds", "side": "Over", "line": 89.5, "price": -115, "sportsbook": "DraftKings", "home_team": "Philadelphia Eagles", "away_team": "Dallas Cowboys", "commence_time": "2026-09-07T20:25:00Z"},
+    {"player_name": "Saquon Barkley", "market": "player_rush_yds", "side": "Under", "line": 89.5, "price": -105, "sportsbook": "DraftKings", "home_team": "Philadelphia Eagles", "away_team": "Dallas Cowboys", "commence_time": "2026-09-07T20:25:00Z"},
+    {"player_name": "Amon-Ra St. Brown", "market": "player_receptions", "side": "Over", "line": 6.5, "price": -125, "sportsbook": "FanDuel", "home_team": "Detroit Lions", "away_team": "Green Bay Packers", "commence_time": "2026-09-07T17:00:00Z"},
+    {"player_name": "Amon-Ra St. Brown", "market": "player_receptions", "side": "Under", "line": 6.5, "price": 105, "sportsbook": "FanDuel", "home_team": "Detroit Lions", "away_team": "Green Bay Packers", "commence_time": "2026-09-07T17:00:00Z"},
+    {"player_name": "Lamar Jackson", "market": "player_pass_rush_reception_yds", "side": "Over", "line": 249.5, "price": -110, "sportsbook": "BetMGM", "home_team": "Baltimore Ravens", "away_team": "Kansas City Chiefs", "commence_time": "2026-09-07T20:25:00Z"},
+    {"player_name": "Lamar Jackson", "market": "player_pass_rush_reception_yds", "side": "Under", "line": 249.5, "price": -110, "sportsbook": "BetMGM", "home_team": "Baltimore Ravens", "away_team": "Kansas City Chiefs", "commence_time": "2026-09-07T20:25:00Z"}
+  ],
+  "nba": [
+    {"player_name": "LeBron James", "market": "player_points", "side": "Over", "line": 24.5, "price": -110, "sportsbook": "DraftKings", "home_team": "Los Angeles Lakers", "away_team": "Golden State Warriors", "commence_time": "2026-10-22T02:00:00Z"},
+    {"player_name": "LeBron James", "market": "player_points", "side": "Under", "line": 24.5, "price": -110, "sportsbook": "DraftKings", "home_team": "Los Angeles Lakers", "away_team": "Golden State Warriors", "commence_time": "2026-10-22T02:00:00Z"},
+    {"player_name": "Nikola Jokic", "market": "player_points_rebounds_assists", "side": "Over", "line": 58.5, "price": -115, "sportsbook": "FanDuel", "home_team": "Denver Nuggets", "away_team": "Phoenix Suns", "commence_time": "2026-10-22T01:00:00Z"},
+    {"player_name": "Nikola Jokic", "market": "player_points_rebounds_assists", "side": "Under", "line": 58.5, "price": -105, "sportsbook": "FanDuel", "home_team": "Denver Nuggets", "away_team": "Phoenix Suns", "commence_time": "2026-10-22T01:00:00Z"},
+    {"player_name": "Stephen Curry", "market": "player_threes", "side": "Over", "line": 4.5, "price": -120, "sportsbook": "BetMGM", "home_team": "Los Angeles Lakers", "away_team": "Golden State Warriors", "commence_time": "2026-10-22T02:00:00Z"},
+    {"player_name": "Stephen Curry", "market": "player_threes", "side": "Under", "line": 4.5, "price": 100, "sportsbook": "BetMGM", "home_team": "Los Angeles Lakers", "away_team": "Golden State Warriors", "commence_time": "2026-10-22T02:00:00Z"}
+  ],
+  "mlb": [
+    {"player_name": "Aaron Judge", "market": "batter_home_runs", "side": "Over", "line": 0.5, "price": 150, "sportsbook": "DraftKings", "home_team": "New York Yankees", "away_team": "Boston Red Sox", "commence_time": "2026-08-27T23:05:00Z"},
+    {"player_name": "Aaron Judge", "market": "batter_home_runs", "side": "Under", "line": 0.5, "price": -190, "sportsbook": "DraftKings", "home_team": "New York Yankees", "away_team": "Boston Red Sox", "commence_time": "2026-08-27T23:05:00Z"},
+    {"player_name": "Shohei Ohtani", "market": "batter_hits", "side": "Over", "line": 1.5, "price": 130, "sportsbook": "FanDuel", "home_team": "Los Angeles Dodgers", "away_team": "San Diego Padres", "commence_time": "2026-08-27T02:10:00Z"},
+    {"player_name": "Shohei Ohtani", "market": "batter_hits", "side": "Under", "line": 1.5, "price": -160, "sportsbook": "FanDuel", "home_team": "Los Angeles Dodgers", "away_team": "San Diego Padres", "commence_time": "2026-08-27T02:10:00Z"},
+    {"player_name": "Gerrit Cole", "market": "pitcher_strikeouts", "side": "Over", "line": 5.5, "price": -115, "sportsbook": "BetMGM", "home_team": "New York Yankees", "away_team": "Boston Red Sox", "commence_time": "2026-08-27T23:05:00Z"},
+    {"player_name": "Gerrit Cole", "market": "pitcher_strikeouts", "side": "Under", "line": 5.5, "price": -105, "sportsbook": "BetMGM", "home_team": "New York Yankees", "away_team": "Boston Red Sox", "commence_time": "2026-08-27T23:05:00Z"}
+  ],
+  "nhl": [
+    {"player_name": "Connor McDavid", "market": "player_points", "side": "Over", "line": 1.5, "price": 120, "sportsbook": "DraftKings", "home_team": "Edmonton Oilers", "away_team": "Calgary Flames", "commence_time": "2026-10-09T02:00:00Z"},
+    {"player_name": "Connor McDavid", "market": "player_points", "side": "Under", "line": 1.5, "price": -150, "sportsbook": "DraftKings", "home_team": "Edmonton Oilers", "away_team": "Calgary Flames", "commence_time": "2026-10-09T02:00:00Z"},
+    {"player_name": "Auston Matthews", "market": "player_goals", "side": "Over", "line": 0.5, "price": 105, "sportsbook": "FanDuel", "home_team": "Toronto Maple Leafs", "away_team": "Montreal Canadiens", "commence_time": "2026-10-09T23:00:00Z"},
+    {"player_name": "Auston Matthews", "market": "player_goals", "side": "Under", "line": 0.5, "price": -135, "sportsbook": "FanDuel", "home_team": "Toronto Maple Leafs", "away_team": "Montreal Canadiens", "commence_time": "2026-10-09T23:00:00Z"}
+  ]
+}

@@ -1,19 +1,10 @@
 """Renders hit-rate results into a single self-contained report.html."""
 import json
-from datetime import datetime, timezone
 
 from . import config
 
 
-def render(results: list[dict], stats_df, lookback: int, min_games: int) -> None:
-    meta = {
-        "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
-        "lookback": lookback,
-        "min_games": min_games,
-        "stats_rows": int(len(stats_df)),
-        "seasons": sorted(int(s) for s in stats_df["season"].unique()),
-    }
-
+def render(results: list[dict], meta: dict) -> None:
     template = config.TEMPLATE_HTML.read_text(encoding="utf-8")
     data_json = json.dumps(results)
     meta_json = json.dumps(meta)
@@ -25,4 +16,4 @@ def render(results: list[dict], stats_df, lookback: int, min_games: int) -> None
     )
 
     config.REPORT_HTML.write_text(html, encoding="utf-8")
-    print(f"Wrote {config.REPORT_HTML} ({len(results)} props)")
+    print(f"Wrote {config.REPORT_HTML} ({len(results)} props across {len(meta.get('sports', []))} sport(s))")
