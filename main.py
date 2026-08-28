@@ -47,9 +47,13 @@ def main():
             if not props:
                 print(f"  no sample props for {sport.display_name} in {config.PROPS_SAMPLE_JSON.name} - skipping")
                 continue
+            before = len(props)
+            props = [p for p in props if sport.game_filter(p)]
+            if len(props) < before:
+                print(f"  skipping {before - len(props)} sample prop(s) that fail this sport's game filter")
             print(f"  using {len(props)} sample props (--demo mode)")
         else:
-            props = fetch_odds.fetch_and_save(sport_key, sport.odds_sport_key, sport.market_map)
+            props = fetch_odds.fetch_and_save(sport_key, sport.odds_sport_key, sport.market_map, game_filter=sport.game_filter)
 
         results = hit_rates.compute_hit_rates(sport, stats_df, props, lookback=args.lookback, min_games=args.min_games)
         print(f"  scored {len(results)} props")

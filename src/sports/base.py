@@ -14,6 +14,10 @@ class SportConfig:
     market_labels: dict[str, str]      # market key -> human-readable label
     order_by: list[str]                 # columns to sort ascending so .tail(N) = most recent games
     fetch_stats: Callable[..., pd.DataFrame]  # (force: bool) -> normalized stats DataFrame
+    # Optional: (prop dict) -> True if this prop's game should be scored at all.
+    # Use this to drop games where recent-history stats don't mean what they
+    # normally do - e.g. NFL preseason, where backups play starter snaps.
+    game_filter: Callable[[dict], bool] = lambda prop: True
 
     @property
     def default_markets(self) -> list[str]:

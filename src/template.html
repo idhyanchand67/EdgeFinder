@@ -185,6 +185,21 @@
   .spark i.over { background: var(--good); }
   .spark i.under { background: var(--bad); opacity: 0.85; }
 
+  .toppicks { padding: 22px 28px 6px; }
+  .toppicks-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .toppicks h2 { margin: 0; font-family: "Big Shoulders Display", sans-serif; font-weight: 700; font-size: 21px; letter-spacing: 0.01em; }
+  .toppicks .day-note { color: var(--muted); font-size: 12px; }
+  .pick-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; box-shadow: var(--shadow); }
+  .pick-row { display: flex; align-items: center; gap: 14px; padding: 10px 16px; background: var(--panel); }
+  .pick-rank { font-family: "Big Shoulders Display", sans-serif; font-weight: 800; font-size: 19px; color: var(--accent); width: 24px; flex: none; text-align: center; }
+  .pick-main { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .pick-player { font-weight: 600; }
+  .pick-player .pick-sub { font-weight: 400; }
+  .pick-sub { color: var(--muted); font-size: 12px; }
+  .pick-hit { flex: none; display: flex; align-items: center; gap: 8px; }
+  .pick-odds { flex: none; width: 96px; text-align: right; font-size: 12px; color: var(--muted); line-height: 1.4; font-family: "IBM Plex Mono", monospace; }
+  .pick-empty { padding: 22px; text-align: center; color: var(--muted); background: var(--panel); font-size: 13px; }
+
   .empty { padding: 56px 24px; color: var(--muted); text-align: center; font-size: 14px; }
   footer { padding: 18px 28px 44px; color: var(--muted); font-size: 11.5px; border-top: 1px solid var(--border); margin-top: 8px; }
   footer p { margin: 0 0 4px; }
@@ -205,6 +220,9 @@
   <div class="field">Search player
     <input type="text" id="fSearch" placeholder="e.g. Chase">
   </div>
+  <div class="field">Day
+    <select id="fDay"><option value="">All upcoming</option></select>
+  </div>
   <div class="field">Sport
     <select id="fSport"><option value="">All</option></select>
   </div>
@@ -221,6 +239,14 @@
     <input type="number" id="fSample" min="1" max="20" value="5">
   </div>
 </div>
+
+<section class="toppicks">
+  <div class="toppicks-head">
+    <h2>Top 10 picks</h2>
+    <span class="day-note" id="toppicksDay"></span>
+  </div>
+  <div class="pick-list" id="toppicksList"></div>
+</section>
 
 <div class="table-wrap">
 <table id="tbl">
@@ -250,14 +276,20 @@
 const DATA = /*PROP_DATA_JSON*/[]/*PROP_DATA_JSON*/;
 const META = /*META_JSON*/{}/*META_JSON*/;
 
+function dayKey(d) { return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; }
+function dayLabel(d) { return d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" }); }
+
 // Flatten each prop into whichever side (Over/Under) hit more often.
 const rows = DATA.map(p => {
   const overBetter = p.hit_rate_over >= p.hit_rate_under;
+  const kickoff = p.commence_time ? new Date(p.commence_time) : null;
   return {
     ...p,
     best_side: overBetter ? "Over" : "Under",
     best_hit_rate: overBetter ? p.hit_rate_over : p.hit_rate_under,
     best_price: overBetter ? p.price_over : p.price_under,
+    day_key: kickoff ? dayKey(kickoff) : null,
+    day_label: kickoff ? dayLabel(kickoff) : null,
   };
 });
 
@@ -282,6 +314,15 @@ function renderSummary() {
   `).join("");
 }
 renderSummary();
+
+const daySel = document.getElementById("fDay");
+const dayEntries = [...new Map(rows.filter(r => r.day_key).map(r => [r.day_key, r.day_label])).entries()].sort((a, b) => a[0].localeCompare(b[0]));
+dayEntries.forEach(([key, label]) => {
+  const o = document.createElement("option"); o.value = key; o.textContent = label; daySel.appendChild(o);
+});
+const todayKey = dayKey(new Date());
+const defaultDay = dayEntries.find(([key]) => key >= todayKey)?.[0] || dayEntries[0]?.[0] || "";
+daySel.value = defaultDay;
 
 const sportSel = document.getElementById("fSport");
 [...new Set(rows.map(r => r.sport_label).filter(Boolean))].sort().forEach(s => {
@@ -321,8 +362,32 @@ function sparkline(values, line) {
   return `<span class="spark"><span class="baseline" style="bottom:${baselinePct}%"></span>${bars}</span>`;
 }
 
+function pickRow(r, i) {
+  return `
+    <div class="pick-row">
+      <span class="pick-rank">${i + 1}</span>
+      <span class="pick-main">
+        <span class="pick-player">${r.player} <span class="pick-sub">${r.team || "–"} · ${r.sport_label}</span></span>
+        <span class="pick-sub">${r.market_label || r.market} · ${r.best_side} ${r.line}</span>
+      </span>
+      <span class="pick-hit">${hitPill(r.best_hit_rate)} ${sparkline(r.recent_values, r.line)}</span>
+      <span class="pick-odds">${fmtOdds(r.best_price)}<br>${r.sportsbook || "–"}</span>
+    </div>
+  `;
+}
+
+function renderTopPicks(dayFiltered, day) {
+  const top = [...dayFiltered].sort((a, b) => b.best_hit_rate - a.best_hit_rate).slice(0, 10);
+  const dayLabelText = day ? (dayEntries.find(([k]) => k === day)?.[1] || day) : "all upcoming days";
+  document.getElementById("toppicksDay").textContent = `for ${dayLabelText}`;
+  document.getElementById("toppicksList").innerHTML = top.length
+    ? top.map(pickRow).join("")
+    : `<div class="pick-empty">No props match the current filters for this day.</div>`;
+}
+
 function render() {
   const search = document.getElementById("fSearch").value.trim().toLowerCase();
+  const day = document.getElementById("fDay").value;
   const sport = document.getElementById("fSport").value;
   const pos = document.getElementById("fPos").value;
   const market = document.getElementById("fMarket").value;
@@ -331,12 +396,15 @@ function render() {
 
   let filtered = rows.filter(r =>
     (!search || r.player.toLowerCase().includes(search)) &&
+    (!day || r.day_key === day) &&
     (!sport || r.sport_label === sport) &&
     (!pos || r.position === pos) &&
     (!market || r.market === market) &&
     r.best_hit_rate >= minHit &&
     r.games_sample >= minSample
   );
+
+  renderTopPicks(filtered, day);
 
   filtered.sort((a, b) => {
     const av = a[sortKey], bv = b[sortKey];
@@ -375,7 +443,7 @@ document.querySelectorAll("th[data-key]").forEach(th => {
     render();
   });
 });
-["fSearch", "fSport", "fPos", "fMarket", "fSample"].forEach(id =>
+["fSearch", "fDay", "fSport", "fPos", "fMarket", "fSample"].forEach(id =>
   document.getElementById(id).addEventListener("input", render)
 );
 document.getElementById("fHit").addEventListener("input", (e) => {

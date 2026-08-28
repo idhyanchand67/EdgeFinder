@@ -1,5 +1,6 @@
 """NFL: stats from nflverse's free weekly player-stats release (no API key)."""
 import time
+from datetime import date, datetime, timedelta
 
 import pandas as pd
 import requests
@@ -69,6 +70,25 @@ def _download(cache_path) -> None:
     print(f"[nfl] saved {len(resp.content) / 1e6:.1f} MB to {cache_path}")
 
 
+def _regular_season_start(year: int) -> date:
+    """NFL Week 1 always kicks off the Thursday after Labor Day (first Monday of September)."""
+    sept_first = date(year, 9, 1)
+    labor_day = sept_first + timedelta(days=(7 - sept_first.weekday()) % 7)
+    return labor_day + timedelta(days=3)
+
+
+def _is_regular_season_game(prop: dict) -> bool:
+    """Excludes preseason games - backups play starter snaps, so recent-history
+    hit rates (built from real regular-season usage) don't predict them well."""
+    commence = prop.get("commence_time")
+    if not commence:
+        return True  # can't tell - don't drop it over missing data
+    dt = datetime.fromisoformat(commence.replace("Z", "+00:00"))
+    # Jan/Feb games (playoffs, Super Bowl) belong to the September-year before them.
+    season_year = dt.year if dt.month >= 3 else dt.year - 1
+    return dt.date() >= _regular_season_start(season_year)
+
+
 SPORT = SportConfig(
     key="nfl",
     display_name="NFL",
@@ -77,4 +97,5 @@ SPORT = SportConfig(
     market_labels=MARKET_LABELS,
     order_by=["season", "week"],
     fetch_stats=fetch_stats,
+    game_filter=_is_regular_season_game,
 )

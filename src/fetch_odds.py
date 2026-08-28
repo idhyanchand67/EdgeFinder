@@ -64,7 +64,7 @@ def _normalize(event: dict, event_odds: dict, market_map: dict) -> list[dict]:
     return props
 
 
-def fetch_all_props(odds_sport_key: str, market_map: dict, markets: list[str] = None) -> list[dict]:
+def fetch_all_props(odds_sport_key: str, market_map: dict, markets: list[str] = None, game_filter=None) -> list[dict]:
     if not config.ODDS_API_KEY:
         raise RuntimeError(
             "ODDS_API_KEY is not set. Copy .env.example to .env and fill in a key "
@@ -72,6 +72,13 @@ def fetch_all_props(odds_sport_key: str, market_map: dict, markets: list[str] = 
         )
     markets = markets or list(market_map.keys())
     events = fetch_upcoming_events(odds_sport_key)
+    if game_filter is not None:
+        kept = [e for e in events if game_filter(e)]
+        skipped = len(events) - len(kept)
+        if skipped:
+            print(f"  skipping {skipped} event(s) that fail this sport's game filter (e.g. NFL preseason) "
+                  f"before spending any quota on them")
+        events = kept
     print(f"  found {len(events)} upcoming events for {odds_sport_key}")
     all_props = []
     for event in events:
@@ -84,8 +91,8 @@ def fetch_all_props(odds_sport_key: str, market_map: dict, markets: list[str] = 
     return all_props
 
 
-def fetch_and_save(sport_key: str, odds_sport_key: str, market_map: dict, markets: list[str] = None) -> list[dict]:
-    props = fetch_all_props(odds_sport_key, market_map, markets=markets)
+def fetch_and_save(sport_key: str, odds_sport_key: str, market_map: dict, markets: list[str] = None, game_filter=None) -> list[dict]:
+    props = fetch_all_props(odds_sport_key, market_map, markets=markets, game_filter=game_filter)
     out_path = config.props_json_path(sport_key)
     config.DATA_DIR.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(props, indent=2))

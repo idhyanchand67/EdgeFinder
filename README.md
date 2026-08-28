@@ -25,8 +25,18 @@ research filter, not a signal to bet blind.
 3. For each prop, the app looks at that player's last *N* games (default 10)
    and reports the hit rate for whichever side (Over/Under) hit more often.
 4. Everything renders into `report.html` - open it in a browser, no server
-   needed. Filter by sport, position, market, minimum hit rate, and minimum
-   sample size; sort by clicking any column.
+   needed. A **Top 10 picks** panel up top surfaces the best-hit-rate props
+   for whichever day is selected (defaults to the nearest upcoming slate).
+   Below that, the full table filters by day, sport, position, market,
+   minimum hit rate, and minimum sample size, and sorts by clicking any
+   column.
+5. **NFL preseason games are excluded automatically.** Recent-history hit
+   rates are built from real regular-season usage, and preseason games don't
+   reflect that (backups play starter snaps, game plans are vanilla) - so
+   scoring them against that history would be misleading. The cutoff is
+   computed each run as the Thursday after Labor Day (NFL's real Week 1
+   rule), not hardcoded to one season, and props for excluded games are
+   filtered out *before* any Odds API quota is spent on them, not after.
 
 ## Quick start
 
@@ -149,6 +159,14 @@ Nothing else needs to change.
 - Odds API's player-prop markets vary by book and week; not every market in a
   sport's `MARKET_MAP` will have odds available every week.
 - NFL history is `season_type == "REG"` only - playoff games aren't included.
+- The NFL preseason cutoff is a calendar heuristic (Thursday after Labor Day),
+  not read from the Odds API itself - correct for how the NFL actually
+  schedules Week 1, but a rule change on their end would need a matching
+  update in `src/sports/nfl.py`'s `_regular_season_start`.
+- The **Day** filter and default (nearest upcoming slate) are computed in the
+  viewer's own browser timezone, so the "same" report can default to a
+  different day for two people looking at it from different timezones near a
+  UTC date boundary.
 - Combo props (e.g. rush+rec yards, PRA) sum the mapped columns per game;
   that's usually but not always how a book settles them - check a book's own
   rules for edge cases (e.g. OT, stat corrections).
