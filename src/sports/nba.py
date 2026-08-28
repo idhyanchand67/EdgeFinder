@@ -18,24 +18,14 @@ MARKET_MAP = {
     "player_rebounds": ["reb"],
     "player_assists": ["ast"],
     "player_threes": ["fg3m"],
-    "player_blocks": ["blk"],
-    "player_steals": ["stl"],
-    "player_turnovers": ["tov"],
-    "player_field_goals_made": ["fgm"],
-    "player_free_throws_made": ["ftm"],
     "player_points_rebounds_assists": ["pts", "reb", "ast"],
     "player_points_rebounds": ["pts", "reb"],
-    "player_points_assists": ["pts", "ast"],
-    "player_rebounds_assists": ["reb", "ast"],
-    "player_blocks_steals": ["blk", "stl"],
 }
 
 MARKET_LABELS = {
     "player_points": "Points", "player_rebounds": "Rebounds", "player_assists": "Assists",
-    "player_threes": "3-Pointers Made", "player_blocks": "Blocks", "player_steals": "Steals",
-    "player_turnovers": "Turnovers", "player_field_goals_made": "FG Made", "player_free_throws_made": "FT Made",
+    "player_threes": "3-Pointers Made",
     "player_points_rebounds_assists": "Pts+Reb+Ast", "player_points_rebounds": "Pts+Reb",
-    "player_points_assists": "Pts+Ast", "player_rebounds_assists": "Reb+Ast", "player_blocks_steals": "Blk+Stl",
 }
 
 

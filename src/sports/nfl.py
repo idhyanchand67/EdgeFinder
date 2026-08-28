@@ -16,28 +16,17 @@ SEASONS_BACK = 3
 MARKET_MAP = {
     "player_pass_yds": ["passing_yards"],
     "player_pass_tds": ["passing_tds"],
-    "player_pass_completions": ["completions"],
-    "player_pass_attempts": ["attempts"],
-    "player_pass_interceptions": ["interceptions"],
     "player_rush_yds": ["rushing_yards"],
-    "player_rush_attempts": ["carries"],
     "player_rush_tds": ["rushing_tds"],
     "player_reception_yds": ["receiving_yards"],
     "player_receptions": ["receptions"],
     "player_reception_tds": ["receiving_tds"],
-    "player_rush_reception_yds": ["rushing_yards", "receiving_yards"],
-    "player_pass_rush_reception_yds": ["passing_yards", "rushing_yards", "receiving_yards"],
-    "player_rush_reception_tds": ["rushing_tds", "receiving_tds"],
-    "player_pass_rush_reception_tds": ["passing_tds", "rushing_tds", "receiving_tds"],
 }
 
 MARKET_LABELS = {
-    "player_pass_yds": "Pass Yds", "player_pass_tds": "Pass TDs", "player_pass_completions": "Completions",
-    "player_pass_attempts": "Pass Att", "player_pass_interceptions": "INTs", "player_rush_yds": "Rush Yds",
-    "player_rush_attempts": "Carries", "player_rush_tds": "Rush TDs", "player_reception_yds": "Rec Yds",
+    "player_pass_yds": "Pass Yds", "player_pass_tds": "Pass TDs", "player_rush_yds": "Rush Yds",
+    "player_rush_tds": "Rush TDs", "player_reception_yds": "Rec Yds",
     "player_receptions": "Receptions", "player_reception_tds": "Rec TDs",
-    "player_rush_reception_yds": "Rush+Rec Yds", "player_pass_rush_reception_yds": "Pass+Rush+Rec Yds",
-    "player_rush_reception_tds": "Rush+Rec TDs", "player_pass_rush_reception_tds": "Total TDs",
 }
 
 

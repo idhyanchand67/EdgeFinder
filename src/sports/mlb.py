@@ -14,23 +14,16 @@ DAYS_BACK = 45
 
 MARKET_MAP = {
     "batter_hits": ["bat_hits"],
-    "batter_runs_scored": ["bat_runs"],
-    "batter_rbis": ["bat_rbi"],
     "batter_home_runs": ["bat_hr"],
-    "batter_walks": ["bat_bb"],
+    "batter_rbis": ["bat_rbi"],
     "batter_strikeouts": ["bat_so"],
     "pitcher_strikeouts": ["p_so"],
-    "pitcher_hits_allowed": ["p_h"],
-    "pitcher_walks": ["p_bb"],
-    "pitcher_earned_runs": ["p_er"],
     "pitcher_outs": ["p_outs"],
 }
 
 MARKET_LABELS = {
-    "batter_hits": "Hits", "batter_runs_scored": "Runs", "batter_rbis": "RBIs",
-    "batter_home_runs": "Home Runs", "batter_walks": "Walks", "batter_strikeouts": "Batter Ks",
-    "pitcher_strikeouts": "Pitcher Ks", "pitcher_hits_allowed": "Hits Allowed",
-    "pitcher_walks": "Pitcher Walks", "pitcher_earned_runs": "Earned Runs", "pitcher_outs": "Outs Recorded",
+    "batter_hits": "Hits", "batter_home_runs": "Home Runs", "batter_rbis": "RBIs",
+    "batter_strikeouts": "Batter Ks", "pitcher_strikeouts": "Pitcher Ks", "pitcher_outs": "Outs Recorded",
 }
 
 _ZERO_ROW = {"bat_hits": 0.0, "bat_runs": 0.0, "bat_rbi": 0.0, "bat_hr": 0.0, "bat_bb": 0.0, "bat_so": 0.0,

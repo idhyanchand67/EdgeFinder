@@ -2,7 +2,7 @@ name: Refresh props and publish
 
 on:
   schedule:
-    - cron: "15 */6 * * *"   # every 6 hours - trim if you're on a limited Odds API plan
+    - cron: "15 13,23 * * *"  # ~9am and 7pm ET - see README's Odds API credits section before widening this
   workflow_dispatch: {}       # lets you trigger a run manually from the Actions tab
 
 permissions:

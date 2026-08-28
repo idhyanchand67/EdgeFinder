@@ -156,9 +156,9 @@
     },
     {
       "player_name": "Lamar Jackson",
-      "market": "player_pass_rush_reception_yds",
+      "market": "player_pass_tds",
       "side": "Over",
-      "line": 249.5,
+      "line": 1.5,
       "price": -110,
       "sportsbook": "BetMGM",
       "home_team": "Baltimore Ravens",
@@ -167,9 +167,9 @@
     },
     {
       "player_name": "Lamar Jackson",
-      "market": "player_pass_rush_reception_yds",
+      "market": "player_pass_tds",
       "side": "Under",
-      "line": 249.5,
+      "line": 1.5,
       "price": -110,
       "sportsbook": "BetMGM",
       "home_team": "Baltimore Ravens",

@@ -62,9 +62,29 @@ you're on a limited plan.
 
 ## Live, auto-refreshing results
 
-`.github/workflows/refresh.yml` runs `main.py` on a schedule (every 6 hours by
+`.github/workflows/refresh.yml` runs `main.py` on a schedule (twice a day by
 default) and publishes `report.html` to GitHub Pages - a stable URL that
 always shows the latest scored props, no local run needed.
+
+### Odds API credits
+
+Each run costs Odds API quota per event x market x region requested - that's
+not a rounding error. A single run against the smallest paid plan (20,000
+credits/month) with just NFL and MLB active (NBA/NHL were off-season) cost
+**166 credits**. At the old default of every 6 hours, that alone projects to
+~20,000/month - your entire monthly budget, before NBA/NHL even come back
+into season. Two changes brought that down:
+
+- Each sport's `MARKET_MAP` (in `src/sports/<sport>.py`) is trimmed to its
+  most commonly-bet props (~50% fewer markets per sport) rather than every
+  market the Odds API offers for that sport.
+- The default cron is twice a day instead of every 6 hours.
+
+Together that lands around 1,200-1,500 credits/month even with all four
+sports live - comfortable headroom instead of running at the ceiling. If you
+want deeper market coverage back, add entries back to a sport's `MARKET_MAP`
+(and matching `MARKET_LABELS`) and watch the `x-requests-remaining` numbers
+in the Actions log for a run or two before committing to it.
 
 One-time setup, both in the repo's GitHub settings:
 
@@ -82,12 +102,11 @@ from the **Actions** tab (`Refresh props and publish` -> **Run workflow**).
 The published page's URL shows up under **Settings -> Pages** once the first
 run finishes.
 
-The 6-hour cadence is a starting point, not a rule - each run costs Odds API
-quota per event/market/region, so widen the cron in `refresh.yml` if you're on
-a limited plan, or narrow it close to game days if you want fresher lines.
-The stats caches (`data/*_stats.csv`) persist between runs via
-`actions/cache`, so only new games are fetched each time, not a full
-re-backfill.
+The twice-daily cadence is a starting point, not a rule - narrow it in
+`refresh.yml` if you want fresher lines and have the credit budget for it (see
+above), or widen it further if you don't. The stats caches
+(`data/*_stats.csv`) persist between runs via `actions/cache`, so only new
+games are fetched each time, not a full re-backfill.
 
 ## Options
 
