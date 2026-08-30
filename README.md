@@ -38,6 +38,40 @@ research filter, not a signal to bet blind.
    rule), not hardcoded to one season, and props for excluded games are
    filtered out *before* any Odds API quota is spent on them, not after.
 
+## Does the core premise actually hold up?
+
+`scripts/backtest.py` checks whether "hit rate over the last N games" predicts
+anything, or is just noise:
+
+```bash
+python scripts/backtest.py            # NFL + MLB (only sports with enough cached history right now)
+```
+
+For each player and stat, it walks their game log and at each point compares
+the hit rate over the trailing `--lookback` games against a stand-in line
+(the median of everything before that point - real historical odds aren't
+available to backtest against, see the caveat below), then checks the hit
+rate over the following `--horizon` games against that same line.
+
+**Result on NFL** (16,136 player-games, 3 seasons): a strong, consistently
+monotonic relationship - a 70%+ trailing hit rate predicted a **56.7% forward
+hit rate** (n=1,289), against a **19.1% baseline** across every player/stat
+combination (correlation +0.70). That's not noise. Yardage props specifically
+(the most comparable to what books actually offer) showed the same pattern
+more moderately, e.g. receiving yards: 56.0% forward vs. 42.6% baseline.
+
+**The important caveat**: this mostly demonstrates that a player's *role* is
+sticky game-to-game (someone getting more touches recently tends to keep
+getting them) - a real and useful pattern, but not the same claim as "this
+beats the current sportsbook line." The stand-in line here is a slow-moving
+historical median, not a real market price; an actual book already adjusts
+for exactly this kind of role change, often quickly. Testing whether the
+signal survives *against real historical odds* would need a historical-odds
+data source (a much pricier Odds API tier), which this project doesn't have.
+So: recent hit rate is a legitimate signal about who's trending, not
+proof of an exploitable mispricing - which is exactly why the report treats
+it as a research filter rather than a bet recommendation.
+
 ## Quick start
 
 ```bash
@@ -121,6 +155,7 @@ python main.py --refresh-stats      # force re-download/re-backfill of stats
 
 ```
 main.py                    CLI entrypoint - loops over selected sports, builds one combined report
+scripts/backtest.py         checks whether recent hit rate actually predicts anything (see above)
 src/config.py               Odds API access, shared paths, scoring defaults
 src/fetch_odds.py           pulls current player props from The Odds API (sport-agnostic)
 src/name_match.py           normalizes names so book spellings match the stats source's
