@@ -179,6 +179,13 @@
 
   .side-tag { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
 
+  .injury-tag {
+    display: inline-block; font-size: 9.5px; font-weight: 700; letter-spacing: 0.03em;
+    padding: 1px 5px; border-radius: 4px; vertical-align: middle; margin-left: 6px;
+  }
+  .injury-tag.OUT { background: var(--bad-bg); color: var(--bad); }
+  .injury-tag.RISK { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent); }
+
   .spark { position: relative; display: inline-flex; align-items: flex-end; gap: 2px; height: 22px; width: 74px; vertical-align: middle; }
   .spark .baseline { position: absolute; left: 0; right: 0; border-top: 1px dashed var(--muted); opacity: 0.55; }
   .spark i { display: block; flex: 1; border-radius: 1.5px 1.5px 0 0; background: var(--border); position: relative; z-index: 1; }
@@ -257,6 +264,7 @@
       <th data-key="team">Team</th>
       <th data-key="position">Pos</th>
       <th data-key="market">Market</th>
+      <th data-key="matchup">Matchup</th>
       <th data-key="line" class="num">Line</th>
       <th data-key="best_side">Side</th>
       <th data-key="best_hit_rate">Hit rate</th>
@@ -350,6 +358,15 @@ function hitPill(rate) {
   const cls = rate >= 0.7 ? "good" : (rate <= 0.4 ? "bad" : "mid");
   return `<span class="pill ${cls}"><span class="dot"></span>${fmtPct(rate)}</span>`;
 }
+function injuryTag(status) {
+  if (!status) return "";
+  return `<span class="injury-tag ${status}">${status === "OUT" ? "OUT" : "Q"}</span>`;
+}
+function matchupPill(tier) {
+  if (!tier) return "–";
+  const cls = tier === "Tough" ? "bad" : (tier === "Favorable" ? "good" : "mid");
+  return `<span class="pill ${cls}"><span class="dot"></span>${tier}</span>`;
+}
 function sparkline(values, line) {
   if (!values || !values.length) return "";
   const max = Math.max(...values, line) || 1;
@@ -367,7 +384,7 @@ function pickRow(r, i) {
     <div class="pick-row">
       <span class="pick-rank">${i + 1}</span>
       <span class="pick-main">
-        <span class="pick-player">${r.player} <span class="pick-sub">${r.team || "–"} · ${r.sport_label}</span></span>
+        <span class="pick-player">${r.player}${injuryTag(r.injury_status)} <span class="pick-sub">${r.team || "–"} · ${r.sport_label}</span></span>
         <span class="pick-sub">${r.market_label || r.market} · ${r.best_side} ${r.line}</span>
       </span>
       <span class="pick-hit">${hitPill(r.best_hit_rate)} ${sparkline(r.recent_values, r.line)}</span>
@@ -377,7 +394,12 @@ function pickRow(r, i) {
 }
 
 function renderTopPicks(dayFiltered, day) {
-  const top = [...dayFiltered].sort((a, b) => b.best_hit_rate - a.best_hit_rate).slice(0, 10);
+  // A player already ruled OUT won't play, so they don't belong in a "best picks" list -
+  // still shown (tagged) in the full table below for transparency.
+  const top = [...dayFiltered]
+    .filter(r => r.injury_status !== "OUT")
+    .sort((a, b) => b.best_hit_rate - a.best_hit_rate)
+    .slice(0, 10);
   const dayLabelText = day ? (dayEntries.find(([k]) => k === day)?.[1] || day) : "all upcoming days";
   document.getElementById("toppicksDay").textContent = `for ${dayLabelText}`;
   document.getElementById("toppicksList").innerHTML = top.length
@@ -417,10 +439,11 @@ function render() {
   tbody.innerHTML = filtered.map(r => `
     <tr>
       <td>${r.sport_label || "–"}</td>
-      <td>${r.player}</td>
+      <td>${r.player}${injuryTag(r.injury_status)}</td>
       <td>${r.team || "–"}</td>
       <td>${r.position || "–"}</td>
       <td>${r.market_label || r.market}</td>
+      <td>${matchupPill(r.matchup)}</td>
       <td class="num">${r.line}</td>
       <td><span class="side-tag">${r.best_side}</span></td>
       <td>${hitPill(r.best_hit_rate)} ${sparkline(r.recent_values, r.line)}</td>

@@ -78,6 +78,62 @@ def _is_regular_season_game(prop: dict) -> bool:
     return dt.date() >= _regular_season_start(season_year)
 
 
+# Odds API spells out full team names; nflverse uses these abbreviations.
+TEAM_ABBR = {
+    "Arizona Cardinals": "ARI", "Atlanta Falcons": "ATL", "Baltimore Ravens": "BAL",
+    "Buffalo Bills": "BUF", "Carolina Panthers": "CAR", "Chicago Bears": "CHI",
+    "Cincinnati Bengals": "CIN", "Cleveland Browns": "CLE", "Dallas Cowboys": "DAL",
+    "Denver Broncos": "DEN", "Detroit Lions": "DET", "Green Bay Packers": "GB",
+    "Houston Texans": "HOU", "Indianapolis Colts": "IND", "Jacksonville Jaguars": "JAX",
+    "Kansas City Chiefs": "KC", "Las Vegas Raiders": "LV", "Los Angeles Chargers": "LAC",
+    "Los Angeles Rams": "LA", "Miami Dolphins": "MIA", "Minnesota Vikings": "MIN",
+    "New England Patriots": "NE", "New Orleans Saints": "NO", "New York Giants": "NYG",
+    "New York Jets": "NYJ", "Philadelphia Eagles": "PHI", "Pittsburgh Steelers": "PIT",
+    "Seattle Seahawks": "SEA", "San Francisco 49ers": "SF", "Tampa Bay Buccaneers": "TB",
+    "Tennessee Titans": "TEN", "Washington Commanders": "WAS",
+}
+
+MATCHUP_POSITIONS = ["QB", "RB", "WR", "TE"]
+
+
+def compute_matchup_tiers(stats_df: pd.DataFrame) -> dict[tuple, str]:
+    """(opponent_team, position) -> 'Tough' | 'Average' | 'Favorable' for that offense,
+    based on fantasy points/game each defense has allowed to that position this window -
+    the same signal, and the same red/yellow/green framing, as the sibling Draft War Room app."""
+    rows = stats_df[stats_df["position"].isin(MATCHUP_POSITIONS)]
+    allowed = rows.groupby(["opponent_team", "position"])["fantasy_points_ppr"].mean()
+
+    tiers: dict[tuple, str] = {}
+    for position in MATCHUP_POSITIONS:
+        by_team = allowed.xs(position, level="position").sort_values()
+        n = len(by_team)
+        if n < 3:
+            continue
+        for rank, (team, _value) in enumerate(by_team.items()):
+            if rank < n / 3:
+                tiers[(team, position)] = "Tough"       # allows the fewest points -> hard matchup
+            elif rank < 2 * n / 3:
+                tiers[(team, position)] = "Average"
+            else:
+                tiers[(team, position)] = "Favorable"   # allows the most points -> easy matchup
+    return tiers
+
+
+def attach_matchups(results: list[dict], stats_df: pd.DataFrame) -> None:
+    """Mutates each result in place, adding a 'matchup' tier for skill positions with a known opponent."""
+    tiers = compute_matchup_tiers(stats_df)
+    for r in results:
+        r["matchup"] = None
+        if r.get("position") not in MATCHUP_POSITIONS:
+            continue
+        home = TEAM_ABBR.get(r.get("home_team"))
+        away = TEAM_ABBR.get(r.get("away_team"))
+        team = r.get("team")
+        opponent = away if team == home else (home if team == away else None)
+        if opponent:
+            r["matchup"] = tiers.get((opponent, r["position"]))
+
+
 SPORT = SportConfig(
     key="nfl",
     display_name="NFL",

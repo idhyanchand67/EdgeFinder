@@ -37,6 +37,16 @@ research filter, not a signal to bet blind.
    computed each run as the Thursday after Labor Day (NFL's real Week 1
    rule), not hardcoded to one season, and props for excluded games are
    filtered out *before* any Odds API quota is spent on them, not after.
+6. **Injury status and NFL matchup context add signal the raw stat line
+   ignores.** A `Q`/`OUT` badge next to a player's name comes from ESPN's
+   public injuries feed (one call per sport, covers every team) - a hot hit
+   rate means less if the player's questionable or already ruled out, so
+   `OUT` players are excluded from Top 10 entirely (still shown, tagged, in
+   the full table below). For NFL specifically, a **Matchup** column
+   (Tough/Average/Favorable) ranks the upcoming opponent's defense against
+   that position, computed from the same cached stats - fantasy points/game
+   allowed to that position, bucketed into thirds. A 90% hit rate racked up
+   against soft defenses reads differently against a tough one.
 
 ## Does the core premise actually hold up?
 
@@ -160,10 +170,11 @@ src/config.py               Odds API access, shared paths, scoring defaults
 src/fetch_odds.py           pulls current player props from The Odds API (sport-agnostic)
 src/name_match.py           normalizes names so book spellings match the stats source's
 src/hit_rates.py            core calculation: line vs. last-N-games history (sport-agnostic)
+src/injuries.py             ESPN injuries feed -> OUT/RISK tags, one call per sport
 src/build_report.py         injects combined results into the report template
-src/template.html           the report page: table, filters, sort, sparklines
+src/template.html           the report page: table, filters, sort, sparklines, injury/matchup tags
 src/sports/base.py          SportConfig - the interface every sport module implements
-src/sports/nfl.py           nflverse fetch + NFL market map/labels
+src/sports/nfl.py           nflverse fetch, NFL market map/labels, preseason filter, matchup tiers
 src/sports/nba.py           ESPN fetch + NBA market map/labels
 src/sports/mlb.py           ESPN fetch + MLB market map/labels (batting + pitching)
 src/sports/nhl.py           ESPN fetch + NHL market map/labels (skaters + goalies)
@@ -206,6 +217,18 @@ Nothing else needs to change.
   look inflated. Rare in practice (mainly Shohei Ohtani).
 - **NBA/NHL rows have no position** in ESPN's boxscore payload for skaters, so
   the Position filter is blank for those sports (MLB and NFL do have it).
+- **Injury status is matched by name only**, the same normalization as prop
+  matching - it isn't sport-ID-linked, so an unusual name mismatch fails
+  silently (no badge shown) rather than tagging the wrong player.
+- **NFL matchup tiers use fantasy points allowed as the only signal.** It's a
+  reasonable single proxy for defense-vs-position strength, not a full
+  model - it doesn't account for pace, game script, or a defense that's
+  banged up at one specific spot (e.g. a good run defense missing its
+  starting corners). Treat "Tough"/"Favorable" as a lean, not a verdict.
+- **Matchup context is NFL-only for now.** NBA/MLB/NHL have real
+  matchup-relevant signals too (opponent defensive rating, opposing
+  starter/park factors, goals-against), but each needs its own model rather
+  than reusing NFL's fantasy-points-allowed approach - not built yet.
 - Name matching is exact-normalized (case/punctuation/suffix-insensitive) with
   a team tiebreak for duplicates - an unusual spelling mismatch between a book
   and the stats source will show up as "could not match" in the console

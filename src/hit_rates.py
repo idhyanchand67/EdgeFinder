@@ -65,6 +65,8 @@ def compute_hit_rates(
             "price_over": prop.get("price_over"),
             "price_under": prop.get("price_under"),
             "commence_time": prop.get("commence_time"),
+            "home_team": prop.get("home_team"),
+            "away_team": prop.get("away_team"),
             "games_sample": games_sample,
             "hit_rate_over": round(overs / games_sample, 3),
             "hit_rate_under": round(unders / games_sample, 3),

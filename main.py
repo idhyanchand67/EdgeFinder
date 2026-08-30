@@ -11,8 +11,10 @@ import argparse
 import json
 from datetime import datetime, timezone
 
-from src import build_report, config, fetch_odds, hit_rates
+from src import build_report, config, fetch_odds, hit_rates, injuries
+from src.name_match import normalize_name
 from src.sports import SPORTS
+from src.sports import nfl as nfl_sport
 
 
 def main():
@@ -56,6 +58,13 @@ def main():
             props = fetch_odds.fetch_and_save(sport_key, sport.odds_sport_key, sport.market_map, game_filter=sport.game_filter)
 
         results = hit_rates.compute_hit_rates(sport, stats_df, props, lookback=args.lookback, min_games=args.min_games)
+
+        injury_map = injuries.fetch_injury_map(sport_key)
+        for r in results:
+            r["injury_status"] = injury_map.get(normalize_name(r["player"]))
+        if sport_key == "nfl":
+            nfl_sport.attach_matchups(results, stats_df)
+
         print(f"  scored {len(results)} props")
         all_results.extend(results)
         sports_included.append(sport.display_name)
