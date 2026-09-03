@@ -70,12 +70,10 @@ research filter, not a signal to bet blind.
    - **NHL** splits the same way MLB does, for the same reason a goalie isn't
      a "position" the way a forward is: skater props (goals/assists/points/
      shots) use the position-vs-defense model like NFL/NBA (points allowed to
-     forwards vs. defensemen); goalie saves would use the opponent's own
-     shot-generation rate - fewer shots against suppresses a goalie's save
-     count, so a *low*-shot opponent is "Tough" there, not a high-shot one.
-     Built and tested, but currently unreachable: `player_goalie_saves` was
-     cut from NHL's `MARKET_MAP` during the credit-budget pass (see below) -
-     add it back to activate this.
+     forwards vs. defensemen); goalie saves (`player_goalie_saves`, added back
+     to `MARKET_MAP` for this) use the opponent's own shot-generation rate -
+     fewer shots against suppresses a goalie's save count, so a *low*-shot
+     opponent is "Tough" there, not a high-shot one.
    - NBA and NHL are off-season - this was verified with synthetic data (see
      `git log`), not real games, since none exist yet to check against. Worth
      a spot check once each season actually starts.
@@ -336,9 +334,11 @@ Nothing else needs to change.
   sports are off-season - the logic was validated with fabricated data
   exercising the actual code path (see the commit that added this), not a
   real slate, since none exists yet to check against. Worth a spot check
-  once each season starts. NHL's goalie-saves side of this is additionally
-  unreachable right now since that market isn't in `MARKET_MAP` (see the
-  credits section) - built and tested, just not wired to a live market yet.
+  once each season starts.
+- **NHL now requests `player_goalie_saves`** (added back after being cut
+  during the credit-budget pass), a fifth market on top of the four already
+  trimmed to. Small in absolute terms while NHL is off-season, but worth
+  factoring in once real games (and real quota spend) start in October.
 - Name matching is exact-normalized (case/punctuation/suffix-insensitive) with
   a team tiebreak for duplicates - an unusual spelling mismatch between a book
   and the stats source will show up as "could not match" in the console

@@ -12,11 +12,12 @@ MARKET_MAP = {
     "player_assists": ["assists"],
     "player_points": ["goals", "assists"],
     "player_shots_on_goal": ["shots_on_goal"],
+    "player_goalie_saves": ["saves"],
 }
 
 MARKET_LABELS = {
     "player_goals": "Goals", "player_assists": "Assists", "player_points": "Points",
-    "player_shots_on_goal": "Shots on Goal",
+    "player_shots_on_goal": "Shots on Goal", "player_goalie_saves": "Goalie Saves",
 }
 
 _GROUP_POSITION = {"forwards": "F", "defenses": "D", "goalies": "G"}
