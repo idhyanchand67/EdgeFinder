@@ -25,19 +25,27 @@ research filter, not a signal to bet blind.
 3. For each prop, the app looks at that player's last *N* games (default 10)
    and reports the hit rate for whichever side (Over/Under) hit more often.
 4. Everything renders into `report.html` - open it in a browser, no server
-   needed. A **Top 10 picks** panel up top surfaces the best-hit-rate props
-   for whichever day is selected (defaults to the nearest upcoming slate).
-   Below that, the full table filters by day, sport, position, market,
-   minimum hit rate, and minimum sample size, and sorts by clicking any
-   column.
-5. **NFL preseason games are excluded automatically.** Recent-history hit
+   needed. A **Top 10 picks** panel up top surfaces the best props for
+   whichever day is selected (defaults to the nearest upcoming slate). Below
+   that, the full table filters by day, sport, position, market, minimum hit
+   rate, and minimum sample size, and sorts by clicking any column.
+5. **Ranked by edge, not raw hit rate.** A prop that's "hit" 100% of its last
+   10 games isn't interesting if the book already prices it as a near-certainty
+   (e.g. a home-run prop's Under, at -2000) - the price already knows. Edge is
+   hit rate minus the win probability the price itself implies, so a coinflip
+   prop that's actually hit 80% of the time ranks far above a "sure thing"
+   priced accordingly. This also fixed a real bug: the report used to pick
+   whichever side (Over/Under) had the better historical hit rate even when
+   that side had no posted price at all, showing a misleading "100%, no odds"
+   line no one could actually bet - it now only picks a side that's bettable.
+6. **NFL preseason games are excluded automatically.** Recent-history hit
    rates are built from real regular-season usage, and preseason games don't
    reflect that (backups play starter snaps, game plans are vanilla) - so
    scoring them against that history would be misleading. The cutoff is
    computed each run as the Thursday after Labor Day (NFL's real Week 1
    rule), not hardcoded to one season, and props for excluded games are
    filtered out *before* any Odds API quota is spent on them, not after.
-6. **Injury status and NFL matchup context add signal the raw stat line
+7. **Injury status and NFL matchup context add signal the raw stat line
    ignores.** A `Q`/`OUT` badge next to a player's name comes from ESPN's
    public injuries feed (one call per sport, covers every team) - a hot hit
    rate means less if the player's questionable or already ruled out, so

@@ -268,6 +268,7 @@
       <th data-key="line" class="num">Line</th>
       <th data-key="best_side">Side</th>
       <th data-key="best_hit_rate">Hit rate</th>
+      <th data-key="edge" class="sorted">Edge</th>
       <th data-key="games_sample" class="num">Sample</th>
       <th data-key="best_price" class="num">Odds</th>
       <th data-key="sportsbook">Book</th>
@@ -287,15 +288,38 @@ const META = /*META_JSON*/{}/*META_JSON*/;
 function dayKey(d) { return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; }
 function dayLabel(d) { return d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" }); }
 
-// Flatten each prop into whichever side (Over/Under) hit more often.
+// American odds -> implied win probability.
+function impliedProb(price) {
+  if (price == null) return null;
+  return price < 0 ? (-price) / (-price + 100) : 100 / (price + 100);
+}
+
+// Flatten each prop into whichever side (Over/Under) is actually bettable and
+// better. A side with no posted price can't be wagered on, so it never wins
+// this pick even if its historical hit rate looks better on paper.
 const rows = DATA.map(p => {
-  const overBetter = p.hit_rate_over >= p.hit_rate_under;
+  const overHasPrice = p.price_over != null;
+  const underHasPrice = p.price_under != null;
+  let overBetter;
+  if (overHasPrice !== underHasPrice) {
+    overBetter = overHasPrice;
+  } else {
+    overBetter = p.hit_rate_over >= p.hit_rate_under;
+  }
+  const best_hit_rate = overBetter ? p.hit_rate_over : p.hit_rate_under;
+  const best_price = overBetter ? p.price_over : p.price_under;
+  const implied = impliedProb(best_price);
+  // Edge: how much more often it actually hit than its own price implies it
+  // should. A "sure thing" priced accordingly (e.g. -2000) scores near zero -
+  // the book already knows. A coinflip-priced prop hitting 80% scores high.
+  const edge = implied == null ? null : best_hit_rate - implied;
   const kickoff = p.commence_time ? new Date(p.commence_time) : null;
   return {
     ...p,
     best_side: overBetter ? "Over" : "Under",
-    best_hit_rate: overBetter ? p.hit_rate_over : p.hit_rate_under,
-    best_price: overBetter ? p.price_over : p.price_under,
+    best_hit_rate,
+    best_price,
+    edge,
     day_key: kickoff ? dayKey(kickoff) : null,
     day_label: kickoff ? dayLabel(kickoff) : null,
   };
@@ -306,11 +330,12 @@ document.getElementById("genAt").textContent =
   `Informational only, not betting advice.`;
 
 function renderSummary() {
-  const best = rows.reduce((m, r) => Math.max(m, r.best_hit_rate), 0);
+  const edges = rows.map(r => r.edge).filter(e => e != null);
+  const bestEdge = edges.length ? Math.max(...edges) : null;
   const sports = (META.sports || []).length;
   const stats = [
     { label: "Props scored", value: String(rows.length) },
-    { label: "Best hit rate", value: rows.length ? `${(best * 100).toFixed(0)}%` : "–", accent: true },
+    { label: "Best edge", value: bestEdge != null ? `+${(bestEdge * 100).toFixed(0)}pp` : "–", accent: true },
     { label: "Sports covered", value: sports ? (META.sports || []).join(" / ") : "–" },
     { label: "Lookback window", value: `${META.lookback} gm` },
   ];
@@ -345,7 +370,7 @@ const marketSel = document.getElementById("fMarket");
   const o = document.createElement("option"); o.value = key; o.textContent = label; marketSel.appendChild(o);
 });
 
-let sortKey = "best_hit_rate", sortDir = -1;
+let sortKey = "edge", sortDir = -1;
 
 function fmtPct(x) { return (x * 100).toFixed(0) + "%"; }
 function fmtOdds(x) { if (x == null) return "–"; return x > 0 ? `+${x}` : `${x}`; }
@@ -358,6 +383,14 @@ function hitPill(rate) {
   const cls = rate >= 0.7 ? "good" : (rate <= 0.4 ? "bad" : "mid");
   return `<span class="pill ${cls}"><span class="dot"></span>${fmtPct(rate)}</span>`;
 }
+function edgePill(edge) {
+  if (edge == null) return "–";
+  const cls = edge >= 0.15 ? "good" : (edge <= 0 ? "bad" : "mid");
+  const sign = edge > 0 ? "+" : "";
+  return `<span class="pill ${cls}"><span class="dot"></span>${sign}${(edge * 100).toFixed(0)}pp</span>`;
+}
+// null edge (no price on either side, so unbettable) always sorts last regardless of direction.
+function edgeSortValue(edge) { return edge == null ? -Infinity : edge; }
 function injuryTag(status) {
   if (!status) return "";
   return `<span class="injury-tag ${status}">${status === "OUT" ? "OUT" : "Q"}</span>`;
@@ -387,18 +420,20 @@ function pickRow(r, i) {
         <span class="pick-player">${r.player}${injuryTag(r.injury_status)} <span class="pick-sub">${r.team || "–"} · ${r.sport_label}</span></span>
         <span class="pick-sub">${r.market_label || r.market} · ${r.best_side} ${r.line}</span>
       </span>
-      <span class="pick-hit">${hitPill(r.best_hit_rate)} ${sparkline(r.recent_values, r.line)}</span>
+      <span class="pick-hit">${hitPill(r.best_hit_rate)} ${edgePill(r.edge)} ${sparkline(r.recent_values, r.line)}</span>
       <span class="pick-odds">${fmtOdds(r.best_price)}<br>${r.sportsbook || "–"}</span>
     </div>
   `;
 }
 
 function renderTopPicks(dayFiltered, day) {
-  // A player already ruled OUT won't play, so they don't belong in a "best picks" list -
-  // still shown (tagged) in the full table below for transparency.
+  // Ranked by edge, not raw hit rate - a "sure thing" already priced accordingly
+  // (e.g. -2000) has near-zero edge and shouldn't outrank a real divergence from
+  // the price. Excludes props with no bettable price at all, and players already
+  // ruled OUT (still shown, tagged, in the full table below for transparency).
   const top = [...dayFiltered]
-    .filter(r => r.injury_status !== "OUT")
-    .sort((a, b) => b.best_hit_rate - a.best_hit_rate)
+    .filter(r => r.injury_status !== "OUT" && r.edge != null)
+    .sort((a, b) => b.edge - a.edge)
     .slice(0, 10);
   const dayLabelText = day ? (dayEntries.find(([k]) => k === day)?.[1] || day) : "all upcoming days";
   document.getElementById("toppicksDay").textContent = `for ${dayLabelText}`;
@@ -429,7 +464,8 @@ function render() {
   renderTopPicks(filtered, day);
 
   filtered.sort((a, b) => {
-    const av = a[sortKey], bv = b[sortKey];
+    const av = sortKey === "edge" ? edgeSortValue(a.edge) : a[sortKey];
+    const bv = sortKey === "edge" ? edgeSortValue(b.edge) : b[sortKey];
     if (av < bv) return -1 * sortDir;
     if (av > bv) return 1 * sortDir;
     return 0;
@@ -447,6 +483,7 @@ function render() {
       <td class="num">${r.line}</td>
       <td><span class="side-tag">${r.best_side}</span></td>
       <td>${hitPill(r.best_hit_rate)} ${sparkline(r.recent_values, r.line)}</td>
+      <td>${edgePill(r.edge)}</td>
       <td class="num">${r.games_sample}</td>
       <td class="num">${fmtOdds(r.best_price)}</td>
       <td>${r.sportsbook || "–"}</td>
