@@ -381,6 +381,9 @@ edge = hit_rate - implied_probability</span>
   <div class="field">Market
     <select id="fMarket"><option value="">All</option></select>
   </div>
+  <div class="field">Sportsbook
+    <select id="fBook"><option value="">All</option></select>
+  </div>
   <div class="field">Min hit rate: <span class="rangeval" id="fHitVal">70%</span>
     <input type="range" id="fHit" min="0" max="100" value="70" step="5">
   </div>
@@ -531,6 +534,10 @@ const marketSel = document.getElementById("fMarket");
 [...new Map(rows.map(r => [r.market, r.market_label])).entries()].sort((a, b) => a[1].localeCompare(b[1])).forEach(([key, label]) => {
   const o = document.createElement("option"); o.value = key; o.textContent = label; marketSel.appendChild(o);
 });
+const bookSel = document.getElementById("fBook");
+[...new Set(rows.map(r => r.sportsbook).filter(Boolean))].sort().forEach(book => {
+  const o = document.createElement("option"); o.value = book; o.textContent = book; bookSel.appendChild(o);
+});
 
 let sortKey = "edge", sortDir = -1;
 
@@ -622,6 +629,7 @@ function render() {
   const sport = document.getElementById("fSport").value;
   const pos = document.getElementById("fPos").value;
   const market = document.getElementById("fMarket").value;
+  const book = document.getElementById("fBook").value;
   const minHit = document.getElementById("fHit").value / 100;
   const minSample = Number(document.getElementById("fSample").value) || 0;
 
@@ -631,6 +639,7 @@ function render() {
     (!sport || r.sport_label === sport) &&
     (!pos || r.position === pos) &&
     (!market || r.market === market) &&
+    (!book || r.sportsbook === book) &&
     r.best_hit_rate >= minHit &&
     r.games_sample >= minSample
   );
@@ -678,7 +687,7 @@ document.querySelectorAll("th[data-key]").forEach(th => {
     render();
   });
 });
-["fSearch", "fDay", "fSport", "fPos", "fMarket", "fSample"].forEach(id =>
+["fSearch", "fDay", "fSport", "fPos", "fMarket", "fBook", "fSample"].forEach(id =>
   document.getElementById(id).addEventListener("input", render)
 );
 document.getElementById("fHit").addEventListener("input", (e) => {
