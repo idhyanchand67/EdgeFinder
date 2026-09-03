@@ -119,6 +119,28 @@ def compute_matchup_tiers(stats_df: pd.DataFrame) -> dict[tuple, str]:
     return tiers
 
 
+def filter_valid_games(results: list[dict]) -> list[dict]:
+    """Drops any prop whose player's team isn't actually one of the two teams in
+    its attached game. Seen in production: a handful of players showing up under
+    a completely unrelated matchup (e.g. a 49er under a Vikings/Packers game),
+    consistently across several different bookmakers at once - that consistency
+    points to bad data from the odds feed itself, not a bug in how we request it,
+    but either way a prop with an impossible opponent can't be scored honestly."""
+    kept, dropped = [], []
+    for r in results:
+        home = TEAM_ABBR.get(r.get("home_team"))
+        away = TEAM_ABBR.get(r.get("away_team"))
+        if r.get("team") in (home, away):
+            kept.append(r)
+        else:
+            dropped.append(r)
+    if dropped:
+        names = sorted({r["player"] for r in dropped})
+        print(f"  [nfl] dropped {len(dropped)} prop(s) with an impossible team/game match "
+              f"(bad data from the odds feed): {names[:10]}" + (" ..." if len(names) > 10 else ""))
+    return kept
+
+
 def attach_matchups(results: list[dict], stats_df: pd.DataFrame) -> None:
     """Mutates each result in place, adding a 'matchup' tier for skill positions with a known opponent."""
     tiers = compute_matchup_tiers(stats_df)

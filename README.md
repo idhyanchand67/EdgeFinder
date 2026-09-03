@@ -55,6 +55,18 @@ research filter, not a signal to bet blind.
    that position, computed from the same cached stats - fantasy points/game
    allowed to that position, bucketed into thirds. A 90% hit rate racked up
    against soft defenses reads differently against a tough one.
+8. **A visible Game column, and a defensive filter behind it.** Every prop
+   shows which two teams are actually playing (e.g. "Packers @ Vikings").
+   That surfaced a real, sizable data-quality problem in production: props
+   for players from teams that had nothing to do with the game they were
+   attached to (a 49er showing up under a Vikings/Packers game, alongside
+   Arizona and other teams - not a one-off, this hit 14 of 16 NFL games in
+   one snapshot, up to 45% of one game's props). It showed up identically
+   across five independent bookmakers at once, which points to the odds
+   feed's own data aggregation rather than a bug in how this project
+   requests it - but regardless of the cause, `src/sports/nfl.py`'s
+   `filter_valid_games` now drops any prop whose player's team isn't one of
+   the two teams in its attached game, before it's ever scored or shown.
 
 ## Does the core premise actually hold up?
 
@@ -242,6 +254,14 @@ Nothing else needs to change.
 
 ## Known limitations
 
+- **The Odds API's event data has shown real contamination** (see item 8
+  above) - `filter_valid_games` catches the case that's actually been seen
+  (a player attached to a game neither of their possible teams is in), but it
+  can't catch every conceivable version of this. A player's prop attached to
+  the *wrong game their own team is still playing* (e.g. mixed up between two
+  games the same team played in the same week) would pass the filter
+  silently, since their team still matches one side of *some* game. Only
+  known to affect NFL so far; the same filter isn't built for NBA/MLB/NHL yet.
 - **ESPN's API is unofficial and undocumented.** It's widely used by hobby
   projects and answered reliably in testing, but it could change or start
   blocking scripted access without notice - unlike nflverse (an open dataset)

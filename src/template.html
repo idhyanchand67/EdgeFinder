@@ -398,6 +398,7 @@ edge = hit_rate - implied_probability</span>
       <th data-key="player">Player</th>
       <th data-key="team">Team</th>
       <th data-key="position">Pos</th>
+      <th data-key="game">Game</th>
       <th data-key="market">Market</th>
       <th data-key="matchup">Matchup</th>
       <th data-key="line" class="num">Line</th>
@@ -423,15 +424,21 @@ const PICK_LOG = /*PICK_LOG_JSON*/[]/*PICK_LOG_JSON*/;
 
 function dayKey(d) { return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; }
 function dayLabel(d) { return d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" }); }
+// Team's own nickname (last word) is enough to identify it in a compact column,
+// and needs no per-sport city/abbreviation map the way computing a real
+// "opponent" would - this is deliberately just "who's playing," full stop.
+function teamNick(name) { return name ? name.trim().split(" ").pop() : null; }
 
 // best_side/best_hit_rate/best_price/edge already computed server-side (src/hit_rates.py) -
 // one implementation shared with the pick-tracking log, instead of duplicating it here.
 const rows = DATA.map(p => {
   const kickoff = p.commence_time ? new Date(p.commence_time) : null;
+  const away = teamNick(p.away_team), home = teamNick(p.home_team);
   return {
     ...p,
     day_key: kickoff ? dayKey(kickoff) : null,
     day_label: kickoff ? dayLabel(kickoff) : null,
+    game: (away && home) ? `${away} @ ${home}` : null,
   };
 });
 
@@ -565,7 +572,7 @@ function pickRow(r, i) {
     <div class="pick-row">
       <span class="pick-rank">${i + 1}</span>
       <span class="pick-main">
-        <span class="pick-player">${r.player}${injuryTag(r.injury_status)} <span class="pick-sub">${r.team || "–"} · ${r.sport_label}</span></span>
+        <span class="pick-player">${r.player}${injuryTag(r.injury_status)} <span class="pick-sub">${r.team || "–"} · ${r.sport_label}${r.game ? " · " + r.game : ""}</span></span>
         <span class="pick-sub">${r.market_label || r.market} · ${r.best_side} ${r.line}</span>
       </span>
       <span class="pick-hit">${hitPill(r.best_hit_rate)} ${edgePill(r.edge)} ${sparkline(r.recent_values, r.line)}</span>
@@ -626,6 +633,7 @@ function render() {
       <td>${r.player}${injuryTag(r.injury_status)}</td>
       <td>${r.team || "–"}</td>
       <td>${r.position || "–"}</td>
+      <td>${r.game || "–"}</td>
       <td>${r.market_label || r.market}</td>
       <td>${matchupPill(r.matchup)}</td>
       <td class="num">${r.line}</td>

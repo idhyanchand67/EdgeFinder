@@ -61,6 +61,9 @@ def main():
 
         results = hit_rates.compute_hit_rates(sport, stats_df, props, lookback=args.lookback, min_games=args.min_games)
 
+        if sport_key == "nfl":
+            results = nfl_sport.filter_valid_games(results)
+
         injury_map = injuries.fetch_injury_map(sport_key)
         for r in results:
             r["injury_status"] = injury_map.get(normalize_name(r["player"]))
