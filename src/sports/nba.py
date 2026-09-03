@@ -38,6 +38,7 @@ def _split_made(value: str) -> int:
 
 def _extract(team_block: dict, header: dict, game_date: str) -> list[dict]:
     team_abbr = team_block.get("team", {}).get("abbreviation")
+    opponent = espn_common.opponent_abbr(team_abbr, header)
     rows = []
     for group in team_block.get("statistics", []):
         keys = group.get("keys") or []
@@ -50,6 +51,7 @@ def _extract(team_block: dict, header: dict, game_date: str) -> list[dict]:
                 "player_id": athlete.get("id"),
                 "player_display_name": athlete.get("displayName"),
                 "team": team_abbr,
+                "opponent_team": opponent,
                 "position": (athlete.get("position") or {}).get("abbreviation"),
                 "game_date": game_date,
                 "pts": float(stat.get("points", 0) or 0),
@@ -67,6 +69,66 @@ def _extract(team_block: dict, header: dict, game_date: str) -> list[dict]:
 
 def fetch_stats(force: bool = False) -> pd.DataFrame:
     return espn_common.backfill("nba", LEAGUE_PATH, _extract, DAYS_BACK, force)
+
+
+# Odds API spells out full team names; this project's NBA stats already use
+# ESPN's own abbreviations (see _extract above), so match on those directly.
+TEAM_ABBR = {
+    "Atlanta Hawks": "ATL", "Boston Celtics": "BOS", "Brooklyn Nets": "BKN",
+    "Charlotte Hornets": "CHA", "Chicago Bulls": "CHI", "Cleveland Cavaliers": "CLE",
+    "Dallas Mavericks": "DAL", "Denver Nuggets": "DEN", "Detroit Pistons": "DET",
+    "Golden State Warriors": "GS", "Houston Rockets": "HOU", "Indiana Pacers": "IND",
+    "LA Clippers": "LAC", "Los Angeles Clippers": "LAC", "Los Angeles Lakers": "LAL",
+    "Memphis Grizzlies": "MEM", "Miami Heat": "MIA", "Milwaukee Bucks": "MIL",
+    "Minnesota Timberwolves": "MIN", "New Orleans Pelicans": "NO", "New York Knicks": "NY",
+    "Oklahoma City Thunder": "OKC", "Orlando Magic": "ORL", "Philadelphia 76ers": "PHI",
+    "Phoenix Suns": "PHX", "Portland Trail Blazers": "POR", "Sacramento Kings": "SAC",
+    "San Antonio Spurs": "SA", "Toronto Raptors": "TOR", "Utah Jazz": "UTAH",
+    "Washington Wizards": "WSH",
+}
+
+
+def compute_matchup_tiers(stats_df: pd.DataFrame) -> dict[tuple, str]:
+    """(opponent_team, position) -> 'Tough' | 'Average' | 'Favorable', by points/game
+    allowed to that position - same shape as NFL's fantasy-points-allowed model,
+    now that opponent_team is tracked per row (added specifically for this)."""
+    rows = stats_df.dropna(subset=["opponent_team", "position"])
+    if rows.empty:
+        return {}
+    allowed = rows.groupby(["opponent_team", "position"])["pts"].mean()
+
+    tiers: dict[tuple, str] = {}
+    for position in rows["position"].unique():
+        if position not in allowed.index.get_level_values("position"):
+            continue
+        by_team = allowed.xs(position, level="position").sort_values()
+        n = len(by_team)
+        if n < 3:
+            continue
+        for rank, (team, _value) in enumerate(by_team.items()):
+            if rank < n / 3:
+                tiers[(team, position)] = "Tough"
+            elif rank < 2 * n / 3:
+                tiers[(team, position)] = "Average"
+            else:
+                tiers[(team, position)] = "Favorable"
+    return tiers
+
+
+def attach_matchups(results: list[dict], stats_df: pd.DataFrame) -> None:
+    """Mutates each result in place, adding a 'matchup' tier where the opponent and position are known."""
+    tiers = compute_matchup_tiers(stats_df)
+    for r in results:
+        r["matchup"] = None
+        position = r.get("position")
+        if not position:
+            continue
+        home = TEAM_ABBR.get(r.get("home_team"))
+        away = TEAM_ABBR.get(r.get("away_team"))
+        team = r.get("team")
+        opponent = away if team == home else (home if team == away else None)
+        if opponent:
+            r["matchup"] = tiers.get((opponent, position))
 
 
 SPORT = SportConfig(

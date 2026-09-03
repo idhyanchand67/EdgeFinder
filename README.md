@@ -54,15 +54,31 @@ research filter, not a signal to bet blind.
 
    A **Matchup** column (Tough/Average/Favorable) shows how tough the
    upcoming opponent actually is, computed from the same cached stats - no
-   extra data source. NFL ranks the opponent's defense against that
-   *position* (fantasy points/game allowed, bucketed into thirds), since
-   defense-vs-position is a meaningful unit there. MLB doesn't have that
-   structure - a batter faces one pitcher, not a defensive front - so it uses
-   two separate signals instead: batter props are ranked against the
-   opponent's **pitching** (team ERA over the cached window), pitcher props
-   against the opponent's **batting** (runs scored per game). A 90% hit rate
-   racked up against weak pitching or a cold-hitting lineup reads differently
-   against a strong one.
+   extra data source, and always following the same rule: "Tough" means
+   whatever the opponent has been doing tends to *suppress* this player's own
+   number, so it leans toward Under; "Favorable" leans toward Over.
+   - **NFL / NBA**: the opponent's defense against that *position*
+     (points/game allowed, bucketed into thirds) - defense-vs-position is a
+     meaningful unit in both. This needed one addition to make possible:
+     `opponent_team` is now tracked per player-game row for every ESPN-sourced
+     sport (it wasn't before), resolved for free from the same game data
+     already being fetched, no extra API calls.
+   - **MLB** doesn't have a defense-vs-position structure - a batter faces one
+     pitcher, not a defensive front - so it uses two separate team-level
+     signals instead: batter props against the opponent's **pitching** (team
+     ERA), pitcher props against the opponent's **batting** (runs/game).
+   - **NHL** splits the same way MLB does, for the same reason a goalie isn't
+     a "position" the way a forward is: skater props (goals/assists/points/
+     shots) use the position-vs-defense model like NFL/NBA (points allowed to
+     forwards vs. defensemen); goalie saves would use the opponent's own
+     shot-generation rate - fewer shots against suppresses a goalie's save
+     count, so a *low*-shot opponent is "Tough" there, not a high-shot one.
+     Built and tested, but currently unreachable: `player_goalie_saves` was
+     cut from NHL's `MARKET_MAP` during the credit-budget pass (see below) -
+     add it back to activate this.
+   - NBA and NHL are off-season - this was verified with synthetic data (see
+     `git log`), not real games, since none exist yet to check against. Worth
+     a spot check once each season actually starts.
 8. **A visible Game column, and current rosters instead of stale ones.** Every
    prop shows which two teams are actually playing (e.g. "Packers @ Vikings").
    That surfaced players showing up under games their (stats-derived) team had
@@ -243,10 +259,10 @@ src/build_report.py         injects combined results + pick log into the report 
 src/template.html           the report page: table, filters, sort, sparklines, injury/matchup tags, track record
 src/sports/base.py          SportConfig - the interface every sport module implements
 src/sports/nfl.py           nflverse fetch, NFL market map/labels, preseason filter, matchup tiers, game matching
-src/sports/nba.py           ESPN fetch + NBA market map/labels
+src/sports/nba.py           ESPN fetch, NBA market map/labels, matchup tiers (points allowed by position)
 src/sports/mlb.py           ESPN fetch, MLB market map/labels, matchup tiers (ERA / runs per game)
-src/sports/nhl.py           ESPN fetch + NHL market map/labels (skaters + goalies)
-src/sports/espn_common.py   shared scoreboard/boxscore fetch + incremental local cache
+src/sports/nhl.py           ESPN fetch, NHL market map/labels, matchup tiers (skaters + goalies)
+src/sports/espn_common.py   shared scoreboard/boxscore fetch + incremental local cache + opponent_team resolution
 data/props_sample.json      demo data for --demo, keyed by sport (real players, made-up lines)
 data/<sport>_stats.csv      cached per-sport stats (gitignored, rebuilt/backfilled on demand)
 data/pick_log.csv           the pick-tracking log (committed, not gitignored - it's the point)
@@ -307,20 +323,22 @@ Nothing else needs to change.
 - **Injury status is matched by name only**, the same normalization as prop
   matching - it isn't sport-ID-linked, so an unusual name mismatch fails
   silently (no badge shown) rather than tagging the wrong player.
-- **Matchup tiers use one proxy signal each, not a full model.** NFL uses
-  fantasy points allowed by position; MLB uses team ERA (for batter props)
-  and runs/game (for pitcher props). Neither accounts for pace, game script,
-  park factors, or a team missing a specific starter (a good pitching staff
-  minus its actual probable starter isn't reflected). MLB's signals are
+- **Matchup tiers use one proxy signal each, not a full model.** NFL/NBA use
+  points (or fantasy points) allowed by position; MLB uses team ERA/runs-per-
+  game; NHL uses points allowed by skater position and opponent shot volume
+  for goalies. None of these account for pace, game script, park factors, or
+  a team missing a specific starter (a good pitching staff minus its actual
+  probable starter isn't reflected). MLB's signals in particular are
   team-level, not tied to the specific opposing starting pitcher a batter
   will actually face - that would need a probable-starters data source this
   project doesn't have. Treat "Tough"/"Favorable" as a lean, not a verdict.
-- **Matchup context isn't built for NBA/NHL yet.** NHL could reuse NFL's
-  exact pattern (goals/shots allowed by skater position, already tagged in
-  its stats); NBA likely could too (ESPN's box score does carry position,
-  contrary to what was assumed here earlier) but that's unverified until
-  real 2026-27 season data starts flowing - both off-season right now, so
-  lower priority than MLB was.
+- **NBA and NHL's matchup tiers are unverified against real games.** Both
+  sports are off-season - the logic was validated with fabricated data
+  exercising the actual code path (see the commit that added this), not a
+  real slate, since none exists yet to check against. Worth a spot check
+  once each season starts. NHL's goalie-saves side of this is additionally
+  unreachable right now since that market isn't in `MARKET_MAP` (see the
+  credits section) - built and tested, just not wired to a live market yet.
 - Name matching is exact-normalized (case/punctuation/suffix-insensitive) with
   a team tiebreak for duplicates - an unusual spelling mismatch between a book
   and the stats source will show up as "could not match" in the console

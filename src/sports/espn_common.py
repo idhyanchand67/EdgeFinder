@@ -38,6 +38,18 @@ def _completed_event_ids(league_path: str, day: date) -> list[str]:
     return ids
 
 
+def opponent_abbr(team_abbr: str, header: dict) -> str | None:
+    """The other team in this game's header.competitions[0].competitors - lets a
+    sport track who a player's opponent was for each game, for matchup-difficulty
+    stats computed later (e.g. "points allowed to this position"), without an
+    extra API call: the summary response already lists both teams."""
+    for c in (header.get("competitions") or [{}])[0].get("competitors", []):
+        other = c.get("team", {}).get("abbreviation")
+        if other and other != team_abbr:
+            return other
+    return None
+
+
 def _boxscore_rows(league_path: str, event_id: str, extract_fn: ExtractFn) -> list[dict]:
     data = _get(f"{BASE}/{league_path}/summary", event=event_id)
     box = data.get("boxscore", {})

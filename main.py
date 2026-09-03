@@ -15,7 +15,9 @@ from src import build_report, config, current_roster, fetch_odds, hit_rates, inj
 from src.name_match import normalize_name
 from src.sports import SPORTS
 from src.sports import mlb as mlb_sport
+from src.sports import nba as nba_sport
 from src.sports import nfl as nfl_sport
+from src.sports import nhl as nhl_sport
 
 
 def main():
@@ -78,6 +80,10 @@ def main():
             nfl_sport.attach_matchups(results, stats_df)
         elif sport_key == "mlb":
             mlb_sport.attach_matchups(results, stats_df)
+        elif sport_key == "nba":
+            nba_sport.attach_matchups(results, stats_df)
+        elif sport_key == "nhl":
+            nhl_sport.attach_matchups(results, stats_df)
 
         print(f"  scored {len(results)} props")
         all_results.extend(results)
