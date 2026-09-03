@@ -120,12 +120,12 @@ def compute_matchup_tiers(stats_df: pd.DataFrame) -> dict[tuple, str]:
 
 
 def filter_valid_games(results: list[dict]) -> list[dict]:
-    """Drops any prop whose player's team isn't actually one of the two teams in
-    its attached game. Seen in production: a handful of players showing up under
-    a completely unrelated matchup (e.g. a 49er under a Vikings/Packers game),
-    consistently across several different bookmakers at once - that consistency
-    points to bad data from the odds feed itself, not a bug in how we request it,
-    but either way a prop with an impossible opponent can't be scored honestly."""
+    """Drops any prop whose player's team still isn't one of the two teams in its
+    attached game, even after current_roster.apply_current_teams() has corrected
+    for offseason trades. Most "wrong team" cases turn out to be exactly that - a
+    trade nflverse's game-log-only data hasn't caught up to yet - so run this
+    *after* the roster correction, not instead of it. What's left here is either
+    a genuine odds-feed data issue or a player this run's roster fetch missed."""
     kept, dropped = [], []
     for r in results:
         home = TEAM_ABBR.get(r.get("home_team"))
@@ -136,8 +136,8 @@ def filter_valid_games(results: list[dict]) -> list[dict]:
             dropped.append(r)
     if dropped:
         names = sorted({r["player"] for r in dropped})
-        print(f"  [nfl] dropped {len(dropped)} prop(s) with an impossible team/game match "
-              f"(bad data from the odds feed): {names[:10]}" + (" ..." if len(names) > 10 else ""))
+        print(f"  [nfl] dropped {len(dropped)} prop(s) still on an impossible team/game match "
+              f"after roster correction: {names[:10]}" + (" ..." if len(names) > 10 else ""))
     return kept
 
 

@@ -55,18 +55,22 @@ research filter, not a signal to bet blind.
    that position, computed from the same cached stats - fantasy points/game
    allowed to that position, bucketed into thirds. A 90% hit rate racked up
    against soft defenses reads differently against a tough one.
-8. **A visible Game column, and a defensive filter behind it.** Every prop
-   shows which two teams are actually playing (e.g. "Packers @ Vikings").
-   That surfaced a real, sizable data-quality problem in production: props
-   for players from teams that had nothing to do with the game they were
-   attached to (a 49er showing up under a Vikings/Packers game, alongside
-   Arizona and other teams - not a one-off, this hit 14 of 16 NFL games in
-   one snapshot, up to 45% of one game's props). It showed up identically
-   across five independent bookmakers at once, which points to the odds
-   feed's own data aggregation rather than a bug in how this project
-   requests it - but regardless of the cause, `src/sports/nfl.py`'s
-   `filter_valid_games` now drops any prop whose player's team isn't one of
-   the two teams in its attached game, before it's ever scored or shown.
+8. **A visible Game column, and current rosters instead of stale ones.** Every
+   prop shows which two teams are actually playing (e.g. "Packers @ Vikings").
+   That surfaced players showing up under games their (stats-derived) team had
+   nothing to do with - a 49er under a Vikings/Packers game, an Arizona
+   quarterback under the same one - 14 of 16 NFL games in one snapshot, up to
+   45% of one game's props. The real cause: nflverse's "team" is whichever
+   team a player's *last logged game* was for, and during the offseason a
+   trade doesn't show up there until the player has actually played a game
+   for their new team - both of those "wrong team" players had, in fact, just
+   been traded. `src/current_roster.py` pulls ESPN's live rosters (one call
+   per team, updates on the trade itself, not on the next kickoff) and
+   corrects the displayed team before anything else runs - matchup, the Game
+   column, and the safety-net check all use the corrected team.
+   `src/sports/nfl.py`'s `filter_valid_games` still runs afterward as a
+   backstop, but now only for whatever's left after that correction: a
+   genuine odds-feed issue, or a player this run's roster fetch missed.
 
 ## Does the core premise actually hold up?
 
@@ -225,6 +229,7 @@ src/fetch_odds.py           pulls current player props from The Odds API (sport-
 src/name_match.py           normalizes names so book spellings match the stats source's
 src/hit_rates.py            core calculation: line vs. last-N-games history, best side, edge (sport-agnostic)
 src/injuries.py             ESPN injuries feed -> OUT/RISK tags, one call per sport
+src/current_roster.py       ESPN live rosters -> corrects stale (pre-trade) NFL team data
 src/track_record.py         logs Top 10 picks, grades them once their games are over
 src/build_report.py         injects combined results + pick log into the report template
 src/template.html           the report page: table, filters, sort, sparklines, injury/matchup tags, track record
@@ -254,14 +259,20 @@ Nothing else needs to change.
 
 ## Known limitations
 
-- **The Odds API's event data has shown real contamination** (see item 8
-  above) - `filter_valid_games` catches the case that's actually been seen
-  (a player attached to a game neither of their possible teams is in), but it
-  can't catch every conceivable version of this. A player's prop attached to
-  the *wrong game their own team is still playing* (e.g. mixed up between two
-  games the same team played in the same week) would pass the filter
-  silently, since their team still matches one side of *some* game. Only
-  known to affect NFL so far; the same filter isn't built for NBA/MLB/NHL yet.
+- **The current-team correction is NFL-only, and depends on ESPN's roster
+  endpoint being complete.** One team's roster sub-endpoint has been observed
+  returning 404 while every other team (and that same team's non-roster
+  endpoints) work fine - `current_roster.py` logs a warning and skips that
+  team for the run rather than failing, so its players just fall back to
+  their stats-derived team until a later run's fetch succeeds. NBA/MLB/NHL
+  don't have this correction yet, so a mid-season trade there would show the
+  same kind of staleness NFL had before this fix - lower priority while
+  those leagues are still off-season.
+- `filter_valid_games` (see item 8) is a backstop, not the primary fix, and
+  still can't catch every version of a bad match - a prop attached to the
+  *wrong game the player's actual current team is still playing* (e.g. mixed
+  up between two games the same team played in the same week) would pass it
+  silently, since the team still matches one side of *some* game.
 - **ESPN's API is unofficial and undocumented.** It's widely used by hobby
   projects and answered reliably in testing, but it could change or start
   blocking scripted access without notice - unlike nflverse (an open dataset)

@@ -11,7 +11,7 @@ import argparse
 import json
 from datetime import datetime, timezone
 
-from src import build_report, config, fetch_odds, hit_rates, injuries, track_record
+from src import build_report, config, current_roster, fetch_odds, hit_rates, injuries, track_record
 from src.name_match import normalize_name
 from src.sports import SPORTS
 from src.sports import nfl as nfl_sport
@@ -62,6 +62,12 @@ def main():
         results = hit_rates.compute_hit_rates(sport, stats_df, props, lookback=args.lookback, min_games=args.min_games)
 
         if sport_key == "nfl":
+            # Correct stale stats-derived teams (nflverse only updates once a
+            # traded player has actually played a game for their new team)
+            # against ESPN's live rosters *before* checking for a valid game -
+            # otherwise a real trade looks identical to bad odds-feed data.
+            roster_map = current_roster.fetch_current_teams()
+            current_roster.apply_current_teams(results, roster_map)
             results = nfl_sport.filter_valid_games(results)
 
         injury_map = injuries.fetch_injury_map(sport_key)
