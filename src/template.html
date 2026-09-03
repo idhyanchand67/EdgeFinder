@@ -210,6 +210,35 @@
   .empty { padding: 56px 24px; color: var(--muted); text-align: center; font-size: 14px; }
   footer { padding: 18px 28px 44px; color: var(--muted); font-size: 11.5px; border-top: 1px solid var(--border); margin-top: 8px; }
   footer p { margin: 0 0 4px; }
+
+  .info { border-bottom: 1px solid var(--border); background: var(--panel-2); }
+  .info summary {
+    cursor: pointer; padding: 13px 28px; font-weight: 600; font-size: 13px;
+    list-style: none; display: flex; align-items: center; gap: 8px; user-select: none;
+  }
+  .info summary::-webkit-details-marker { display: none; }
+  .info summary .chevron { font-family: "IBM Plex Mono", monospace; color: var(--accent); display: inline-block; }
+  @media (prefers-reduced-motion: no-preference) {
+    .info summary .chevron { transition: transform 0.15s ease; }
+  }
+  .info[open] summary .chevron { transform: rotate(90deg); }
+  .info-body { padding: 4px 28px 28px; max-width: 760px; }
+  .info-body section { margin-top: 20px; }
+  .info-body section:first-child { margin-top: 4px; }
+  .info-body h3 {
+    font-family: "Big Shoulders Display", sans-serif; font-weight: 700; font-size: 16px;
+    letter-spacing: 0.01em; margin: 0 0 6px;
+  }
+  .info-body p { margin: 0 0 8px; font-size: 13.5px; line-height: 1.65; color: var(--text); }
+  .info-body ul { margin: 6px 0 8px; padding-left: 20px; }
+  .info-body li { font-size: 13.5px; line-height: 1.6; color: var(--text); margin-bottom: 3px; }
+  .info-body .formula {
+    display: block; font-family: "IBM Plex Mono", monospace; font-size: 12.5px;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
+    padding: 10px 14px; margin: 8px 0; color: var(--text); overflow-x: auto; white-space: pre;
+  }
+  .info-body .note { color: var(--muted); font-size: 12.5px; }
+  .info-body a { color: var(--accent); }
 </style>
 </head>
 <body>
@@ -220,6 +249,72 @@
   </div>
   <div class="meta" id="genAt"></div>
 </header>
+
+<details class="info">
+  <summary><span class="chevron">&#9656;</span> How this works — data sources, hit rate &amp; edge (pp) explained</summary>
+  <div class="info-body">
+    <section>
+      <h3>Hit rate</h3>
+      <p>For each prop, we look at the player's last <em>N</em> games (10 by default) and count how
+        often the actual stat beat the sportsbook's current line. A receiver with an Over/Under 74.5
+        receiving-yards line who topped 74.5 yards in 8 of his last 10 games has an 80% hit rate.</p>
+    </section>
+    <section>
+      <h3>Edge (pp)</h3>
+      <p><strong>pp</strong> = percentage points, the plain arithmetic difference between two
+        percentages. An 80% hit rate against a price implying 62% is "+18pp," not "+18%" - which
+        would mean something different (a relative change, not a difference).</p>
+      <p>Edge is hit rate minus the win probability the sportsbook's own price implies:</p>
+      <span class="formula">implied probability from American odds:
+  price &lt; 0  ->  -price / (-price + 100)
+  price &gt; 0  ->  100 / (price + 100)
+
+edge = hit_rate - implied_probability</span>
+      <p>Why it matters: a prop that's hit 100% of its last 10 games sounds great, but if the book
+        already prices it at -2000 (implying ~95%) because it's a near-certainty - say, a power
+        hitter's Under 0.5 home runs, since going deep in any given game is rare - the real edge is
+        close to zero. The book already "knows." A prop priced near a coinflip (~50% implied) that's
+        actually hit 80% of the time has a genuine +30pp edge - a real gap between the price and recent
+        history. <strong>Top 10 and the table's default sort rank by edge, not raw hit rate, for exactly
+        this reason.</strong></p>
+    </section>
+    <section>
+      <h3>Where the data comes from</h3>
+      <ul>
+        <li><strong>NFL player stats:</strong> <a href="https://github.com/nflverse/nflverse-data" target="_blank" rel="noopener">nflverse</a> - free, public, last 3 seasons</li>
+        <li><strong>NBA / MLB / NHL player stats:</strong> ESPN's public boxscore data, backfilled game by game</li>
+        <li><strong>Current prop lines and odds:</strong> <a href="https://the-odds-api.com/" target="_blank" rel="noopener">The Odds API</a></li>
+        <li><strong>Injury status:</strong> ESPN's public injuries feed</li>
+        <li><strong>NFL matchup difficulty:</strong> computed from the same nflverse stats - average fantasy points allowed per position, by defense</li>
+      </ul>
+    </section>
+    <section>
+      <h3>Matchup (NFL only)</h3>
+      <p><strong>Tough / Average / Favorable</strong>, based on how many fantasy points a defense has
+        allowed to that position this window, split into thirds across the league. One proxy signal,
+        not a full model - it doesn't account for pace, game script, or injuries on the defense itself.</p>
+    </section>
+    <section>
+      <h3>Injury tags</h3>
+      <p><strong>Q</strong> = questionable / day-to-day - may play a reduced or different role than
+        their recent history reflects. <strong>OUT</strong> = ruled out, IR, suspended, and similar.
+        OUT players are automatically excluded from Top 10 (still shown, tagged, in the full table below).</p>
+    </section>
+    <section>
+      <h3>Important caveats</h3>
+      <ul>
+        <li><strong>Not betting advice.</strong> This is a research filter, not a signal to bet blind.</li>
+        <li>Edge uses the <em>current</em> posted price, not real historical odds - whether this signal
+          survives against what a book actually charged in the past is still an open question. See the
+          project's backtest for the full methodology and honest results.</li>
+        <li>NFL preseason games are excluded automatically - backup usage doesn't match the
+          regular-season history hit rates are built from.</li>
+      </ul>
+      <p class="note">Full source code, the backtest, and every other detail:
+        <a href="https://github.com/idhyanchand67/EdgeFinder" target="_blank" rel="noopener">github.com/idhyanchand67/EdgeFinder</a></p>
+    </section>
+  </div>
+</details>
 
 <div class="summary" id="summary"></div>
 
