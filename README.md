@@ -45,16 +45,24 @@ research filter, not a signal to bet blind.
    computed each run as the Thursday after Labor Day (NFL's real Week 1
    rule), not hardcoded to one season, and props for excluded games are
    filtered out *before* any Odds API quota is spent on them, not after.
-7. **Injury status and NFL matchup context add signal the raw stat line
+7. **Injury status and opponent matchup context add signal the raw stat line
    ignores.** A `Q`/`OUT` badge next to a player's name comes from ESPN's
    public injuries feed (one call per sport, covers every team) - a hot hit
    rate means less if the player's questionable or already ruled out, so
    `OUT` players are excluded from Top 10 entirely (still shown, tagged, in
-   the full table below). For NFL specifically, a **Matchup** column
-   (Tough/Average/Favorable) ranks the upcoming opponent's defense against
-   that position, computed from the same cached stats - fantasy points/game
-   allowed to that position, bucketed into thirds. A 90% hit rate racked up
-   against soft defenses reads differently against a tough one.
+   the full table below).
+
+   A **Matchup** column (Tough/Average/Favorable) shows how tough the
+   upcoming opponent actually is, computed from the same cached stats - no
+   extra data source. NFL ranks the opponent's defense against that
+   *position* (fantasy points/game allowed, bucketed into thirds), since
+   defense-vs-position is a meaningful unit there. MLB doesn't have that
+   structure - a batter faces one pitcher, not a defensive front - so it uses
+   two separate signals instead: batter props are ranked against the
+   opponent's **pitching** (team ERA over the cached window), pitcher props
+   against the opponent's **batting** (runs scored per game). A 90% hit rate
+   racked up against weak pitching or a cold-hitting lineup reads differently
+   against a strong one.
 8. **A visible Game column, and current rosters instead of stale ones.** Every
    prop shows which two teams are actually playing (e.g. "Packers @ Vikings").
    That surfaced players showing up under games their (stats-derived) team had
@@ -236,7 +244,7 @@ src/template.html           the report page: table, filters, sort, sparklines, i
 src/sports/base.py          SportConfig - the interface every sport module implements
 src/sports/nfl.py           nflverse fetch, NFL market map/labels, preseason filter, matchup tiers, game matching
 src/sports/nba.py           ESPN fetch + NBA market map/labels
-src/sports/mlb.py           ESPN fetch + MLB market map/labels (batting + pitching)
+src/sports/mlb.py           ESPN fetch, MLB market map/labels, matchup tiers (ERA / runs per game)
 src/sports/nhl.py           ESPN fetch + NHL market map/labels (skaters + goalies)
 src/sports/espn_common.py   shared scoreboard/boxscore fetch + incremental local cache
 data/props_sample.json      demo data for --demo, keyed by sport (real players, made-up lines)
@@ -290,20 +298,29 @@ Nothing else needs to change.
   separate rows for that game - batting and pitching are tracked as different
   stat columns on different rows, so their combined games-played count can
   look inflated. Rare in practice (mainly Shohei Ohtani).
-- **NBA/NHL rows have no position** in ESPN's boxscore payload for skaters, so
-  the Position filter is blank for those sports (MLB and NFL do have it).
+- **An earlier version of this doc said NBA's box score data has no
+  position field - that was wrong.** `nba.py`'s `_extract` already pulls it
+  (`athlete.position.abbreviation`), and a raw ESPN response confirmed it's
+  populated (e.g. "Forward"/"F"). Left here as a correction since NBA is
+  off-season and there's no real 2026-27 data yet to fully verify it holds
+  for every player, not just spot-checked ones.
 - **Injury status is matched by name only**, the same normalization as prop
   matching - it isn't sport-ID-linked, so an unusual name mismatch fails
   silently (no badge shown) rather than tagging the wrong player.
-- **NFL matchup tiers use fantasy points allowed as the only signal.** It's a
-  reasonable single proxy for defense-vs-position strength, not a full
-  model - it doesn't account for pace, game script, or a defense that's
-  banged up at one specific spot (e.g. a good run defense missing its
-  starting corners). Treat "Tough"/"Favorable" as a lean, not a verdict.
-- **Matchup context is NFL-only for now.** NBA/MLB/NHL have real
-  matchup-relevant signals too (opponent defensive rating, opposing
-  starter/park factors, goals-against), but each needs its own model rather
-  than reusing NFL's fantasy-points-allowed approach - not built yet.
+- **Matchup tiers use one proxy signal each, not a full model.** NFL uses
+  fantasy points allowed by position; MLB uses team ERA (for batter props)
+  and runs/game (for pitcher props). Neither accounts for pace, game script,
+  park factors, or a team missing a specific starter (a good pitching staff
+  minus its actual probable starter isn't reflected). MLB's signals are
+  team-level, not tied to the specific opposing starting pitcher a batter
+  will actually face - that would need a probable-starters data source this
+  project doesn't have. Treat "Tough"/"Favorable" as a lean, not a verdict.
+- **Matchup context isn't built for NBA/NHL yet.** NHL could reuse NFL's
+  exact pattern (goals/shots allowed by skater position, already tagged in
+  its stats); NBA likely could too (ESPN's box score does carry position,
+  contrary to what was assumed here earlier) but that's unverified until
+  real 2026-27 season data starts flowing - both off-season right now, so
+  lower priority than MLB was.
 - Name matching is exact-normalized (case/punctuation/suffix-insensitive) with
   a team tiebreak for duplicates - an unusual spelling mismatch between a book
   and the stats source will show up as "could not match" in the console

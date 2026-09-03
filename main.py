@@ -14,6 +14,7 @@ from datetime import datetime, timezone
 from src import build_report, config, current_roster, fetch_odds, hit_rates, injuries, track_record
 from src.name_match import normalize_name
 from src.sports import SPORTS
+from src.sports import mlb as mlb_sport
 from src.sports import nfl as nfl_sport
 
 
@@ -75,6 +76,8 @@ def main():
             r["injury_status"] = injury_map.get(normalize_name(r["player"]))
         if sport_key == "nfl":
             nfl_sport.attach_matchups(results, stats_df)
+        elif sport_key == "mlb":
+            mlb_sport.attach_matchups(results, stats_df)
 
         print(f"  scored {len(results)} props")
         all_results.extend(results)
