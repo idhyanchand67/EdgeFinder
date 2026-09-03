@@ -56,7 +56,15 @@ def log_new_picks(log_df: pd.DataFrame, all_results: list[dict], now: datetime =
         r for r in all_results
         if r.get("edge") is not None and r.get("injury_status") != "OUT" and r.get("player_id")
     ]
-    candidates.sort(key=lambda r: r["edge"], reverse=True)
+    # The same real prop offered by several books shouldn't count as several
+    # separate picks - keep only the best-priced (highest-edge) book per
+    # distinct player+market+line before ranking.
+    best_per_prop: dict[tuple, dict] = {}
+    for r in candidates:
+        key = (r["sport"], r["player_id"], r["market"], r["line"])
+        if key not in best_per_prop or r["edge"] > best_per_prop[key]["edge"]:
+            best_per_prop[key] = r
+    candidates = sorted(best_per_prop.values(), key=lambda r: r["edge"], reverse=True)
 
     new_rows = []
     for r in candidates[:TOP_N]:

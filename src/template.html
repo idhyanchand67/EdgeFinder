@@ -581,13 +581,25 @@ function pickRow(r, i) {
   `;
 }
 
+// The same real prop offered by several books shouldn't count as several
+// separate picks - keep only the best-priced (highest-edge) book for each
+// distinct player+market+line.
+function dedupeBestPerProp(list) {
+  const best = new Map();
+  for (const r of list) {
+    const key = `${r.sport}|${r.player_id}|${r.market}|${r.line}`;
+    const existing = best.get(key);
+    if (!existing || r.edge > existing.edge) best.set(key, r);
+  }
+  return [...best.values()];
+}
+
 function renderTopPicks(dayFiltered, day) {
   // Ranked by edge, not raw hit rate - a "sure thing" already priced accordingly
   // (e.g. -2000) has near-zero edge and shouldn't outrank a real divergence from
   // the price. Excludes props with no bettable price at all, and players already
   // ruled OUT (still shown, tagged, in the full table below for transparency).
-  const top = [...dayFiltered]
-    .filter(r => r.injury_status !== "OUT" && r.edge != null)
+  const top = dedupeBestPerProp(dayFiltered.filter(r => r.injury_status !== "OUT" && r.edge != null))
     .sort((a, b) => b.edge - a.edge)
     .slice(0, 10);
   const dayLabelText = day ? (dayEntries.find(([k]) => k === day)?.[1] || day) : "all upcoming days";
