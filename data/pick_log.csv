@@ -1,0 +1,11 @@
+pick_id,logged_at,sport,sport_label,player_id,player,team,market,market_label,line,side,price,hit_rate_at_pick,edge_at_pick,games_sample,commence_time,status,actual_value,result,graded_at
+mlb|4872587|pitcher_strikeouts|9.5|DraftKings|2026-09-03T02:11:00Z,2026-09-03 03:46 UTC,mlb,MLB,4872587,Yoshinobu Yamamoto,LAD,pitcher_strikeouts,Pitcher Ks,9.5,Under,135,1.0,0.5745,7,2026-09-03T02:11:00Z,pending,,,
+nfl|00-0036259|player_receptions|2.5|BetRivers|2026-09-13T20:25:00Z,2026-09-03 03:46 UTC,nfl,NFL,00-0036259,Jauan Jennings,SF,player_receptions,Receptions,2.5,Over,145,0.9,0.4918,10,2026-09-13T20:25:00Z,pending,,,
+nfl|00-0036259|player_receptions|2.5|BetOnline.ag|2026-09-13T20:25:00Z,2026-09-03 03:46 UTC,nfl,NFL,00-0036259,Jauan Jennings,SF,player_receptions,Receptions,2.5,Over,136,0.9,0.4763,10,2026-09-13T20:25:00Z,pending,,,
+nfl|00-0033119|player_pass_yds|220.5|Fanatics|2026-09-13T20:25:00Z,2026-09-03 03:46 UTC,nfl,NFL,00-0033119,Jacoby Brissett,NE,player_pass_yds,Pass Yds,220.5,Under,-110,1.0,0.4762,10,2026-09-13T20:25:00Z,pending,,,
+nfl|00-0033119|player_pass_yds|221.5|DraftKings|2026-09-13T20:25:00Z,2026-09-03 03:46 UTC,nfl,NFL,00-0033119,Jacoby Brissett,NE,player_pass_yds,Pass Yds,221.5,Under,-112,1.0,0.4717,10,2026-09-13T20:25:00Z,pending,,,
+nfl|00-0036259|player_reception_yds|24.5|DraftKings|2026-09-13T20:25:00Z,2026-09-03 03:46 UTC,nfl,NFL,00-0036259,Jauan Jennings,SF,player_reception_yds,Rec Yds,24.5,Over,-113,1.0,0.4695,10,2026-09-13T20:25:00Z,pending,,,
+nfl|00-0036259|player_receptions|2.5|FanDuel|2026-09-13T20:25:00Z,2026-09-03 03:46 UTC,nfl,NFL,00-0036259,Jauan Jennings,SF,player_receptions,Receptions,2.5,Over,132,0.9,0.469,10,2026-09-13T20:25:00Z,pending,,,
+nfl|00-0033119|player_pass_yds|221.5|BetOnline.ag|2026-09-13T20:25:00Z,2026-09-03 03:46 UTC,nfl,NFL,00-0033119,Jacoby Brissett,NE,player_pass_yds,Pass Yds,221.5,Under,-114,1.0,0.4673,10,2026-09-13T20:25:00Z,pending,,,
+nfl|00-0033119|player_pass_yds|221.5|FanDuel|2026-09-13T20:25:00Z,2026-09-03 03:46 UTC,nfl,NFL,00-0033119,Jacoby Brissett,NE,player_pass_yds,Pass Yds,221.5,Under,-114,1.0,0.4673,10,2026-09-13T20:25:00Z,pending,,,
+nfl|00-0039915|player_reception_yds|50.5|FanDuel|2026-09-13T20:25:00Z,2026-09-03 03:46 UTC,nfl,NFL,00-0039915,Ladd McConkey,LAC,player_reception_yds,Rec Yds,50.5,Over,-114,1.0,0.4673,10,2026-09-13T20:25:00Z,pending,,,
