@@ -40,8 +40,11 @@ def save_log(df: pd.DataFrame) -> None:
 
 
 def _pick_id(r: dict) -> str:
+    # Deliberately excludes sportsbook: the same prop shouldn't get logged again
+    # just because a different book had the best price in a later run than it
+    # did in an earlier one - that's still the same bet, not a new one.
     return "|".join(str(r.get(k)) for k in
-                     ("sport", "player_id", "market", "line", "sportsbook", "commence_time"))
+                     ("sport", "player_id", "market", "line", "commence_time"))
 
 
 def log_new_picks(log_df: pd.DataFrame, all_results: list[dict], now: datetime = None) -> pd.DataFrame:
