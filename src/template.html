@@ -239,6 +239,19 @@
   }
   .info-body .note { color: var(--muted); font-size: 12.5px; }
   .info-body a { color: var(--accent); }
+
+  .track-summary {
+    display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 14px; padding: 12px 16px;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+  }
+  .track-summary .stat { display: flex; flex-direction: column; gap: 2px; }
+  .track-summary .stat .label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
+  .track-summary .stat .value { font-family: "Big Shoulders Display", sans-serif; font-weight: 700; font-size: 20px; }
+  .track-summary .stat .value.accent { color: var(--accent); }
+  #trackTbl { min-width: 760px; }
+  #trackTbl th, #trackTbl td { padding: 8px 12px; font-size: 12.5px; }
+  .pill.pending { background: var(--panel-2); color: var(--muted); }
+  .pill.pending .dot { background: var(--muted); }
 </style>
 </head>
 <body>
@@ -316,6 +329,33 @@ edge = hit_rate - implied_probability</span>
   </div>
 </details>
 
+<details class="info">
+  <summary><span class="chevron">&#9656;</span> Track record — checking our own Top 10 picks after the fact</summary>
+  <div class="info-body" style="max-width:none;">
+    <section>
+      <p>Every run, the top 10 props by edge get logged - once, the first time they appear, not
+        updated on later runs. Once each game is over, we check what the player actually did and
+        mark the pick HIT, MISS, or PUSH. This is the honest version of the backtest above: it uses
+        the real price we actually saw, not a historical stand-in, checked against real outcomes as
+        they happen. It only gets more meaningful over time - there's no way to backfill history we
+        don't have.</p>
+      <div id="trackSummary" class="track-summary"></div>
+      <div class="table-wrap" style="margin-top:12px;">
+        <table id="trackTbl">
+          <thead>
+            <tr>
+              <th>Logged</th><th>Sport</th><th>Player</th><th>Market</th>
+              <th class="num">Line</th><th>Side</th><th class="num">Price</th>
+              <th>Edge at pick</th><th>Status</th><th class="num">Actual</th>
+            </tr>
+          </thead>
+          <tbody id="trackBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</details>
+
 <div class="summary" id="summary"></div>
 
 <div class="controls">
@@ -379,42 +419,17 @@ edge = hit_rate - implied_probability</span>
 <script>
 const DATA = /*PROP_DATA_JSON*/[]/*PROP_DATA_JSON*/;
 const META = /*META_JSON*/{}/*META_JSON*/;
+const PICK_LOG = /*PICK_LOG_JSON*/[]/*PICK_LOG_JSON*/;
 
 function dayKey(d) { return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; }
 function dayLabel(d) { return d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" }); }
 
-// American odds -> implied win probability.
-function impliedProb(price) {
-  if (price == null) return null;
-  return price < 0 ? (-price) / (-price + 100) : 100 / (price + 100);
-}
-
-// Flatten each prop into whichever side (Over/Under) is actually bettable and
-// better. A side with no posted price can't be wagered on, so it never wins
-// this pick even if its historical hit rate looks better on paper.
+// best_side/best_hit_rate/best_price/edge already computed server-side (src/hit_rates.py) -
+// one implementation shared with the pick-tracking log, instead of duplicating it here.
 const rows = DATA.map(p => {
-  const overHasPrice = p.price_over != null;
-  const underHasPrice = p.price_under != null;
-  let overBetter;
-  if (overHasPrice !== underHasPrice) {
-    overBetter = overHasPrice;
-  } else {
-    overBetter = p.hit_rate_over >= p.hit_rate_under;
-  }
-  const best_hit_rate = overBetter ? p.hit_rate_over : p.hit_rate_under;
-  const best_price = overBetter ? p.price_over : p.price_under;
-  const implied = impliedProb(best_price);
-  // Edge: how much more often it actually hit than its own price implies it
-  // should. A "sure thing" priced accordingly (e.g. -2000) scores near zero -
-  // the book already knows. A coinflip-priced prop hitting 80% scores high.
-  const edge = implied == null ? null : best_hit_rate - implied;
   const kickoff = p.commence_time ? new Date(p.commence_time) : null;
   return {
     ...p,
-    best_side: overBetter ? "Over" : "Under",
-    best_hit_rate,
-    best_price,
-    edge,
     day_key: kickoff ? dayKey(kickoff) : null,
     day_label: kickoff ? dayLabel(kickoff) : null,
   };
@@ -442,6 +457,44 @@ function renderSummary() {
   `).join("");
 }
 renderSummary();
+
+function renderTrackRecord() {
+  const tr = META.track_record || {};
+  const stats = [
+    { label: "Graded picks", value: String(tr.graded ?? 0) },
+    { label: "Hit rate (excl. pushes)", value: tr.hit_rate != null ? `${(tr.hit_rate * 100).toFixed(0)}%` : "–", accent: true },
+    { label: "Avg edge at pick", value: tr.avg_edge_at_pick != null ? `+${(tr.avg_edge_at_pick * 100).toFixed(0)}pp` : "–" },
+    { label: "Still pending", value: String(tr.pending ?? 0) },
+  ];
+  document.getElementById("trackSummary").innerHTML = stats.map(s => `
+    <div class="stat">
+      <span class="label">${s.label}</span>
+      <span class="value${s.accent ? " accent" : ""}">${s.value}</span>
+    </div>
+  `).join("");
+
+  const statusPill = (status, result) => {
+    if (status !== "graded") return `<span class="pill pending"><span class="dot"></span>Pending</span>`;
+    const cls = result === "HIT" ? "good" : (result === "MISS" ? "bad" : "mid");
+    return `<span class="pill ${cls}"><span class="dot"></span>${result}</span>`;
+  };
+
+  document.getElementById("trackBody").innerHTML = PICK_LOG.length ? PICK_LOG.map(p => `
+    <tr>
+      <td>${p.logged_at || "–"}</td>
+      <td>${p.sport_label || "–"}</td>
+      <td>${p.player || "–"}</td>
+      <td>${p.market_label || p.market}</td>
+      <td class="num">${p.line}</td>
+      <td><span class="side-tag">${p.side}</span></td>
+      <td class="num">${fmtOdds(p.price)}</td>
+      <td>${edgePill(p.edge_at_pick)}</td>
+      <td>${statusPill(p.status, p.result)}</td>
+      <td class="num">${p.actual_value != null ? p.actual_value : "–"}</td>
+    </tr>
+  `).join("") : `<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:20px;">No picks logged yet - the first run creates the log, later runs grade it.</td></tr>`;
+}
+renderTrackRecord();
 
 const daySel = document.getElementById("fDay");
 const dayEntries = [...new Map(rows.filter(r => r.day_key).map(r => [r.day_key, r.day_label])).entries()].sort((a, b) => a[0].localeCompare(b[0]));

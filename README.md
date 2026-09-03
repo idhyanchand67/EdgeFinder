@@ -90,6 +90,35 @@ So: recent hit rate is a legitimate signal about who's trending, not
 proof of an exploitable mispricing - which is exactly why the report treats
 it as a research filter rather than a bet recommendation.
 
+### Closing the gap: tracking our own picks forward
+
+The backtest above can only test against a stand-in line (a historical
+median), because real historical odds aren't available. `src/track_record.py`
+closes that gap the honest way - by using the actual live edge metric against
+real future outcomes instead of a proxy:
+
+- Every run, the current top 10 props by edge get logged to
+  `data/pick_log.csv` - once, the first time each one appears, never updated
+  on a later run. That's what keeps this an honest forward test instead of a
+  moving target.
+- Once a logged pick's game is over (plus a buffer for stats to catch up),
+  the next run looks up what the player actually did in *that specific game*
+  and marks it HIT, MISS, or PUSH.
+- The report's **Track record** section shows the running results: graded
+  count, hit rate excluding pushes, average edge at the time each pick was
+  made, and the full list so it's checkable, not just a headline number.
+
+Matching a logged pick to its exact game differs by sport: NBA/MLB/NHL stats
+carry a real date, so it's the closest game within 36 hours of the pick's
+kickoff time. NFL's data only has season+week, so `src/sports/nfl.py`
+converts the pick's kickoff time to a week number using the same rule as the
+preseason cutoff, then matches on that.
+
+This needs no historical-odds subscription and starts producing real results
+immediately - it just takes time to accumulate, since a pick logged today
+can't be graded until its game has actually been played. There's no way to
+backfill history that was never logged.
+
 ## Quick start
 
 ```bash
@@ -160,6 +189,11 @@ above), or widen it further if you don't. The stats caches
 (`data/*_stats.csv`) persist between runs via `actions/cache`, so only new
 games are fetched each time, not a full re-backfill.
 
+The workflow also commits `data/pick_log.csv` back to the repo after every
+run (needs `contents: write` in `refresh.yml`'s permissions, already set) -
+that's what lets the [pick-tracking log](#closing-the-gap-tracking-our-own-picks-forward)
+survive between runs instead of vanishing when the runner shuts down.
+
 ## Options
 
 ```
@@ -177,19 +211,21 @@ scripts/backtest.py         checks whether recent hit rate actually predicts any
 src/config.py               Odds API access, shared paths, scoring defaults
 src/fetch_odds.py           pulls current player props from The Odds API (sport-agnostic)
 src/name_match.py           normalizes names so book spellings match the stats source's
-src/hit_rates.py            core calculation: line vs. last-N-games history (sport-agnostic)
+src/hit_rates.py            core calculation: line vs. last-N-games history, best side, edge (sport-agnostic)
 src/injuries.py             ESPN injuries feed -> OUT/RISK tags, one call per sport
-src/build_report.py         injects combined results into the report template
-src/template.html           the report page: table, filters, sort, sparklines, injury/matchup tags
+src/track_record.py         logs Top 10 picks, grades them once their games are over
+src/build_report.py         injects combined results + pick log into the report template
+src/template.html           the report page: table, filters, sort, sparklines, injury/matchup tags, track record
 src/sports/base.py          SportConfig - the interface every sport module implements
-src/sports/nfl.py           nflverse fetch, NFL market map/labels, preseason filter, matchup tiers
+src/sports/nfl.py           nflverse fetch, NFL market map/labels, preseason filter, matchup tiers, game matching
 src/sports/nba.py           ESPN fetch + NBA market map/labels
 src/sports/mlb.py           ESPN fetch + MLB market map/labels (batting + pitching)
 src/sports/nhl.py           ESPN fetch + NHL market map/labels (skaters + goalies)
 src/sports/espn_common.py   shared scoreboard/boxscore fetch + incremental local cache
 data/props_sample.json      demo data for --demo, keyed by sport (real players, made-up lines)
 data/<sport>_stats.csv      cached per-sport stats (gitignored, rebuilt/backfilled on demand)
-.github/workflows/refresh.yml  scheduled run -> publishes report.html to GitHub Pages
+data/pick_log.csv           the pick-tracking log (committed, not gitignored - it's the point)
+.github/workflows/refresh.yml  scheduled run -> publishes report.html to GitHub Pages, commits the pick log
 ```
 
 ## Adding another sport

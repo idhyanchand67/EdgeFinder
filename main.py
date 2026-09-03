@@ -11,7 +11,7 @@ import argparse
 import json
 from datetime import datetime, timezone
 
-from src import build_report, config, fetch_odds, hit_rates, injuries
+from src import build_report, config, fetch_odds, hit_rates, injuries, track_record
 from src.name_match import normalize_name
 from src.sports import SPORTS
 from src.sports import nfl as nfl_sport
@@ -31,6 +31,8 @@ def main():
     demo_props_by_sport = {}
     if args.demo:
         demo_props_by_sport = json.loads(config.PROPS_SAMPLE_JSON.read_text())
+
+    log_df = track_record.load_log()
 
     all_results = []
     sports_included = []
@@ -69,15 +71,23 @@ def main():
         all_results.extend(results)
         sports_included.append(sport.display_name)
 
-    all_results.sort(key=lambda r: max(r["hit_rate_over"], r["hit_rate_under"]), reverse=True)
+        if not args.demo:
+            log_df = track_record.grade_pending(log_df, sport, stats_df)
+
+    all_results.sort(key=lambda r: r["edge"] if r["edge"] is not None else float("-inf"), reverse=True)
+
+    if not args.demo:
+        log_df = track_record.log_new_picks(log_df, all_results)
+        track_record.save_log(log_df)
 
     meta = {
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
         "lookback": args.lookback,
         "min_games": args.min_games,
         "sports": sports_included,
+        "track_record": track_record.summary(log_df),
     }
-    build_report.render(all_results, meta)
+    build_report.render(all_results, meta, log_df)
 
 
 if __name__ == "__main__":

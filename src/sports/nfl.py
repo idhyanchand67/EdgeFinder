@@ -134,6 +134,26 @@ def attach_matchups(results: list[dict], stats_df: pd.DataFrame) -> None:
             r["matchup"] = tiers.get((opponent, r["position"]))
 
 
+def _week_for(commence_time: str) -> tuple[int, int] | None:
+    if not commence_time:
+        return None
+    dt = datetime.fromisoformat(commence_time.replace("Z", "+00:00"))
+    season_year = dt.year if dt.month >= 3 else dt.year - 1
+    week = (dt.date() - _regular_season_start(season_year)).days // 7 + 1
+    return season_year, week
+
+
+def match_game(player_games: pd.DataFrame, commence_time: str):
+    """nflverse has no game date, only season+week - convert the pick's commence_time
+    to a week number (same rule as the preseason cutoff) and match on that instead."""
+    season_week = _week_for(commence_time)
+    if season_week is None:
+        return None
+    season, week = season_week
+    matches = player_games[(player_games["season"] == season) & (player_games["week"] == week)]
+    return matches.iloc[0] if len(matches) else None
+
+
 SPORT = SportConfig(
     key="nfl",
     display_name="NFL",
@@ -143,4 +163,5 @@ SPORT = SportConfig(
     order_by=["season", "week"],
     fetch_stats=fetch_stats,
     game_filter=_is_regular_season_game,
+    match_game=match_game,
 )

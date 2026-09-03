@@ -6,7 +6,7 @@ on:
   workflow_dispatch: {}       # lets you trigger a run manually from the Actions tab
 
 permissions:
-  contents: read
+  contents: write   # needed to commit data/pick_log.csv back to the repo
   pages: write
   id-token: write
 
@@ -38,6 +38,19 @@ jobs:
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: python main.py
+
+      - name: Commit updated pick log
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/pick_log.csv
+          if git diff --staged --quiet; then
+            echo "No pick log changes"
+          else
+            git commit -m "Update pick log [automated]"
+            git pull --rebase origin main
+            git push
+          fi
 
       - name: Package for Pages
         run: |

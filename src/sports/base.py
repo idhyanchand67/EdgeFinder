@@ -18,6 +18,12 @@ class SportConfig:
     # Use this to drop games where recent-history stats don't mean what they
     # normally do - e.g. NFL preseason, where backups play starter snaps.
     game_filter: Callable[[dict], bool] = lambda prop: True
+    # Optional: (player's game rows, commence_time ISO string) -> the one row
+    # matching that exact game, or None. Used to grade a logged pick once its
+    # game is over. Sports with a real game_date column (NBA/MLB/NHL) don't
+    # need this - track_record.py's default matcher handles them; NFL (which
+    # only has season+week) provides its own.
+    match_game: Callable[[object, str], object] = None
 
     @property
     def default_markets(self) -> list[str]:
