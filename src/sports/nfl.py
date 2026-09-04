@@ -105,6 +105,8 @@ def compute_matchup_tiers(stats_df: pd.DataFrame) -> dict[tuple, str]:
 
     tiers: dict[tuple, str] = {}
     for position in MATCHUP_POSITIONS:
+        if position not in allowed.index.get_level_values("position"):
+            continue  # e.g. a sparse-data window with no rows at all for this position
         by_team = allowed.xs(position, level="position").sort_values()
         n = len(by_team)
         if n < 3:

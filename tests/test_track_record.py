@@ -1,0 +1,141 @@
+from datetime import datetime, timedelta, timezone
+
+import pandas as pd
+
+from src import track_record
+from src.sports.base import SportConfig
+
+
+def _result(**overrides):
+    base = {
+        "sport": "test", "sport_label": "Test", "player_id": "p1", "player": "Test Player",
+        "team": "AAA", "market": "player_points", "market_label": "Points", "line": 20.5,
+        "best_side": "Over", "best_price": -110, "best_hit_rate": 0.8, "edge": 0.3,
+        "games_sample": 10, "commence_time": "2026-02-01T00:00:00Z", "injury_status": None,
+    }
+    base.update(overrides)
+    return base
+
+
+def test_pick_id_excludes_sportsbook():
+    """Regression test: a real bug had the same prop logged twice across runs
+    because a different book had the best price each time. pick_id must not
+    vary with which book currently has the best price."""
+    a = track_record._pick_id({"sport": "nfl", "player_id": "p1", "market": "m", "line": 1.5,
+                                "commence_time": "t", "sportsbook": "DraftKings"})
+    b = track_record._pick_id({"sport": "nfl", "player_id": "p1", "market": "m", "line": 1.5,
+                                "commence_time": "t", "sportsbook": "FanDuel"})
+    assert a == b
+
+
+def test_log_new_picks_dedupes_same_prop_across_books_keeping_best_edge():
+    empty_log = pd.DataFrame(columns=track_record.LOG_COLUMNS)
+    results = [
+        _result(edge=0.10),  # worse price, same underlying prop
+        _result(edge=0.30, best_price=120),  # better price - should win
+    ]
+    log_df = track_record.log_new_picks(empty_log, results, now=datetime.now(timezone.utc))
+    assert len(log_df) == 1
+    assert log_df.iloc[0]["edge_at_pick"] == 0.30
+
+
+def test_log_new_picks_respects_top_n():
+    empty_log = pd.DataFrame(columns=track_record.LOG_COLUMNS)
+    results = [_result(player_id=f"p{i}", edge=i / 100) for i in range(15)]
+    log_df = track_record.log_new_picks(empty_log, results, now=datetime.now(timezone.utc))
+    assert len(log_df) == track_record.TOP_N
+
+
+def test_log_new_picks_never_relogs_the_same_pick():
+    now = datetime.now(timezone.utc)
+    empty_log = pd.DataFrame(columns=track_record.LOG_COLUMNS)
+    first_run = track_record.log_new_picks(empty_log, [_result(edge=0.3)], now=now)
+    assert len(first_run) == 1
+
+    # Same prop appears again in a later run, even with a different (higher) edge -
+    # should NOT be logged again or updated.
+    second_run = track_record.log_new_picks(first_run, [_result(edge=0.9)], now=now)
+    assert len(second_run) == 1
+    assert second_run.iloc[0]["edge_at_pick"] == 0.3
+
+
+def test_log_new_picks_excludes_out_players():
+    empty_log = pd.DataFrame(columns=track_record.LOG_COLUMNS)
+    log_df = track_record.log_new_picks(empty_log, [_result(injury_status="OUT")], now=datetime.now(timezone.utc))
+    assert len(log_df) == 0
+
+
+def test_log_new_picks_excludes_null_edge():
+    empty_log = pd.DataFrame(columns=track_record.LOG_COLUMNS)
+    log_df = track_record.log_new_picks(empty_log, [_result(edge=None)], now=datetime.now(timezone.utc))
+    assert len(log_df) == 0
+
+
+def _sport_with_matcher():
+    def match_game(player_games, commence_time):
+        return player_games.iloc[0] if len(player_games) else None
+
+    return SportConfig(
+        key="test", display_name="Test", odds_sport_key="test_key",
+        market_map={"player_points": ["pts"]}, market_labels={"player_points": "Points"},
+        order_by=["game_date"], fetch_stats=lambda force=False: pd.DataFrame(),
+        match_game=match_game,
+    )
+
+
+def _pending_log_row(**overrides):
+    row = {col: None for col in track_record.LOG_COLUMNS}
+    row.update({
+        "pick_id": "test-pick", "sport": "test", "player_id": "p1", "market": "player_points",
+        "line": 20.5, "side": "Over", "commence_time": "2026-02-01T00:00:00Z", "status": "pending",
+    })
+    row.update(overrides)
+    return row
+
+
+def test_grade_pending_marks_hit_when_actual_beats_the_line_on_over():
+    log_df = pd.DataFrame([_pending_log_row(side="Over", line=20.5)])
+    stats_df = pd.DataFrame([{"player_id": "p1", "pts": 25.0}])
+    now = datetime.fromisoformat("2026-02-01T12:00:00+00:00")  # well past the 6h buffer
+    graded = track_record.grade_pending(log_df, _sport_with_matcher(), stats_df, now=now)
+    assert graded.iloc[0]["result"] == "HIT"
+    assert graded.iloc[0]["status"] == "graded"
+
+
+def test_grade_pending_marks_miss_when_actual_falls_short_on_over():
+    log_df = pd.DataFrame([_pending_log_row(side="Over", line=20.5)])
+    stats_df = pd.DataFrame([{"player_id": "p1", "pts": 10.0}])
+    now = datetime.fromisoformat("2026-02-01T12:00:00+00:00")
+    graded = track_record.grade_pending(log_df, _sport_with_matcher(), stats_df, now=now)
+    assert graded.iloc[0]["result"] == "MISS"
+
+
+def test_grade_pending_marks_push_on_exact_tie():
+    log_df = pd.DataFrame([_pending_log_row(side="Over", line=20.0)])
+    stats_df = pd.DataFrame([{"player_id": "p1", "pts": 20.0}])
+    now = datetime.fromisoformat("2026-02-01T12:00:00+00:00")
+    graded = track_record.grade_pending(log_df, _sport_with_matcher(), stats_df, now=now)
+    assert graded.iloc[0]["result"] == "PUSH"
+
+
+def test_grade_pending_respects_the_grade_buffer():
+    """A game that just finished (or hasn't finished yet) shouldn't be graded -
+    stays pending until enough time has passed."""
+    log_df = pd.DataFrame([_pending_log_row(side="Over", line=20.5, commence_time="2026-02-01T00:00:00Z")])
+    stats_df = pd.DataFrame([{"player_id": "p1", "pts": 25.0}])
+    now = datetime.fromisoformat("2026-02-01T01:00:00+00:00")  # only 1h after commence, buffer is 6h
+    graded = track_record.grade_pending(log_df, _sport_with_matcher(), stats_df, now=now)
+    assert graded.iloc[0]["status"] == "pending"
+
+
+def test_summary_excludes_pushes_from_hit_rate():
+    log_df = pd.DataFrame([
+        _pending_log_row(status="graded", result="HIT", edge_at_pick=0.3),
+        _pending_log_row(status="graded", result="MISS", edge_at_pick=0.2),
+        _pending_log_row(status="graded", result="PUSH", edge_at_pick=0.1),
+        _pending_log_row(status="pending"),
+    ])
+    s = track_record.summary(log_df)
+    assert s["graded"] == 2  # PUSH excluded from the decisive count
+    assert s["hit_rate"] == 0.5
+    assert s["pending"] == 1

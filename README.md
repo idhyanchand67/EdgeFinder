@@ -241,6 +241,29 @@ python main.py --min-games 3        # include players with as few as 3 games
 python main.py --refresh-stats      # force re-download/re-backfill of stats
 ```
 
+## Testing
+
+```bash
+pip install -r requirements-dev.txt
+pytest tests/ -v
+```
+
+60 tests covering the logic that's actually caused real bugs this project has
+shipped: name matching, hit-rate math and the best-side/price selection (the
+missing-odds bug), the preseason/week-number date math, every sport's matchup
+tier *direction* (Tough should always mean "suppresses this player's own
+stat," not the reverse - this caught a real inverted-direction bug in NHL's
+goalie tiers before it shipped), the pick-tracking log's dedup and grading
+logic (two more real bugs: cross-book and cross-run duplicate picks), and the
+roster-correction logic. Writing these also caught a real, previously-unseen
+crash risk in NFL's matchup code (a position missing entirely from a sparse
+data window would have thrown a `KeyError` - fixed alongside the tests that
+found it).
+
+`.github/workflows/test.yml` runs the full suite on every push and pull
+request to `main` - this is what "catch the next bug before it ships"
+actually means in practice, not just having tests available to run by hand.
+
 ## Layout
 
 ```
@@ -264,7 +287,10 @@ src/sports/espn_common.py   shared scoreboard/boxscore fetch + incremental local
 data/props_sample.json      demo data for --demo, keyed by sport (real players, made-up lines)
 data/<sport>_stats.csv      cached per-sport stats (gitignored, rebuilt/backfilled on demand)
 data/pick_log.csv           the pick-tracking log (committed, not gitignored - it's the point)
+tests/                       pytest suite (see Testing above)
+requirements-dev.txt        adds pytest on top of requirements.txt
 .github/workflows/refresh.yml  scheduled run -> publishes report.html to GitHub Pages, commits the pick log
+.github/workflows/test.yml   runs the test suite on every push/PR to main
 ```
 
 ## Adding another sport
