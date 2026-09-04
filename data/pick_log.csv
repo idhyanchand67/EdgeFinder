@@ -33,3 +33,8 @@ mlb|4905921|batter_hits|0.5|2026-09-04T00:05:00Z,2026-09-04 01:00 UTC,mlb,MLB,49
 mlb|41917|batter_hits|0.5|2026-09-03T23:40:33Z,2026-09-04 01:00 UTC,mlb,MLB,41917,Otto Lopez,MIA,batter_hits,Hits,0.5,Over,165,0.9,0.5226,10,2026-09-03T23:40:33Z,pending,,,
 mlb|41199|pitcher_strikeouts|5.5|2026-09-04T00:05:00Z,2026-09-04 01:00 UTC,mlb,MLB,41199,Shane McClanahan,TB,pitcher_strikeouts,Pitcher Ks,5.5,Under,100,1.0,0.5,5,2026-09-04T00:05:00Z,pending,,,
 nfl|00-0036997|player_rush_yds|72.5|2026-09-14T00:20:00Z,2026-09-04 01:00 UTC,nfl,NFL,00-0036997,Javonte Williams,DAL,player_rush_yds,Rush Yds,72.5,Under,-112,1.0,0.4717,10,2026-09-14T00:20:00Z,pending,,,
+mlb|5265417|batter_hits|0.5|2026-09-05T00:41:00Z,2026-09-04 16:54 UTC,mlb,MLB,5265417,Jose Fermin,LAA,batter_hits,Hits,0.5,Under,197,1.0,0.6633,10,2026-09-05T00:41:00Z,pending,,,
+mlb|4683350|pitcher_outs|11.5|2026-09-04T18:11:00Z,2026-09-04 16:54 UTC,mlb,MLB,4683350,Logan Allen,CLE,pitcher_outs,Outs Recorded,11.5,Under,150,1.0,0.6,5,2026-09-04T18:11:00Z,pending,,,
+mlb|41227|pitcher_outs|13.5|2026-09-05T00:10:00Z,2026-09-04 16:54 UTC,mlb,MLB,41227,Daniel Lynch IV,KC,pitcher_outs,Outs Recorded,13.5,Under,105,1.0,0.5122,10,2026-09-05T00:10:00Z,pending,,,
+mlb|5132012|batter_rbis|0.5|2026-09-04T23:06:00Z,2026-09-04 16:54 UTC,mlb,MLB,5132012,Mickey Gasper,BOS,batter_rbis,RBIs,0.5,Over,229,0.8,0.496,10,2026-09-04T23:06:00Z,pending,,,
+mlb|41227|pitcher_outs|12.5|2026-09-05T00:10:00Z,2026-09-04 16:54 UTC,mlb,MLB,41227,Daniel Lynch IV,KC,pitcher_outs,Outs Recorded,12.5,Under,136,0.9,0.4763,10,2026-09-05T00:10:00Z,pending,,,
