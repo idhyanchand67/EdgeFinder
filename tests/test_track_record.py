@@ -102,6 +102,22 @@ def test_grade_pending_marks_hit_when_actual_beats_the_line_on_over():
     assert graded.iloc[0]["status"] == "graded"
 
 
+def test_grade_pending_handles_float64_result_column():
+    """Regression test for a real production bug: before any pick has ever been
+    graded, 'result' and 'graded_at' are None on every row, which a CSV
+    round-trip (or an explicit dtype, as forced here) turns into a float64
+    NaN column. Writing a string result into that column used to raise
+    TypeError under newer pandas instead of silently upcasting to object."""
+    log_df = pd.DataFrame([_pending_log_row(side="Over", line=20.5)])
+    log_df["result"] = log_df["result"].astype("float64")
+    log_df["graded_at"] = log_df["graded_at"].astype("float64")
+    stats_df = pd.DataFrame([{"player_id": "p1", "pts": 25.0}])
+    now = datetime.fromisoformat("2026-02-01T12:00:00+00:00")
+    graded = track_record.grade_pending(log_df, _sport_with_matcher(), stats_df, now=now)
+    assert graded.iloc[0]["result"] == "HIT"
+    assert graded.iloc[0]["graded_at"] is not None
+
+
 def test_grade_pending_marks_miss_when_actual_falls_short_on_over():
     log_df = pd.DataFrame([_pending_log_row(side="Over", line=20.5)])
     stats_df = pd.DataFrame([{"player_id": "p1", "pts": 10.0}])

@@ -154,6 +154,16 @@ def grade_pending(log_df: pd.DataFrame, sport, stats_df: pd.DataFrame, now: date
         else:
             result = "MISS"
 
+        # "result" and "graded_at" start out as None on every logged pick and
+        # stay that way until a game actually finishes - before this season's
+        # first grade-able game, that made them all-NaN columns that pandas
+        # (and CSV round-tripping) infers as float64. Writing a string into a
+        # float64 column raises under newer pandas instead of silently
+        # upcasting to object like older pandas did.
+        for col in ("result", "graded_at"):
+            if log_df[col].dtype != object:
+                log_df[col] = log_df[col].astype(object)
+
         log_df.loc[idx, "actual_value"] = actual_value
         log_df.loc[idx, "result"] = result
         log_df.loc[idx, "status"] = "graded"
