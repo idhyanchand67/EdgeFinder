@@ -600,7 +600,7 @@ function pickRow(r, i) {
         <span class="pick-player">${r.player}${injuryTag(r.injury_status)} <span class="pick-sub">${r.team || "–"} · ${r.sport_label}${r.game ? " · " + r.game : ""}</span></span>
         <span class="pick-sub">${r.market_label || r.market} · ${r.best_side} ${r.line}</span>
       </span>
-      <span class="pick-hit">${hitPill(r.best_hit_rate)} ${edgePill(r.edge)} ${sparkline(r.recent_values, r.line)}</span>
+      <span class="pick-hit">${hitPill(r.best_hit_rate)} ${edgePill(r.edge)} ${matchupPill(r.matchup)} ${sparkline(r.recent_values, r.line)}</span>
       <span class="pick-odds">${fmtOdds(r.best_price)}<br>${r.sportsbook || "–"}</span>
     </div>
   `;
