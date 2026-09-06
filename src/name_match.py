@@ -23,18 +23,21 @@ def build_name_index(stats_df):
     return index
 
 
-def resolve_player_id(name: str, team: str, name_index: dict, stats_df) -> str | None:
-    """Best-effort match: exact normalized name, tie-broken by team if ambiguous."""
+def resolve_player_id(name: str, teams, name_index: dict, stats_df) -> str | None:
+    """Best-effort match: exact normalized name, tie-broken by team if ambiguous.
+    `teams` is the set of stats-abbreviations eligible for this prop (normally
+    the game's home and away team, since a name collision could be either
+    player) - a single string is also accepted for a one-team hint."""
     key = normalize_name(name)
     candidates = name_index.get(key)
     if not candidates:
         return None
     if len(candidates) == 1:
         return next(iter(candidates))
-    if team:
-        team_norm = team.strip().upper()
+    if teams:
+        teams_norm = {teams.strip().upper()} if isinstance(teams, str) else {t.strip().upper() for t in teams if t}
         for pid in candidates:
             rows = stats_df[stats_df["player_id"] == pid]
-            if not rows.empty and str(rows["team"].iloc[-1]).strip().upper() == team_norm:
+            if not rows.empty and str(rows["team"].iloc[-1]).strip().upper() in teams_norm:
                 return pid
     return next(iter(candidates))

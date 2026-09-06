@@ -188,4 +188,5 @@ SPORT = SportConfig(
     fetch_stats=fetch_stats,
     game_filter=_is_regular_season_game,
     match_game=match_game,
+    team_abbr=TEAM_ABBR,
 )

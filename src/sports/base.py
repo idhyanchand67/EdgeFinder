@@ -24,6 +24,10 @@ class SportConfig:
     # need this - track_record.py's default matcher handles them; NFL (which
     # only has season+week) provides its own.
     match_game: Callable[[object, str], object] = None
+    # Odds API team name (e.g. "Cincinnati Bengals") -> this sport's stats
+    # abbreviation (e.g. "CIN"). Used to resolve name collisions against the
+    # actual teams playing in a prop's game, not the raw Odds API team name.
+    team_abbr: dict[str, str] = None
 
     @property
     def default_markets(self) -> list[str]:

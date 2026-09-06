@@ -117,3 +117,37 @@ def test_compute_hit_rates_skips_unmatched_player():
     ]
     results = compute_hit_rates(_sport(), stats_df, props, lookback=10, min_games=5)
     assert results == []
+
+
+def test_compute_hit_rates_resolves_name_collision_using_either_home_or_away_team():
+    """Regression test for a real production bug (a real MLB name collision:
+    two active players named Jose Fermin, one on LAA, one on STL - a Cardinals
+    @ Rockies prop for 'Jose Fermin' was resolving to the LAA player, who
+    wasn't even in that game). The Odds API gives home_team/away_team as full
+    names ("Colorado Rockies"), but the tiebreak was comparing that raw string
+    directly against stats-abbreviations ("COL") - an always-false comparison
+    - and only ever looked at home_team, so an ambiguous name fell back to an
+    arbitrary candidate whenever neither comparison could match, including
+    whenever the real player was on the away side. This confirms team-name
+    translation now works and a candidate not in this game gets excluded even
+    when the eligible candidate is on the away side."""
+    stats_df = pd.DataFrame([
+        {"player_id": "irrelevant-team-guy", "player_display_name": "Same Name", "team": "ZZZ",
+         "position": "G", "game_date": "2026-01-01", "pts": 20},
+        {"player_id": "away-guy", "player_display_name": "Same Name", "team": "BBB",
+         "position": "G", "game_date": "2026-01-01", "pts": 20},
+    ])
+    sport = _sport()
+    sport.team_abbr = {"Team Alpha": "AAA", "Team Beta": "BBB", "Team Gamma": "CCC"}
+    props = [
+        # The real player (away-guy, team BBB) is on the away side of this
+        # game - the old home_team-only tiebreak would never have looked
+        # there, and would've compared "Team Alpha"/"Team Beta" directly
+        # against "ZZZ"/"BBB" and matched neither either way.
+        {"player_name": "Same Name", "market": "player_points", "line": 20.5, "side": "Over",
+         "price": -110, "sportsbook": "TestBook", "home_team": "Team Alpha", "away_team": "Team Beta",
+         "commence_time": "2026-02-01T00:00:00Z"},
+    ]
+    results = compute_hit_rates(sport, stats_df, props, lookback=10, min_games=1)
+    assert len(results) == 1
+    assert results[0]["player_id"] == "away-guy"

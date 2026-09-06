@@ -305,14 +305,25 @@ edge = hit_rate - implied_probability</span>
         <li><strong>NBA / MLB / NHL player stats:</strong> ESPN's public boxscore data, backfilled game by game</li>
         <li><strong>Current prop lines and odds:</strong> <a href="https://the-odds-api.com/" target="_blank" rel="noopener">The Odds API</a></li>
         <li><strong>Injury status:</strong> ESPN's public injuries feed</li>
-        <li><strong>NFL matchup difficulty:</strong> computed from the same nflverse stats - average fantasy points allowed per position, by defense</li>
+        <li><strong>Matchup difficulty:</strong> computed from each sport's own stats above - see below for how each sport measures it</li>
       </ul>
     </section>
     <section>
-      <h3>Matchup (NFL only)</h3>
-      <p><strong>Tough / Average / Favorable</strong>, based on how many fantasy points a defense has
-        allowed to that position this window, split into thirds across the league. One proxy signal,
-        not a full model - it doesn't account for pace, game script, or injuries on the defense itself.</p>
+      <h3>Matchup</h3>
+      <p><strong>Tough / Average / Favorable</strong>, split into thirds across the league (or, for MLB,
+        across whichever teams have played enough games in the cached window). One proxy signal per
+        sport, not a full model - none of these account for pace, game script, weather, or injuries on
+        the opposing side itself.</p>
+      <ul>
+        <li><strong>NFL:</strong> average fantasy points allowed to that position by the opposing defense</li>
+        <li><strong>NBA:</strong> average points allowed to that position by the opposing defense</li>
+        <li><strong>NHL:</strong> for skaters, average points allowed by the opposing defense; for goalies, the
+          opponent's own shot volume (fewer shots against a goalie means fewer save chances, so a
+          low-shot-volume opponent is the tough matchup, not the high-volume one)</li>
+        <li><strong>MLB:</strong> for batters, the opposing pitching staff's ERA; for pitchers, the opposing
+          lineup's runs scored per game - baseball doesn't have a defense-vs-position matchup the way the
+          other sports do, since a batter faces one pitcher, not a unit</li>
+      </ul>
     </section>
     <section>
       <h3>Injury tags</h3>

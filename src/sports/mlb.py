@@ -169,4 +169,5 @@ SPORT = SportConfig(
     market_labels=MARKET_LABELS,
     order_by=["game_date"],
     fetch_stats=fetch_stats,
+    team_abbr=TEAM_ABBR,
 )

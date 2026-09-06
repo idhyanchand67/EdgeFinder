@@ -54,12 +54,16 @@ def compute_hit_rates(
         entry = grouped.setdefault(key, dict(prop))
         entry[f"price_{prop.get('side', '').lower()}"] = prop.get("price")
 
+    team_abbr = sport.team_abbr or {}
     results = []
     unmatched = set()
     for (player_name, market, line, sportsbook), prop in grouped.items():
         if line is None:
             continue
-        pid = resolve_player_id(player_name, prop.get("home_team"), name_index, stats_df)
+        # A name collision could be either team in this game, so both are
+        # eligible for the tiebreak - not just home_team (see name_match.py).
+        game_teams = {team_abbr.get(prop.get("home_team")), team_abbr.get(prop.get("away_team"))}
+        pid = resolve_player_id(player_name, game_teams, name_index, stats_df)
         if pid is None or pid not in games_by_player:
             unmatched.add(player_name)
             continue
