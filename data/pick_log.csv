@@ -45,3 +45,5 @@ nfl|00-0034837|player_reception_yds|26.5|2026-09-13T17:00:00Z,2026-09-06 18:00 U
 nfl|00-0037741|player_receptions|1.5|2026-09-13T17:00:00Z,2026-09-06 18:00 UTC,nfl,NFL,00-0037741,Jahan Dotson,ATL,player_receptions,Receptions,1.5,Under,136,0.9,0.4763,10,2026-09-13T17:00:00Z,pending,,,
 nfl|00-0033526|player_rush_yds|19.5|2026-09-13T17:00:00Z,2026-09-06 18:00 UTC,nfl,NFL,00-0033526,Samaje Perine,CIN,player_rush_yds,Rush Yds,19.5,Under,-111,1.0,0.4739,10,2026-09-13T17:00:00Z,pending,,,
 nfl|00-0034837|player_reception_yds|25.5|2026-09-13T17:00:00Z,2026-09-06 18:00 UTC,nfl,NFL,00-0034837,Calvin Ridley,TEN,player_reception_yds,Rec Yds,25.5,Over,-114,1.0,0.4673,10,2026-09-13T17:00:00Z,pending,,,
+nfl|00-0036223|player_reception_yds|15.5|2026-09-13T17:00:00Z,2026-09-07 01:03 UTC,nfl,NFL,00-0036223,Jonathan Taylor,IND,player_reception_yds,Rec Yds,15.5,Under,-110,1.0,0.4762,10,2026-09-13T17:00:00Z,pending,,,
+nfl|00-0034837|player_reception_yds|27.5|2026-09-13T17:00:00Z,2026-09-07 01:03 UTC,nfl,NFL,00-0034837,Calvin Ridley,TEN,player_reception_yds,Rec Yds,27.5,Over,-114,1.0,0.4673,10,2026-09-13T17:00:00Z,pending,,,
