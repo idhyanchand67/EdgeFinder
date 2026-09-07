@@ -47,3 +47,8 @@ nfl|00-0033526|player_rush_yds|19.5|2026-09-13T17:00:00Z,2026-09-06 18:00 UTC,nf
 nfl|00-0034837|player_reception_yds|25.5|2026-09-13T17:00:00Z,2026-09-06 18:00 UTC,nfl,NFL,00-0034837,Calvin Ridley,TEN,player_reception_yds,Rec Yds,25.5,Over,-114,1.0,0.4673,10,2026-09-13T17:00:00Z,pending,,,
 nfl|00-0036223|player_reception_yds|15.5|2026-09-13T17:00:00Z,2026-09-07 01:03 UTC,nfl,NFL,00-0036223,Jonathan Taylor,IND,player_reception_yds,Rec Yds,15.5,Under,-110,1.0,0.4762,10,2026-09-13T17:00:00Z,pending,,,
 nfl|00-0034837|player_reception_yds|27.5|2026-09-13T17:00:00Z,2026-09-07 01:03 UTC,nfl,NFL,00-0034837,Calvin Ridley,TEN,player_reception_yds,Rec Yds,27.5,Over,-114,1.0,0.4673,10,2026-09-13T17:00:00Z,pending,,,
+mlb|4917919|batter_rbis|0.5|2026-09-08T02:06:00Z,2026-09-07 18:17 UTC,mlb,MLB,4917919,Lawrence Butler,ATH,batter_rbis,RBIs,0.5,Over,232,0.8,0.4988,10,2026-09-08T02:06:00Z,pending,,,
+mlb|33859|batter_home_runs|0.5|2026-09-08T00:11:00Z,2026-09-07 18:17 UTC,mlb,MLB,33859,Rafael Devers,SF,batter_home_runs,Home Runs,0.5,Over,370,0.7,0.4872,10,2026-09-08T00:11:00Z,pending,,,
+nfl|00-0036223|player_reception_yds|16.5|2026-09-13T17:00:00Z,2026-09-07 18:17 UTC,nfl,NFL,00-0036223,Jonathan Taylor,IND,player_reception_yds,Rec Yds,16.5,Under,-114,1.0,0.4673,10,2026-09-13T17:00:00Z,pending,,,
+nfl|00-0036223|player_reception_yds|18.5|2026-09-13T17:00:00Z,2026-09-07 18:17 UTC,nfl,NFL,00-0036223,Jonathan Taylor,IND,player_reception_yds,Rec Yds,18.5,Under,-114,1.0,0.4673,10,2026-09-13T17:00:00Z,pending,,,
+nfl|00-0033526|player_reception_yds|6.5|2026-09-13T17:00:00Z,2026-09-07 18:17 UTC,nfl,NFL,00-0033526,Samaje Perine,CIN,player_reception_yds,Rec Yds,6.5,Over,-114,1.0,0.4673,10,2026-09-13T17:00:00Z,pending,,,
