@@ -8,6 +8,10 @@ MLB, and NHL, rendered as a single sortable/filterable `report.html`.
 whether the *current* line already prices that pattern in. Treat this as a
 research filter, not a signal to bet blind.
 
+See [CHANGELOG.md](CHANGELOG.md) for the full history of what's shipped, or
+[Engineering notes](#engineering-notes-real-bugs-found-and-fixed) below for a
+few of the more interesting production bugs found and fixed along the way.
+
 ## How it works
 
 1. **Historical stats**, one adapter per sport:
@@ -165,7 +169,66 @@ opening logs) and a step-summary block, without failing the run - stale
 grading points at a data problem, not a reason to hold back the report itself.
 This exists because two real bugs (a player-id type mismatch, and entire days
 silently dropped from the stats cache) both left picks stuck pending for over
-a week before a user noticed and reported it.
+a week before a user noticed and reported it. The next section covers that
+investigation in more detail, along with two other real bugs.
+
+## Engineering notes: real bugs, found and fixed
+
+This project has been in close-to-daily development since late August 2026,
+pulling from three separate undocumented or unofficial data sources on a
+schedule. That's produced real production incidents - not hypothetical
+edge cases, but ones that actually shipped, actually broke something a user
+was looking at, and got diagnosed and fixed with a regression test to prove
+it. Three of them, left un-sanitized rather than cleaned up after the fact
+(full history in [CHANGELOG.md](CHANGELOG.md)):
+
+**A type mismatch that silently broke grading for three sports, for over a
+week.** A user reported that a lot of track-record picks were still stuck
+"pending" days after their games had ended. That turned out to be two
+separate bugs stacked on top of each other. First: MLB/NBA/NHL player IDs
+are pure-digit strings, so reading the stats cache back from its CSV with no
+dtype hint silently makes pandas infer `int64` - but the pick log always
+keeps IDs as `str` (any NFL-style non-numeric ID forces the whole column to
+stay `object` dtype). Every grading lookup for a non-NFL sport was comparing
+`int64` against `str` and matching nothing, ever. Second, and harder to
+find: the stats backfill only ever looks forward from the last
+successfully-cached date, so a single transient API failure on any one day
+quietly and *permanently* dropped that day once a later day succeeded.
+Confirmed directly against the real cache by cross-checking it against
+ESPN's live scoreboard, day by day: five separate days were completely
+missing - zero of their real completed games cached, not a partial gap.
+Fixed both (forced `str` at the cache boundary; a self-healing rescan window
+instead of a hard `last_date + 1` cutoff), then added an automated check
+(`find_stale_pending`, see above) so the next version of this bug class
+surfaces as a loud warning on the very next run instead of sitting there
+silently for a week.
+
+**A name collision that resolved to the wrong player, in a game he wasn't
+even in.** The report's own #1 highest-edge MLB pick had a blank matchup
+column. The obvious culprit was a stale doc string ("Matchup (NFL only)") -
+but that wasn't the real bug underneath it. Two different active MLB
+players share the name "Jose Fermin," one on the Angels, one on the
+Cardinals, and the disambiguation logic was comparing the Odds API's raw
+team name ("Colorado Rockies") directly against a stats abbreviation
+("COL") - a comparison that could never succeed - while only ever checking
+the home team, never the away team. The Cardinals' Fermin's Cardinals-@-
+Rockies prop was resolving to the Angels' Fermin, who wasn't in that game
+at all. Fixed by wiring each sport's team-abbreviation map into the
+resolver and checking both sides of the actual game, with a regression test
+that reproduces the exact collision shape.
+
+**Shipped a fix, then rebuilt it after the user showed it was wrong.**
+Early on, some NFL players were showing up attached to games their team had
+nothing to do with. The first fix filtered those out as bad odds-feed data
+- reasonable-looking, and wrong. The user corrected it directly: those
+weren't bad data, they were real offseason trades (specific players,
+specific teams) that the underlying stats source hadn't caught up to yet,
+since a trade doesn't show up in nflverse's game logs until the player has
+actually played a game for their new team. The filter-based fix was
+actively dropping *legitimate* current props. Rebuilt with
+`current_roster.py`, which pulls ESPN's live rosters and corrects the stale
+team *before* anything else runs, so the original filter now only catches
+what it was actually meant to: genuinely bad data, not real trades.
 
 ## Quick start
 
