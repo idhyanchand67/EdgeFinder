@@ -1,4 +1,5 @@
 """NFL: stats from nflverse's free weekly player-stats release (no API key)."""
+import io
 import time
 from datetime import date, datetime, timedelta
 
@@ -8,8 +9,14 @@ import requests
 from .. import config
 from .base import SportConfig
 
+# nflverse's old combined player_stats.csv release stopped updating after
+# the 2024 season (last asset update: 2025-05-07) - they've since moved to
+# one file per season under the stats_player release instead. Column names
+# line up (team/opponent_team/season/week/season_type and every MARKET_MAP
+# column below are all still named the same), so this is a source swap, not
+# a schema migration.
 NFLVERSE_STATS_URL = (
-    "https://github.com/nflverse/nflverse-data/releases/download/player_stats/player_stats.csv"
+    "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_{season}.csv"
 )
 SEASONS_BACK = 3
 
@@ -42,21 +49,46 @@ def fetch_stats(force: bool = False) -> pd.DataFrame:
         _download(cache)
 
     df = pd.read_csv(cache, low_memory=False)
+    # A bye-week team gets one all-null placeholder row per week in this
+    # source (no player_id, no player_display_name, every stat 0) - real
+    # production crash: normalize_name() blew up calling .lower() on that
+    # NaN display name. These aren't real player-games, drop them.
+    df = df[df["player_id"].notna()]
     df = df[df["season_type"] == "REG"]
     current_season = int(df["season"].max())
     df = df[df["season"] >= current_season - SEASONS_BACK + 1]
-    df = df.rename(columns={"recent_team": "team"})
     df = df.sort_values(["season", "week"])
     return df.reset_index(drop=True)
 
 
 def _download(cache_path) -> None:
-    print(f"[nfl] downloading player stats from {NFLVERSE_STATS_URL} ...")
-    resp = requests.get(NFLVERSE_STATS_URL, timeout=120)
-    resp.raise_for_status()
+    """A season's file doesn't exist until that season's games start (e.g.
+    no stats_player_week_2026.csv until Week 1 has been played), so this
+    probes backward from the current year and keeps whatever SEASONS_BACK
+    most-recent seasons actually have a published file - tolerating up to 2
+    misses so an early-season gap (this year not published yet) doesn't
+    starve the whole fetch."""
+    frames = []
+    year = date.today().year
+    misses = 0
+    while len(frames) < SEASONS_BACK and misses < 2:
+        url = NFLVERSE_STATS_URL.format(season=year)
+        resp = requests.get(url, timeout=60)
+        if resp.status_code == 404:
+            print(f"[nfl] no stats_player_week_{year}.csv yet - trying {year - 1}")
+            misses += 1
+            year -= 1
+            continue
+        resp.raise_for_status()
+        frames.append(pd.read_csv(io.BytesIO(resp.content), low_memory=False))
+        print(f"[nfl] downloaded {year} season stats ({len(resp.content) / 1e6:.1f} MB)")
+        year -= 1
+    if not frames:
+        raise RuntimeError("[nfl] couldn't find any published nflverse season stats file")
+    combined = pd.concat(frames, ignore_index=True)
     cache_path.parent.mkdir(parents=True, exist_ok=True)
-    cache_path.write_bytes(resp.content)
-    print(f"[nfl] saved {len(resp.content) / 1e6:.1f} MB to {cache_path}")
+    combined.to_csv(cache_path, index=False)
+    print(f"[nfl] saved {len(combined)} rows across {len(frames)} season(s) to {cache_path}")
 
 
 def _regular_season_start(year: int) -> date:

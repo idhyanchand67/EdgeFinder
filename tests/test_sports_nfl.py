@@ -5,6 +5,69 @@ import pandas as pd
 from src.sports import nfl
 
 
+class _FakeResponse:
+    def __init__(self, status_code, body=b""):
+        self.status_code = status_code
+        self.content = body
+
+    def raise_for_status(self):
+        if self.status_code >= 400:
+            raise Exception(f"HTTP {self.status_code}")
+
+
+def _season_csv_bytes(season):
+    df = pd.DataFrame([{"season": season, "week": 1, "season_type": "REG", "team": "AAA",
+                         "opponent_team": "BBB", "position": "WR", "player_id": "p1",
+                         "player_display_name": "Test Player", "passing_yards": 0}])
+    return df.to_csv(index=False).encode()
+
+
+def test_download_probes_backward_when_current_season_not_yet_published(tmp_path, monkeypatch):
+    """Regression test for a real bug: nflverse's old combined player_stats.csv
+    release silently stopped updating after the 2024 season, so lookback data
+    was a full season stale (missing 2025) without a single request failing -
+    _download now pulls one file per season and needs to tolerate the current
+    year's file not existing yet (it doesn't exist until that season's games
+    start) rather than treating that as a fatal error."""
+    monkeypatch.setattr(nfl, "date", type("D", (date,), {"today": classmethod(lambda cls: date(2026, 9, 8))}))
+
+    def fake_get(url, timeout=60):
+        if "2026" in url:
+            return _FakeResponse(404)
+        for season in (2025, 2024, 2023):
+            if str(season) in url:
+                return _FakeResponse(200, _season_csv_bytes(season))
+        raise AssertionError(f"unexpected url {url}")
+
+    monkeypatch.setattr(nfl.requests, "get", fake_get)
+    cache_path = tmp_path / "nfl_stats.csv"
+    nfl._download(cache_path)
+
+    result = pd.read_csv(cache_path)
+    assert sorted(result["season"].unique()) == [2023, 2024, 2025]
+
+
+def test_fetch_stats_drops_bye_week_placeholder_rows(tmp_path, monkeypatch):
+    """Regression test for a real crash: this source gives a bye-week team one
+    all-null placeholder row per week (no player_id, no player_display_name,
+    every stat 0) instead of just omitting that team - normalize_name() blew
+    up calling .lower() on that NaN display name the moment this data reached
+    build_name_index. These aren't real player-games and must be dropped
+    before anything downstream sees them."""
+    cache_path = tmp_path / "nfl_stats.csv"
+    monkeypatch.setattr(nfl.config, "stats_cache_path", lambda sport_key, suffix="csv": cache_path)
+    pd.DataFrame([
+        {"player_id": "p1", "player_display_name": "Real Player", "position": "WR", "team": "AAA",
+         "season": 2025, "week": 1, "season_type": "REG"},
+        {"player_id": None, "player_display_name": None, "position": None, "team": "BBB",
+         "season": 2025, "week": 1, "season_type": "REG"},
+    ]).to_csv(cache_path, index=False)
+
+    df = nfl.fetch_stats()
+    assert len(df) == 1
+    assert df.iloc[0]["player_id"] == "p1"
+
+
 def test_regular_season_start_is_thursday_after_labor_day():
     # 2026: Sept 1 is a Tuesday, so Labor Day (first Monday) is Sept 7,
     # and Week 1 kicks off Thursday Sept 10.
