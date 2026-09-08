@@ -124,7 +124,13 @@ def grade_pending(log_df: pd.DataFrame, sport, stats_df: pd.DataFrame, now: date
     """Grades logged picks for this sport whose games are old enough to have finished."""
     now = now or datetime.now(timezone.utc)
     matcher = sport.match_game or _default_match_game
-    games_by_player = {pid: rows for pid, rows in stats_df.groupby("player_id")}
+    # Keyed by str(player_id): stats_df's player_id can be int64 (a numeric-
+    # looking id read back from a CSV cache) while the log's is always str
+    # (CSV round-tripping any non-numeric id, like NFL's, forces the whole
+    # column to object dtype) - comparing them directly silently matches
+    # nothing, every run, forever. See espn_common.backfill for the same fix
+    # on the stats-cache side.
+    games_by_player = {str(pid): rows for pid, rows in stats_df.groupby("player_id")}
 
     pending_mask = (log_df["status"] == "pending") & (log_df["sport"] == sport.key)
     graded_count = 0
@@ -137,7 +143,7 @@ def grade_pending(log_df: pd.DataFrame, sport, stats_df: pd.DataFrame, now: date
         if now < commence_dt.to_pydatetime() + GRADE_BUFFER:
             continue  # game hasn't happened (or finished) yet
 
-        player_games = games_by_player.get(row["player_id"])
+        player_games = games_by_player.get(str(row["player_id"]))
         if player_games is None:
             continue
         game_row = matcher(player_games, commence)

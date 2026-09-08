@@ -18,6 +18,7 @@ from .. import config
 
 BASE = "https://site.api.espn.com/apis/site/v2/sports"
 REQUEST_DELAY = 0.15  # be polite to an unofficial, unauthenticated endpoint
+RESCAN_WINDOW_DAYS = 5  # re-check this many already-cached days on every run - see backfill()
 
 # One row per (player, game). extract_fn turns one team's boxscore block into rows.
 ExtractFn = Callable[[dict, dict, str], list[dict]]
@@ -69,15 +70,30 @@ def backfill(sport_key: str, league_path: str, extract_fn: ExtractFn, days_back:
     seen_event_ids: set[str] = set()
 
     if cache_path.exists() and cache_path.stat().st_size > 0 and not force:
-        existing = pd.read_csv(cache_path, low_memory=False)
+        # player_id is a pure-digit ESPN id, so without an explicit dtype
+        # read_csv infers int64 on every cached reload - but a freshly-parsed
+        # in-memory row (see extract_fn) always has it as the string straight
+        # out of the JSON. That mismatch made grade_pending's player_id
+        # lookups silently fail forever (a real production bug: MLB picks
+        # stuck "pending" days after their games ended).
+        existing = pd.read_csv(cache_path, low_memory=False, dtype={"player_id": str})
         if existing.empty:
             existing = None
 
     if existing is not None:
         seen_event_ids = set(existing["event_id"].astype(str))
         last_date = pd.to_datetime(existing["game_date"]).max().date()
-        start = last_date + timedelta(days=1)
-        print(f"[{sport_key}] {len(existing)} cached rows through {last_date}, fetching new games since then")
+        # Re-scan a trailing window instead of starting exactly at last_date+1:
+        # a real production bug had a handful of individual days silently and
+        # permanently dropped (an ESPN scoreboard request that failed - see
+        # the except clause below - just moves on to the next day, and once
+        # a later day succeeds, last_date advances past the failed one
+        # forever). seen_event_ids already dedupes anything already cached,
+        # so re-querying a few already-covered days just to catch a transient
+        # gap costs a handful of extra requests, not extra rows.
+        start = last_date - timedelta(days=RESCAN_WINDOW_DAYS)
+        print(f"[{sport_key}] {len(existing)} cached rows through {last_date}, "
+              f"re-scanning the last {RESCAN_WINDOW_DAYS} days for gaps and fetching anything newer")
     else:
         start = date.today() - timedelta(days=days_back)
         print(f"[{sport_key}] no cache (or --refresh-stats) - backfilling last {days_back} days")

@@ -134,6 +134,21 @@ def test_grade_pending_marks_push_on_exact_tie():
     assert graded.iloc[0]["result"] == "PUSH"
 
 
+def test_grade_pending_matches_player_id_across_int_and_str_types():
+    """Regression test for a real production bug: stats_df's player_id can be
+    numpy int64 (a pure-digit id read back from the CSV cache infers numeric
+    dtype) while the log's is always str (CSV round-tripping any non-numeric
+    id, like NFL's, forces the whole column to object/str) - comparing them
+    directly matched nothing, so every MLB/NBA/NHL pick stayed "pending"
+    forever even days after its game ended."""
+    log_df = pd.DataFrame([_pending_log_row(player_id="12345", side="Over", line=20.5)])
+    stats_df = pd.DataFrame([{"player_id": 12345, "pts": 25.0}])  # int, not str
+    now = datetime.fromisoformat("2026-02-01T12:00:00+00:00")
+    graded = track_record.grade_pending(log_df, _sport_with_matcher(), stats_df, now=now)
+    assert graded.iloc[0]["result"] == "HIT"
+    assert graded.iloc[0]["status"] == "graded"
+
+
 def test_grade_pending_respects_the_grade_buffer():
     """A game that just finished (or hasn't finished yet) shouldn't be graded -
     stays pending until enough time has passed."""
