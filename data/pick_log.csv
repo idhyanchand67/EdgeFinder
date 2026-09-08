@@ -55,3 +55,8 @@ nfl|00-0033526|player_reception_yds|6.5|2026-09-13T17:00:00Z,2026-09-07 18:17 UT
 mlb|4927516|batter_strikeouts|4.5|2026-09-08T01:11:00Z,2026-09-08 01:14 UTC,mlb,MLB,4927516,Chase Burns,CIN,batter_strikeouts,Batter Ks,4.5,Under,102,1.0,0.505,7,2026-09-08T01:11:00Z,pending,,,
 mlb|41216|pitcher_strikeouts|7.5|2026-09-08T00:11:00Z,2026-09-08 01:14 UTC,mlb,MLB,41216,Logan Webb,SF,pitcher_strikeouts,Pitcher Ks,7.5,Under,150,0.889,0.489,9,2026-09-08T00:11:00Z,pending,,,
 nfl|00-0033921|player_reception_yds|41.5|2026-09-13T17:00:00Z,2026-09-08 01:14 UTC,nfl,NFL,00-0033921,Chris Godwin,TB,player_reception_yds,Rec Yds,41.5,Over,-109,1.0,0.4785,10,2026-09-13T17:00:00Z,pending,,,
+mlb|5134494|batter_hits|0.5|2026-09-08T02:06:00Z,2026-09-08 03:43 UTC,mlb,MLB,5134494,Brett Bateman,TOR,batter_hits,Hits,0.5,Over,270,0.9,0.6297,10,2026-09-08T02:06:00Z,pending,,,
+mlb|42239|pitcher_strikeouts|2.5|2026-09-08T02:06:00Z,2026-09-08 03:43 UTC,mlb,MLB,42239,Jacob Lopez,ATH,pitcher_strikeouts,Pitcher Ks,2.5,Over,125,1.0,0.5556,8,2026-09-08T02:06:00Z,pending,,,
+mlb|33954|batter_hits|0.5|2026-09-08T22:46:00Z,2026-09-08 03:43 UTC,mlb,MLB,33954,Jose Siri,LAA,batter_hits,Hits,0.5,Under,106,1.0,0.5146,10,2026-09-08T22:46:00Z,pending,,,
+nfl|00-0033526|player_reception_yds|7.5|2026-09-13T17:00:00Z,2026-09-08 03:43 UTC,nfl,NFL,00-0033526,Samaje Perine,CIN,player_reception_yds,Rec Yds,7.5,Over,-107,1.0,0.4831,10,2026-09-13T17:00:00Z,pending,,,
+mlb|33900|batter_rbis|0.5|2026-09-08T02:06:00Z,2026-09-08 03:43 UTC,mlb,MLB,33900,Jeff McNeil,ATH,batter_rbis,RBIs,0.5,Over,750,0.6,0.4824,10,2026-09-08T02:06:00Z,pending,,,
