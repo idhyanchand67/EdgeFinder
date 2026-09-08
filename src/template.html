@@ -116,18 +116,22 @@
   .stat .value.accent { color: var(--accent); }
 
   .controls {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    gap: 16px;
-    padding: 16px 28px;
+    padding: 14px 28px;
     background: var(--panel-2);
     border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
     z-index: 3;
   }
-  .controls .field { display: flex; flex-direction: column; gap: 5px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  .controls-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 18px 16px;
+  }
+  .controls-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; margin-bottom: 12px; }
+  .controls-fields { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px; }
+  .controls-fields .field { display: flex; flex-direction: column; gap: 5px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
   input, select {
     background: var(--panel);
     color: var(--text);
@@ -377,29 +381,34 @@ edge = hit_rate - implied_probability</span>
 <div class="summary" id="summary"></div>
 
 <div class="controls">
-  <div class="field">Search player
-    <input type="text" id="fSearch" placeholder="e.g. Chase">
-  </div>
-  <div class="field">Day
-    <select id="fDay"><option value="">All upcoming</option></select>
-  </div>
-  <div class="field">Sport
-    <select id="fSport"><option value="">All</option></select>
-  </div>
-  <div class="field">Position
-    <select id="fPos"><option value="">All</option></select>
-  </div>
-  <div class="field">Market
-    <select id="fMarket"><option value="">All</option></select>
-  </div>
-  <div class="field">Sportsbook
-    <select id="fBook"><option value="">All</option></select>
-  </div>
-  <div class="field">Min hit rate: <span class="rangeval" id="fHitVal">70%</span>
-    <input type="range" id="fHit" min="0" max="100" value="70" step="5">
-  </div>
-  <div class="field">Min sample
-    <input type="number" id="fSample" min="1" max="20" value="5">
+  <div class="controls-card">
+    <div class="controls-title">Apply filters for the picks below</div>
+    <div class="controls-fields">
+      <div class="field">Search player
+        <input type="text" id="fSearch" placeholder="e.g. Chase">
+      </div>
+      <div class="field">Day
+        <select id="fDay"><option value="">All upcoming</option></select>
+      </div>
+      <div class="field">Sport
+        <select id="fSport"><option value="">All</option></select>
+      </div>
+      <div class="field">Position
+        <select id="fPos"><option value="">All</option></select>
+      </div>
+      <div class="field">Market
+        <select id="fMarket"><option value="">All</option></select>
+      </div>
+      <div class="field">Sportsbook
+        <select id="fBook"><option value="">All</option></select>
+      </div>
+      <div class="field">Min hit rate: <span class="rangeval" id="fHitVal">70%</span>
+        <input type="range" id="fHit" min="0" max="100" value="70" step="5">
+      </div>
+      <div class="field">Min sample
+        <input type="number" id="fSample" min="1" max="20" value="5">
+      </div>
+    </div>
   </div>
 </div>
 
