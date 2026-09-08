@@ -32,7 +32,15 @@ few of the more interesting production bugs found and fixed along the way.
    needed. A **Top 10 picks** panel up top surfaces the best props for
    whichever day is selected (defaults to the nearest upcoming slate). Below
    that, the full table filters by day, sport, position, market, minimum hit
-   rate, and minimum sample size, and sorts by clicking any column.
+   rate, and minimum sample size.
+
+   **Grouped by game, not just one long edge-sorted list.** A slate's worth
+   of props sorted purely by edge scatters picks from a dozen different
+   games together, which makes "what's good in the game I actually care
+   about" hard to answer. The table instead groups every prop under its own
+   game - kickoff-soonest first, a "N picks · best edge" header per game,
+   props inside sorted by whichever column is clicked (edge by default). A
+   row of game chips above the table jumps straight to any game's section.
 5. **Ranked by edge, not raw hit rate.** A prop that's "hit" 100% of its last
    10 games isn't interesting if the book already prices it as a near-certainty
    (e.g. a home-run prop's Under, at -2000) - the price already knows. Edge is
