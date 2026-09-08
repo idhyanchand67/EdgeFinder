@@ -157,6 +157,16 @@ immediately - it just takes time to accumulate, since a pick logged today
 can't be graded until its game has actually been played. There's no way to
 backfill history that was never logged.
 
+**Data-integrity check:** a pick still pending more than 24h after its game
+(plus the grading buffer) ended almost always means the stats pipeline broke
+for it somewhere, not that grading is just slow. Every run flags any such
+picks as a `::warning::` annotation (visible on the Actions run page without
+opening logs) and a step-summary block, without failing the run - stale
+grading points at a data problem, not a reason to hold back the report itself.
+This exists because two real bugs (a player-id type mismatch, and entire days
+silently dropped from the stats cache) both left picks stuck pending for over
+a week before a user noticed and reported it.
+
 ## Quick start
 
 ```bash

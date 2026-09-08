@@ -170,3 +170,35 @@ def test_summary_excludes_pushes_from_hit_rate():
     assert s["graded"] == 2  # PUSH excluded from the decisive count
     assert s["hit_rate"] == 0.5
     assert s["pending"] == 1
+
+
+def test_find_stale_pending_flags_a_pick_whose_game_ended_over_a_day_ago():
+    """A pick still pending long after its game (plus the 6h grade buffer)
+    ended almost always means the stats pipeline silently broke for it, not
+    that grading is just running slow - this is the general-purpose canary
+    for exactly the kind of bug that left real picks stuck for days without
+    anyone noticing until a user pointed it out."""
+    log_df = pd.DataFrame([_pending_log_row(commence_time="2026-02-01T00:00:00Z")])
+    # commence + 6h buffer = 06:00; 30h after that is stale, well past STALE_THRESHOLD (24h)
+    now = datetime.fromisoformat("2026-02-02T12:00:00+00:00")
+    stale = track_record.find_stale_pending(log_df, now=now)
+    assert len(stale) == 1
+
+
+def test_find_stale_pending_ignores_a_pick_still_within_the_threshold():
+    log_df = pd.DataFrame([_pending_log_row(commence_time="2026-02-01T00:00:00Z")])
+    now = datetime.fromisoformat("2026-02-01T10:00:00+00:00")  # only 4h past the 6h buffer
+    stale = track_record.find_stale_pending(log_df, now=now)
+    assert len(stale) == 0
+
+
+def test_find_stale_pending_ignores_already_graded_picks():
+    log_df = pd.DataFrame([_pending_log_row(status="graded", commence_time="2026-01-01T00:00:00Z")])
+    now = datetime.fromisoformat("2026-02-02T12:00:00+00:00")
+    stale = track_record.find_stale_pending(log_df, now=now)
+    assert len(stale) == 0
+
+
+def test_find_stale_pending_handles_empty_log():
+    empty_log = pd.DataFrame(columns=track_record.LOG_COLUMNS)
+    assert len(track_record.find_stale_pending(empty_log, now=datetime.now(timezone.utc))) == 0

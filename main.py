@@ -9,6 +9,7 @@ Usage:
 """
 import argparse
 import json
+import os
 from datetime import datetime, timezone
 
 from src import build_report, config, current_roster, fetch_odds, hit_rates, injuries, track_record
@@ -18,6 +19,33 @@ from src.sports import mlb as mlb_sport
 from src.sports import nba as nba_sport
 from src.sports import nfl as nfl_sport
 from src.sports import nhl as nhl_sport
+
+
+def report_stale_pending(stale_df) -> None:
+    """Surfaces picks find_stale_pending() flagged as stuck - loudly, but
+    without failing the run: a stale pick means the stats pipeline needs a
+    look, not that this run's report shouldn't ship. Uses GitHub Actions'
+    ::warning:: annotation syntax (shows up on the run summary page without
+    opening logs) and, when running in Actions, writes a step-summary block
+    too - both are free of any external notification setup."""
+    lines = [
+        f"{r['sport_label']} {r['player']} - {r['market_label']} @ {r['line']} - game ended {r['commence_time']}"
+        for _, r in stale_df.iterrows()
+    ]
+    print(f"::warning::{len(stale_df)} pick(s) stuck pending more than 24h past their grade buffer - "
+          f"likely a stats-data gap, not a slow game (see step summary / job log for details)")
+    for line in lines:
+        print(f"  [track_record] STALE PENDING: {line}")
+
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if summary_path:
+        with open(summary_path, "a", encoding="utf-8") as f:
+            f.write(f"\n## ⚠️ {len(stale_df)} stale pending pick(s)\n\n")
+            f.write("Game ended over 24h ago but never graded - almost always a stats-data gap "
+                    "(e.g. a missing/mismatched player id, or a dropped day in the stats cache), "
+                    "not a slow game:\n\n")
+            for line in lines:
+                f.write(f"- {line}\n")
 
 
 def main():
@@ -97,6 +125,10 @@ def main():
     if not args.demo:
         log_df = track_record.log_new_picks(log_df, all_results)
         track_record.save_log(log_df)
+
+        stale = track_record.find_stale_pending(log_df)
+        if len(stale):
+            report_stale_pending(stale)
 
     meta = {
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),

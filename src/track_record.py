@@ -181,6 +181,28 @@ def grade_pending(log_df: pd.DataFrame, sport, stats_df: pd.DataFrame, now: date
     return log_df
 
 
+STALE_THRESHOLD = timedelta(hours=24)  # on top of GRADE_BUFFER - see find_stale_pending
+
+
+def find_stale_pending(log_df: pd.DataFrame, now: datetime = None) -> pd.DataFrame:
+    """Pending picks whose game finished (commence_time + GRADE_BUFFER) more
+    than STALE_THRESHOLD ago and still haven't graded. A normal, healthy
+    pipeline clears a pick within a run or two of its game ending; one still
+    stuck a full day later almost always means the underlying stats data is
+    broken somehow - not a slow pick, a silent gap. This is exactly the shape
+    of two real production bugs (a player_id dtype mismatch and entire days
+    silently dropped from the stats cache) that otherwise went unnoticed for
+    over a week, because neither one raised an exception anywhere - the
+    pipeline just quietly stopped grading affected picks."""
+    now = now or datetime.now(timezone.utc)
+    pending = log_df[log_df["status"] == "pending"]
+    if pending.empty:
+        return pending
+    commence = pd.to_datetime(pending["commence_time"], utc=True, errors="coerce")
+    age = now - (commence + GRADE_BUFFER)
+    return pending[age > STALE_THRESHOLD]
+
+
 def summary(log_df: pd.DataFrame) -> dict:
     graded = log_df[log_df["status"] == "graded"]
     decisive = graded[graded["result"] != "PUSH"]
