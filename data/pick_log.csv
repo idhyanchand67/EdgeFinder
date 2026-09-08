@@ -52,3 +52,6 @@ mlb|33859|batter_home_runs|0.5|2026-09-08T00:11:00Z,2026-09-07 18:17 UTC,mlb,MLB
 nfl|00-0036223|player_reception_yds|16.5|2026-09-13T17:00:00Z,2026-09-07 18:17 UTC,nfl,NFL,00-0036223,Jonathan Taylor,IND,player_reception_yds,Rec Yds,16.5,Under,-114,1.0,0.4673,10,2026-09-13T17:00:00Z,pending,,,
 nfl|00-0036223|player_reception_yds|18.5|2026-09-13T17:00:00Z,2026-09-07 18:17 UTC,nfl,NFL,00-0036223,Jonathan Taylor,IND,player_reception_yds,Rec Yds,18.5,Under,-114,1.0,0.4673,10,2026-09-13T17:00:00Z,pending,,,
 nfl|00-0033526|player_reception_yds|6.5|2026-09-13T17:00:00Z,2026-09-07 18:17 UTC,nfl,NFL,00-0033526,Samaje Perine,CIN,player_reception_yds,Rec Yds,6.5,Over,-114,1.0,0.4673,10,2026-09-13T17:00:00Z,pending,,,
+mlb|4927516|batter_strikeouts|4.5|2026-09-08T01:11:00Z,2026-09-08 01:14 UTC,mlb,MLB,4927516,Chase Burns,CIN,batter_strikeouts,Batter Ks,4.5,Under,102,1.0,0.505,7,2026-09-08T01:11:00Z,pending,,,
+mlb|41216|pitcher_strikeouts|7.5|2026-09-08T00:11:00Z,2026-09-08 01:14 UTC,mlb,MLB,41216,Logan Webb,SF,pitcher_strikeouts,Pitcher Ks,7.5,Under,150,0.889,0.489,9,2026-09-08T00:11:00Z,pending,,,
+nfl|00-0033921|player_reception_yds|41.5|2026-09-13T17:00:00Z,2026-09-08 01:14 UTC,nfl,NFL,00-0033921,Chris Godwin,TB,player_reception_yds,Rec Yds,41.5,Over,-109,1.0,0.4785,10,2026-09-13T17:00:00Z,pending,,,
