@@ -92,30 +92,130 @@ Never resolve a conflict here by discarding the other session's entry.
   sessions. They touch only `data/pick_log.csv`.
 - NBA and NHL are off-season as of this writing; their matchup logic was
   verified against synthetic data only, not real games.
+- **Track record is 90 picks / 37 graded / 53 pending, spanning 2026-09-03 to
+  2026-09-10.** Any analysis proposing a season-scale split does not have the
+  data to run yet. Check the actual date range before designing a test.
 
 ## Open threads
 
 *Living section - overwrite, don't append.*
 
-- **Statistical soundness review, opened by cc/2026-09-10.** Five specific,
-  falsifiable challenges below - see the log entry for detail. Whoever picks
-  this up: don't just argue back, go run/read something and answer with
-  CONFIRMED or REFUTED plus the evidence. Vibes-based rebuttals don't close a
-  thread here.
-  1. Does "edge" survive its own confidence interval?
-  2. Is the Top-10-by-edge sweep a multiple-comparisons/winner's-curse
-     artifact - does graded hit rate decay over the season?
-  3. Does `scripts/backtest.py` actually avoid look-ahead leakage, verified
-     by reading it, not by trusting the README's description of it?
-  4. Is "edge" partly just re-detecting information the book has already
-     priced in (no opening-vs-closing line data exists to check this -
-     that absence is itself a finding)?
-  5. How correlated are same-run Top-10 picks (same game/team), and does the
-     site's presentation imply more diversification than exists?
+Three of the five threads opened by cc/2026-09-10 are closed (see the verdict
+entry in the log). What remains, plus two new items found while closing them:
+
+- **The headline hit rate is not statistically distinguishable from a coin
+  flip, and the README states it as if it were.** 23/37 = 62.2%, Wilson 95%
+  CI 46.1%-75.9%. The interval contains 50%. Highest-priority open item:
+  either the README's claim gets a stated interval next to it, or it stops
+  being presented as evidence the method works. Re-run as the graded sample
+  grows - the CI clears 50% at roughly n=90 decided picks if the rate holds.
+- **Top 10 ranks on a raw point estimate, not an interval-adjusted one.**
+  Sign survives Wilson adjustment on 100% of picks, so nothing is *falsely*
+  positive - but mean edge shrinks 29.6pp and the shrink is very uneven (a
+  5-game pick went +50.0pp -> +6.6pp). Ranking, not sign, is what breaks.
+  Open: does ranking by Wilson lower bound change Top 10 composition enough
+  to matter? Not yet run.
+- **Same-run picks are heavily concentrated and the UI doesn't say so.**
+  CONFIRMED: 64/90 picks (71%) share a (kickoff, team) with another pick; one
+  game carries 8 MIN picks. Open: surface a concentration note near Top 10.
+  Beware `commence_time` as a game key - the 20:25Z slot spans 6 teams across
+  3 games; group by (commence_time, team).
+- **Whether edge re-detects already-priced information is still unanswerable,
+  and the gap is wider than first thought.** `pick_log.csv` captures `price`
+  only at pick time - no opening line, no movement. Separately,
+  `scripts/backtest.py` contains no prices at all, so it validates "recent hit
+  rate predicts future hit rate against a median line" and cannot validate
+  "edge" as the app defines it. Open: is opening-line data available on the
+  current Odds API tier?
+- **NEW - `backtest.py` reports an effective sample size it doesn't have.**
+  The loop at `:57` steps `i` by 1, so consecutive records share
+  `lookback-1` trailing and `horizon-1` future games. `summarize()` at `:83`
+  prints that `n` and a correlation as if the records were independent. Open:
+  either stride by `horizon`, or report an effective-n and widen the
+  interpretation accordingly.
+- **NEW - edge shows no gradient against outcomes yet.** Graded picks split
+  into tertiles by `edge_at_pick`: top 67%, middle 58%, bottom 62%. n=12 per
+  bucket, so this proves nothing - but the core ranking variable has no
+  visible relationship to results so far. Re-run at n>=90 graded.
 
 ## Log
 
 *Newest first. Append above the previous entry.*
+
+### 2026-09-10 - cc/2026-09-10b - Verdicts on the five methodology threads
+
+**Context:** cc/2026-09-10 opened five falsifiable challenges and asked for
+CONFIRMED/REFUTED verdicts with evidence attached. Owner asked for them to be
+investigated rather than relayed onward. Every verdict below is backed by a
+line range in the code or a number computed from `data/pick_log.csv` at 90
+picks / 37 graded.
+
+**Did:** No code touched - read-only analysis of `scripts/backtest.py` and
+`data/pick_log.csv`.
+
+**Found:**
+
+- **(1) Edge under its own confidence interval - REFUTED as stated, concern
+  re-aimed.** CONFIRMED: 90/90 picks keep a positive edge using a Wilson 95%
+  lower bound, so the ranking is not surfacing sign-flipped noise. But mean
+  edge shrinks 29.6pp, unevenly - Shane McClanahan (n=5) goes +50.0pp ->
+  +6.6pp, Yamamoto (n=7) +57.5pp -> +22.0pp. The original test asked "does the
+  pick survive?" when the load-bearing question was "does the *order*
+  survive?" It doesn't. Moved to Open threads in that form.
+
+- **(2) Winner's-curse decay - UNTESTABLE as proposed.** CONFIRMED: the pick
+  log spans 2026-09-03 to 2026-09-10. One week. There is no season to split
+  into halves. Splitting the 37 graded picks by logged_at gives 67% (n=18) vs
+  58% (n=19) - directionally consistent with decay, statistically empty.
+  Replaced with a test the data can support: a Wilson interval on the headline
+  rate, which is the finding below.
+
+- **(3) Backtest look-ahead leakage - REFUTED, with line numbers.**
+  `backtest.py:52` sorts by `order_by` *before* values are extracted at `:53`,
+  so the split happens on ordered data. `:58` `line = median(values[:i])` is
+  indices 0..i-1, strictly before i. `:59` `trailing = values[i-lookback:i]`,
+  also strictly before i. `:60` `future = values[i:i+horizon]` begins exactly
+  at i. No overlap between the line/prior windows and the future window, and
+  no off-by-one (`[:i]`, not `[:i+1]`). The implementation matches the
+  README's description of it.
+
+- **(4) Edge as rediscovered public information - CONFIRMED un-checkable, and
+  the gap is wider than the original note said.** CONFIRMED: `pick_log.csv`
+  stores `price` at pick time only - no opening line, no movement, no close.
+  Additionally CONFIRMED: `backtest.py` contains no price data anywhere. It
+  compares a future hit rate against a median-derived line and never touches
+  implied probability, so it structurally cannot validate "edge" as the app
+  defines it - only "recent hit rate predicts future hit rate." That is a
+  weaker claim than the README's framing implies.
+
+- **(5) Correlated same-run picks - CONFIRMED, worse than suspected.** 64/90
+  picks (71%) share a (kickoff, team) with at least one other pick.
+  Distribution of picks per (kickoff, team): 26 singletons, 8 pairs, 6
+  triples, 3 quads, 2 fives, and one team with 8. MIN @ 2026-09-13T20:25:00Z
+  carries 8 picks by itself. Method correction for whoever acts on this: the
+  original note says to group by a `game` column - `pick_log.csv` has no such
+  column. And `commence_time` alone is not a game key: the 20:25Z slot spans 6
+  teams (ARI, LAC, MIN, NE, SF, WAS) across 3 games. Group by
+  (commence_time, team).
+
+**Two findings neither the review nor the README has:**
+
+- **The headline hit rate does not clear its own confidence interval.** 23/37
+  decided = 62.2%; Wilson 95% CI 46.1%-75.9%. It contains 50%. The README
+  presents ~61% as evidence the method works; at this sample size it is not
+  distinguishable from a coin flip. More damaging than anything in the
+  original five, and the first thing that should be addressed.
+
+- **`backtest.py` overstates its own n.** The loop at `:57` advances `i` by 1,
+  so consecutive records share `lookback-1` trailing and `horizon-1` future
+  games. `summarize()` at `:83` reports that `n` and a Pearson correlation as
+  though the records were independent draws. Effective sample size is a small
+  fraction of the printed one. Same independence error as thread (5), sitting
+  in the backtest rather than in the picks.
+
+**Open:** Everything in Open threads above. A caveat that applies to every
+number in this entry as much as to the original review: 37 graded picks
+constrains all of us equally. None of the above is a season-scale result.
 
 ### 2026-09-10 · cc/2026-09-10 · Devil's advocate pass on the core methodology
 
