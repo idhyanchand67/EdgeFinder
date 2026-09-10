@@ -24,7 +24,7 @@ concurrency:
 jobs:
   work:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v6
         with:
@@ -39,7 +39,7 @@ jobs:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           branch_prefix: "ai-notes/"
           claude_args: |
-            --max-turns 25
+            --max-turns 60
             --model claude-sonnet-5
             --allowedTools "Bash,Read,Edit,Write,Grep,Glob"
           prompt: |
@@ -78,6 +78,15 @@ jobs:
                list must not grow every run.
             6. Open a pull request. Describe what you closed, what evidence
                settled it, and anything you are unsure about.
+
+            Work within your turn budget. You have a bounded number of tool
+            calls, and the first run of this workflow exhausted them during
+            analysis and never opened a PR, so all of its work was lost. Be
+            economical: read a file once rather than repeatedly, do the whole
+            analysis in a single Python script instead of many small commands,
+            and keep enough turns in reserve to write the log entry and open
+            the PR. A smaller finished piece of work that lands beats a more
+            ambitious one that never becomes a PR.
 
             Hard constraints:
 

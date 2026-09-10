@@ -22,7 +22,7 @@ jobs:
     # Only review the worker's own branches. Ordinary PRs are untouched.
     if: startsWith(github.head_ref, 'ai-notes/')
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v6
         with:
@@ -37,7 +37,7 @@ jobs:
           # is what lets this review run without opening that door generally.
           allowed_bots: "claude[bot]"
           claude_args: |
-            --max-turns 15
+            --max-turns 30
             --model claude-sonnet-5
             --allowedTools "Bash,Read,Grep,Glob,mcp__github_inline_comment__create_inline_comment"
           prompt: |
