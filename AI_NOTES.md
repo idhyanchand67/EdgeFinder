@@ -95,6 +95,10 @@ Never resolve a conflict here by discarding the other session's entry.
 - **Track record is 90 picks / 37 graded / 53 pending, spanning 2026-09-03 to
   2026-09-10.** Any analysis proposing a season-scale split does not have the
   data to run yet. Check the actual date range before designing a test.
+- **Two scheduled agents now work this file** (see `.github/workflows/`): a
+  weekly worker that takes the top Open thread and opens a PR, and a
+  review-only agent that critiques it. Neither can push to main, edit a
+  workflow, or touch `data/pick_log.csv`. A human merges every change.
 
 ## Open threads
 
