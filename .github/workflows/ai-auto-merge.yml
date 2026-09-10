@@ -1,0 +1,182 @@
+name: AI auto-merge and notify
+
+# Closes the agent loop without a human in it - but only for files that
+# cannot reach the published report. AI_NOTES.md and docs merge themselves;
+# anything under src/, main.py, tests/ or .github/ stops here and waits for a
+# person, because refresh.yml publishes main to GitHub Pages twice a day and
+# an auto-merged code change would go live unread.
+#
+# The merge condition is this script, not the review agent's opinion. An AI
+# deciding whether another AI's work is safe to merge is the failure mode
+# this design exists to avoid. The review agent's critique is advisory: it is
+# there so that the human reading the notification issue later sees a
+# challenge alongside the work, not to gate the merge.
+
+on:
+  workflow_run:
+    workflows: ["AI notes review"]
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  actions: read
+
+concurrency:
+  group: ai-auto-merge
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Resolve the pull request
+        id: pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          num=$(gh api "repos/$REPO/actions/runs/$RUN_ID" --jq '.pull_requests[0].number // empty')
+          if [ -z "$num" ]; then
+            echo "No PR attached to this run - nothing to do."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          head=$(gh api "repos/$REPO/pulls/$num" --jq '.head.ref')
+          sha=$(gh api "repos/$REPO/pulls/$num" --jq '.head.sha')
+          state=$(gh api "repos/$REPO/pulls/$num" --jq '.state')
+          echo "PR #$num  branch=$head  state=$state"
+          if [ "$state" != "open" ]; then
+            echo "PR is not open - nothing to do."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          case "$head" in
+            ai-notes/*) ;;
+            *) echo "Not an agent branch - leaving it alone."
+               echo "skip=true" >> "$GITHUB_OUTPUT"; exit 0 ;;
+          esac
+          {
+            echo "skip=false"
+            echo "number=$num"
+            echo "sha=$sha"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Check changed files against the allowlist
+        id: guard
+        if: steps.pr.outputs.skip == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          NUM: ${{ steps.pr.outputs.number }}
+        run: |
+          set -euo pipefail
+          files=$(gh api --paginate "repos/$REPO/pulls/$NUM/files" --jq '.[].filename')
+          echo "Changed files:"; echo "$files" | sed 's/^/  /'
+
+          blocked=""
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            case "$f" in
+              AI_NOTES.md|README.md|CHANGELOG.md|docs/*) ;;
+              *) blocked="$blocked $f" ;;
+            esac
+          done <<< "$files"
+
+          if [ -n "$blocked" ]; then
+            echo "BLOCKED - outside the notes/docs allowlist:$blocked"
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+            echo "blocked=$blocked" >> "$GITHUB_OUTPUT"
+          else
+            echo "All changed files are within the notes/docs allowlist."
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+            echo "blocked=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Require the test suite to be green
+        id: tests
+        if: steps.pr.outputs.skip == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ steps.pr.outputs.sha }}
+        run: |
+          set -euo pipefail
+          # Any non-success, non-skipped check on this SHA blocks the merge.
+          bad=$(gh api "repos/$REPO/commits/$SHA/check-runs" \
+                  --jq '[.check_runs[] | select(.name != "gate") | select(.status == "completed") | select(.conclusion != "success" and .conclusion != "skipped" and .conclusion != "neutral") | .name] | join(", ")')
+          if [ -n "$bad" ]; then
+            echo "Failing checks: $bad"
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "No failing checks on $SHA."
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Merge
+        id: merge
+        if: >-
+          steps.pr.outputs.skip == 'false' &&
+          steps.guard.outputs.ok == 'true' &&
+          steps.tests.outputs.ok == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          NUM: ${{ steps.pr.outputs.number }}
+        run: |
+          set -euo pipefail
+          gh pr merge "$NUM" --repo "$REPO" --squash --delete-branch
+          echo "merged=true" >> "$GITHUB_OUTPUT"
+
+      - name: Notify
+        if: steps.pr.outputs.skip == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          NUM: ${{ steps.pr.outputs.number }}
+          OWNER: ${{ github.repository_owner }}
+          MERGED: ${{ steps.merge.outputs.merged }}
+          BLOCKED: ${{ steps.guard.outputs.blocked }}
+          TESTS_OK: ${{ steps.tests.outputs.ok }}
+        run: |
+          set -euo pipefail
+          title=$(gh api "repos/$REPO/pulls/$NUM" --jq '.title')
+          url=$(gh api "repos/$REPO/pulls/$NUM" --jq '.html_url')
+          date=$(date -u +%Y-%m-%d)
+
+          if [ "${MERGED:-}" = "true" ]; then
+            subject="AI agents merged work on $date"
+            body=$(printf '%s\n' \
+              "The agent loop ran and merged its own work. Nothing is waiting on you - this is for reading, not for approving." \
+              "" \
+              "**Merged:** [$title]($url)" \
+              "" \
+              "Only AI_NOTES.md and docs can merge this way. Anything touching src/, main.py, tests/ or .github/ would have stopped and asked for you." \
+              "" \
+              "Worth a look at the review agent's comments on that PR - it is told to disagree, and its critique is advisory only, so a merged PR may still carry an open objection." \
+              "" \
+              "If you dislike any of it: \`git revert\` on main undoes it cleanly.")
+          else
+            reason="the review workflow did not pass its guards"
+            if [ -n "${BLOCKED:-}" ]; then
+              reason="it changes files outside the notes/docs allowlist:${BLOCKED}"
+            elif [ "${TESTS_OK:-}" != "true" ]; then
+              reason="a check on the head commit is failing"
+            fi
+            subject="AI agents need you on $date"
+            body=$(printf '%s\n' \
+              "The agent loop produced work that will NOT auto-merge, because $reason." \
+              "" \
+              "**Waiting for you:** [$title]($url)" \
+              "" \
+              "Read it, and merge it yourself if you agree with it.")
+          fi
+
+          gh issue create --repo "$REPO" \
+            --title "$subject" \
+            --body "$body" \
+            --assignee "$OWNER"
