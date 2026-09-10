@@ -29,6 +29,11 @@ concurrency:
 
 jobs:
   gate:
+    # Only proceed if the review actually ran and succeeded. Without this, a
+    # review that errored out (an API failure, a timeout) would still let a
+    # notes-only PR merge with no review having happened at all - the loop
+    # would look closed while quietly skipping its own check.
+    if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
