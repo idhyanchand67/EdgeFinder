@@ -97,11 +97,109 @@ Never resolve a conflict here by discarding the other session's entry.
 
 *Living section - overwrite, don't append.*
 
-- Nothing open. First real thread goes here.
+- **Statistical soundness review, opened by cc/2026-09-10.** Five specific,
+  falsifiable challenges below - see the log entry for detail. Whoever picks
+  this up: don't just argue back, go run/read something and answer with
+  CONFIRMED or REFUTED plus the evidence. Vibes-based rebuttals don't close a
+  thread here.
+  1. Does "edge" survive its own confidence interval?
+  2. Is the Top-10-by-edge sweep a multiple-comparisons/winner's-curse
+     artifact - does graded hit rate decay over the season?
+  3. Does `scripts/backtest.py` actually avoid look-ahead leakage, verified
+     by reading it, not by trusting the README's description of it?
+  4. Is "edge" partly just re-detecting information the book has already
+     priced in (no opening-vs-closing line data exists to check this -
+     that absence is itself a finding)?
+  5. How correlated are same-run Top-10 picks (same game/team), and does the
+     site's presentation imply more diversification than exists?
 
 ## Log
 
 *Newest first. Append above the previous entry.*
+
+### 2026-09-10 · cc/2026-09-10 · Devil's advocate pass on the core methodology
+
+**Context:** Owner asked for an adversarial statistical/methodological review
+of EdgeFinder's core premise - not a code-quality pass, a challenge to
+whether "edge" means what the app claims it means. Intent is explicitly to
+hand the next session concrete, checkable challenges rather than a vague
+"be more rigorous" note, so nothing below is CONFIRMED - it's UNVERIFIED by
+design, written from knowledge of the pipeline's shape (`hit_rates.py`,
+`track_record.py`, `scripts/backtest.py`) without re-deriving each claim
+against a fresh read this session. Treat every item as a hypothesis to kill
+or confirm, not a settled critique.
+
+**Did:** No code touched. This entry and the Open threads above are the
+entire change.
+
+**Found (all UNVERIFIED - that's the point):**
+
+- **"Edge" is a point estimate from n=5-10 with no interval around it.**
+  `min_games` defaults to 5, `lookback` to 10. A binomial proportion from 10
+  trials has a Wilson 95% CI that's often 30-40 points wide. A prop that
+  "hit" 9/10 could plausibly have a true rate anywhere from ~55% to ~99%.
+  The UI shows `+49pp` as if it were precise. Challenge: pick any currently-
+  logged pick with `games_sample` at or near the 5-game floor, compute its
+  Wilson lower bound, and recompute edge against *that* instead of the raw
+  hit rate. Does the pick survive? If a meaningful fraction of Top-10 picks
+  don't survive their own lower bound, the ranking is arguably ranking noise
+  first.
+
+- **Top-10-by-edge is a multiple-comparisons sweep, and multiple-comparisons
+  sweeps produce winner's curse.** Every run scores every player x market x
+  line combination and surfaces the extreme right tail. Even with zero real
+  signal anywhere, the top of a large sweep looks great by construction -
+  that's regression to the mean, not edge. The README's 61% claimed hit rate
+  (excl. pushes) is the number that would actually distinguish real signal
+  from this artifact, but only if it's stable. Challenge: pull the full
+  graded history from `data/pick_log.csv`, split it by `logged_at` into
+  first-half vs. second-half of the season so far, and compare hit rate
+  between the two halves. Real signal should hold roughly steady or improve
+  as the pipeline matures. A multiple-comparisons artifact should decay
+  toward ~50% (or toward whatever the average implied probability across
+  logged picks works out to) as more picks accumulate and the early sample's
+  luck washes out. Which one happens?
+
+- **Does the backtest actually avoid look-ahead leakage?** The README
+  describes the stand-in line as "the median of everything before that
+  point," which is the correct causal design *if the code actually does
+  that*. This exact bug - accidentally including the current or a future
+  row in a rolling/expanding statistic - is the single most common way a
+  backtest lies to you, and a README description isn't proof the
+  implementation matches it. Challenge: read `scripts/backtest.py` line by
+  line, confirm the stand-in line at row i is computed only from rows
+  strictly before i (watch for an off-by-one - `iloc[:i]` vs `iloc[:i+1]` -
+  and for whether sorting happens before or after the split), and say so
+  explicitly with the line numbers, not "looks fine."
+
+- **"Recent hit rate predicts outcomes" and "this is a mispriced line" are
+  different claims, and only the second one is worth anything.** The README
+  already half-admits this ("mostly demonstrates role is sticky... not the
+  same claim as this beats the current sportsbook line"). Push harder: if a
+  player's role changed 3 games ago and it's real, a competent book's line
+  has almost certainly already moved to reflect it by the time EdgeFinder
+  fetches the current price - in which case the "edge" is EdgeFinder
+  rediscovering public information, not finding an inefficiency. Nothing in
+  this codebase currently captures opening line vs. the line at fetch time,
+  so this can't be checked yet - which is itself worth writing down rather
+  than quietly assuming away. Challenge: is opening-line data obtainable
+  from the Odds API tier this project already pays for (even retroactively
+  for a few events), and if so, do edges shrink as kickoff approaches on a
+  sample of picks checked at multiple points before commence_time?
+
+- **Same-run Top-10 picks aren't independent, and the UI doesn't say so.**
+  Multiple props from the same game (or same team) share game-script,
+  weather, and pace risk - if a game turns into a blowout, several
+  same-team unders or overs move together, not independently. A "10 picks,
+  61% hit rate" framing implies more diversification than a portfolio with,
+  say, 4 picks concentrated in one game actually has. Challenge: for a
+  sample of historical runs, count how often 2+ Top-10 picks in the same run
+  share a `game` value, and report the distribution. If it's common, that's
+  worth a visible note near Top 10, not just a README caveat.
+
+**Open:** The five items above. Whoever picks this up owes each one a
+CONFIRMED/REFUTED verdict with the evidence attached (a number, a line
+range, a comparison) - not agreement or disagreement in the abstract.
 
 ### 2026-09-09 · cc/2026-09-09 · File created
 
