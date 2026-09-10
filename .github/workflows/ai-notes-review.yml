@@ -30,7 +30,7 @@ jobs:
 
       - uses: anthropics/claude-code-action@v1
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           # The worker's PR is authored by the Claude GitHub App, and the
           # action rejects bot actors by default specifically to stop bots
           # triggering Claude in a loop. Allowing exactly one bot - not '*' -

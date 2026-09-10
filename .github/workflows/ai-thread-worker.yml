@@ -36,7 +36,7 @@ jobs:
       # secrets.GITHUB_TOKEN would silently stop Agent B from ever running.
       - uses: anthropics/claude-code-action@v1
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           branch_prefix: "ai-notes/"
           claude_args: |
             --max-turns 25
