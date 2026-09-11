@@ -84,8 +84,13 @@ nfl|00-0039299|player_rush_yds|35.5|2026-09-10T00:23:22Z,2026-09-10 01:06 UTC,nf
 mlb|41227|pitcher_outs|14.5|2026-09-10T00:31:00Z,2026-09-10 01:06 UTC,mlb,MLB,41227,Daniel Lynch IV,KC,pitcher_outs,Outs Recorded,14.5,Under,135,0.9,0.4745,10,2026-09-10T00:31:00Z,graded,15.0,MISS,2026-09-10 17:01 UTC
 nfl|00-0039299|player_rush_yds|31.5|2026-09-10T00:23:22Z,2026-09-10 01:06 UTC,nfl,NFL,00-0039299,George Holani,SEA,player_rush_yds,Rush Yds,31.5,Under,-112,1.0,0.4717,10,2026-09-10T00:23:22Z,graded,29.0,HIT,2026-09-10 17:01 UTC
 nfl|00-0036259|player_reception_yds|21.5|2026-09-13T20:25:00Z,2026-09-10 01:06 UTC,nfl,NFL,00-0036259,Jauan Jennings,MIN,player_reception_yds,Rec Yds,21.5,Over,-115,1.0,0.4651,10,2026-09-13T20:25:00Z,pending,,,
-mlb|41261|batter_strikeouts|3.5|2026-09-10T17:06:00Z,2026-09-10 17:01 UTC,mlb,MLB,41261,Cristian Javier,HOU,batter_strikeouts,Batter Ks,3.5,Under,138,1.0,0.5798,8,2026-09-10T17:06:00Z,pending,,,
-mlb|32767|batter_hits|1.5|2026-09-10T16:16:28Z,2026-09-10 17:01 UTC,mlb,MLB,32767,Matt Olson,ATL,batter_hits,Hits,1.5,Under,110,1.0,0.5238,10,2026-09-10T16:16:28Z,pending,,,
-mlb|31267|batter_strikeouts|6.5|2026-09-10T17:06:00Z,2026-09-10 17:01 UTC,mlb,MLB,31267,Zack Wheeler,PHI,batter_strikeouts,Batter Ks,6.5,Under,-117,1.0,0.4608,9,2026-09-10T17:06:00Z,pending,,,
+mlb|41261|batter_strikeouts|3.5|2026-09-10T17:06:00Z,2026-09-10 17:01 UTC,mlb,MLB,41261,Cristian Javier,HOU,batter_strikeouts,Batter Ks,3.5,Under,138,1.0,0.5798,8,2026-09-10T17:06:00Z,graded,0.0,HIT,2026-09-11 01:07 UTC
+mlb|32767|batter_hits|1.5|2026-09-10T16:16:28Z,2026-09-10 17:01 UTC,mlb,MLB,32767,Matt Olson,ATL,batter_hits,Hits,1.5,Under,110,1.0,0.5238,10,2026-09-10T16:16:28Z,graded,1.0,HIT,2026-09-11 01:07 UTC
+mlb|31267|batter_strikeouts|6.5|2026-09-10T17:06:00Z,2026-09-10 17:01 UTC,mlb,MLB,31267,Zack Wheeler,PHI,batter_strikeouts,Batter Ks,6.5,Under,-117,1.0,0.4608,9,2026-09-10T17:06:00Z,graded,0.0,HIT,2026-09-11 01:07 UTC
 nfl|00-0040242|player_reception_yds|7.5|2026-09-13T20:25:00Z,2026-09-10 17:01 UTC,nfl,NFL,00-0040242,Jacory Croskey-Merritt,WAS,player_reception_yds,Rec Yds,7.5,Under,-120,1.0,0.4545,10,2026-09-13T20:25:00Z,pending,,,
 mlb|4917787|batter_rbis|0.5|2026-09-10T23:05:00Z,2026-09-10 17:01 UTC,mlb,MLB,4917787,Adael Amador,COL,batter_rbis,RBIs,0.5,Over,291,0.7,0.4442,10,2026-09-10T23:05:00Z,pending,,,
+nfl|00-0040242|player_reception_yds|6.5|2026-09-13T20:25:00Z,2026-09-11 01:07 UTC,nfl,NFL,00-0040242,Jacory Croskey-Merritt,WAS,player_reception_yds,Rec Yds,6.5,Under,-105,1.0,0.4878,10,2026-09-13T20:25:00Z,pending,,,
+nfl|00-0026498|player_pass_tds|1.5|2026-09-11T00:37:25Z,2026-09-11 01:07 UTC,nfl,NFL,00-0026498,Matthew Stafford,LA,player_pass_tds,Pass TDs,1.5,Over,-115,1.0,0.4651,10,2026-09-11T00:37:25Z,pending,,,
+nfl|00-0036244|player_receptions|1.5|2026-09-11T00:37:25Z,2026-09-11 01:07 UTC,nfl,NFL,00-0036244,Colby Parkinson,LA,player_receptions,Receptions,1.5,Over,-120,1.0,0.4545,10,2026-09-11T00:37:25Z,pending,,,
+nfl|00-0031381|player_receptions|3.5|2026-09-11T00:37:25Z,2026-09-11 01:07 UTC,nfl,NFL,00-0031381,Davante Adams,LA,player_receptions,Receptions,3.5,Over,115,0.9,0.4349,10,2026-09-11T00:37:25Z,pending,,,
+nfl|00-0033119|player_pass_tds|1.5|2026-09-13T20:25:00Z,2026-09-11 01:07 UTC,nfl,NFL,00-0033119,Jacoby Brissett,ARI,player_pass_tds,Pass TDs,1.5,Over,160,0.8,0.4154,10,2026-09-13T20:25:00Z,pending,,,
