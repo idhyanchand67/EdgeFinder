@@ -19,8 +19,15 @@ concurrency:
 
 jobs:
   review:
-    # Only review the worker's own branches. Ordinary PRs are untouched.
-    if: startsWith(github.head_ref, 'ai-notes/')
+    # Only review the worker's own PRs. Ordinary PRs are untouched.
+    #
+    # Match on the PR author, not the branch name. branch_prefix does not
+    # control the branch Claude picks when it creates one itself: the first
+    # successful run branched to cc/wilson-ci-track-record, a head_ref test
+    # for 'ai-notes/' missed it, and the review silently skipped. The author
+    # is the reliable signal - an agent PR is always opened by claude[bot],
+    # whatever it decides to call the branch.
+    if: github.event.pull_request.user.login == 'claude[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
