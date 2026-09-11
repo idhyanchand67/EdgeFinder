@@ -54,17 +54,22 @@ jobs:
           head=$(gh api "repos/$REPO/pulls/$num" --jq '.head.ref')
           sha=$(gh api "repos/$REPO/pulls/$num" --jq '.head.sha')
           state=$(gh api "repos/$REPO/pulls/$num" --jq '.state')
-          echo "PR #$num  branch=$head  state=$state"
+          author=$(gh api "repos/$REPO/pulls/$num" --jq '.user.login')
+          echo "PR #$num  branch=$head  author=$author  state=$state"
           if [ "$state" != "open" ]; then
             echo "PR is not open - nothing to do."
             echo "skip=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          case "$head" in
-            ai-notes/*) ;;
-            *) echo "Not an agent branch - leaving it alone."
-               echo "skip=true" >> "$GITHUB_OUTPUT"; exit 0 ;;
-          esac
+          # Match on author, not branch name. branch_prefix does not control
+          # the branch Claude picks when it creates one itself - the first
+          # real run branched to cc/wilson-ci-track-record - so a name test
+          # would silently skip every agent PR.
+          if [ "$author" != "claude[bot]" ]; then
+            echo "PR author is $author, not the agent - leaving it alone."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           {
             echo "skip=false"
             echo "number=$num"
