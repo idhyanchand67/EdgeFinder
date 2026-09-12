@@ -92,9 +92,18 @@ Never resolve a conflict here by discarding the other session's entry.
   sessions. They touch only `data/pick_log.csv`.
 - NBA and NHL are off-season as of this writing; their matchup logic was
   verified against synthetic data only, not real games.
-- **Track record is 90 picks / 37 graded / 53 pending, spanning 2026-09-03 to
-  2026-09-10.** Any analysis proposing a season-scale split does not have the
-  data to run yet. Check the actual date range before designing a test.
+- **Track record is still 90 picks / 37 graded / 53 pending, spanning
+  2026-09-03 to 2026-09-10** as of cc/2026-09-11 - unchanged from the last
+  session's snapshot (`data/pick_log.csv` is 91 lines including header, same
+  as before). The refresh workflow apparently hasn't landed a new commit
+  since. Any analysis proposing a season-scale split does not have the data
+  to run yet. Check the actual date range before designing a test.
+- **The live report's headline hit-rate tile now ships with its Wilson 95%
+  CI** (`src/track_record.py:wilson_interval`, wired into `summary()` and
+  rendered as a sub-line under "Hit rate (excl. pushes)" in
+  `src/template.html`). Verified against the log's own 23/37 example: CI
+  computes to 46.1%-75.9%, matching cc/2026-09-10b's manual figure exactly.
+  This closes the "headline hit rate" thread - see the log entry below.
 - **Two scheduled agents now work this file** (see `.github/workflows/`): a
   weekly worker that takes the top Open thread and opens a PR, and a
   review-only agent that critiques it. Neither can push to main, edit a
@@ -104,15 +113,9 @@ Never resolve a conflict here by discarding the other session's entry.
 
 *Living section - overwrite, don't append.*
 
-Three of the five threads opened by cc/2026-09-10 are closed (see the verdict
-entry in the log). What remains, plus two new items found while closing them:
+Closed this run: the headline-hit-rate-vs-coin-flip thread (see the log entry
+below). Remaining:
 
-- **The headline hit rate is not statistically distinguishable from a coin
-  flip, and the README states it as if it were.** 23/37 = 62.2%, Wilson 95%
-  CI 46.1%-75.9%. The interval contains 50%. Highest-priority open item:
-  either the README's claim gets a stated interval next to it, or it stops
-  being presented as evidence the method works. Re-run as the graded sample
-  grows - the CI clears 50% at roughly n=90 decided picks if the rate holds.
 - **Top 10 ranks on a raw point estimate, not an interval-adjusted one.**
   Sign survives Wilson adjustment on 100% of picks, so nothing is *falsely*
   positive - but mean edge shrinks 29.6pp and the shrink is very uneven (a
@@ -145,6 +148,55 @@ entry in the log). What remains, plus two new items found while closing them:
 ## Log
 
 *Newest first. Append above the previous entry.*
+
+### 2026-09-11 · cc/2026-09-11 · Wilson CI added to the headline hit rate
+
+**Context:** Highest-priority Open thread from cc/2026-09-10b: the live
+report's "Hit rate (excl. pushes)" tile shows a raw percentage (23/37 = 62.2%
+as of this run) with no interval, and the Wilson 95% CI on that same number
+(46.1%-75.9%) contains 50% - not distinguishable from a coin flip at this
+sample size. The thread's resolution options were "add the interval" or
+"stop presenting it as evidence the method works." Data hasn't grown since
+last session (`data/pick_log.csv` still 90 rows / 37 graded - confirmed by
+`wc -l` and by `track_record.summary()` reproducing the exact same 0.622 /
+46.1 / 75.9 figures cc/2026-09-10b computed by hand), so this closes on the
+same numbers, not fresher ones.
+
+**Did:**
+- Added `wilson_interval(hits, n, z=1.96)` to `src/track_record.py` and wired
+  it into `summary()` as two new dict keys, `hit_rate_low`/`hit_rate_high`
+  (both `None` when nothing's graded yet, same convention as `hit_rate`).
+- `src/template.html`'s `renderTrackRecord()` now shows "95% CI L-H%" as a
+  sub-line under the hit-rate stat whenever both bounds are present, plus one
+  sentence in the "How this works" panel explaining what the interval means
+  and that spanning 50% means "not yet distinguishable from a coin flip."
+  `main.py` needed no change - the whole `summary()` dict already flows
+  straight into `meta_json` unfiltered.
+- Added three tests to `tests/test_track_record.py`: the known-value check
+  (23/37 -> 46.1%/75.9%, matching AI_NOTES.md's own worked example to 1dp),
+  a no-graded-picks-yet case (both bounds `None`), and extended the existing
+  push-exclusion test to assert the interval brackets 0.5 for a 1/2 sample.
+
+**Found:**
+- CONFIRMED: `wilson_interval(23, 37)` returns `(0.4610..., 0.7594...)` -
+  reproduces cc/2026-09-10b's manually-computed 46.1%-75.9% exactly.
+- CONFIRMED: full test suite passes, 70 -> 72 tests (`pytest -q`, all green).
+- CONFIRMED: this only changes what's displayed, not how any pick is scored,
+  logged, or ranked - `hit_rates.py`, `log_new_picks`, and `grade_pending`
+  are untouched. The interval-vs-ranking question (next bullet in Open
+  threads) is still open and is a separate, larger change.
+- BELIEVED: showing the CI as a sub-line rather than replacing the headline
+  number is the right call for now - it keeps the number checkable (the
+  original ask) without hiding the point estimate the rest of the report
+  still references (e.g. `avg_edge_at_pick` sits next to it unchanged).
+
+**Open:** Everything else already in Open threads below is untouched by this
+run. One clarification for whoever next touches this file: cc/2026-09-10b's
+"Re-run as the graded sample grows - the CI clears 50% at roughly n=90
+decided picks if the rate holds" is still relevant - once the sample is
+larger, check whether the *interval itself* (not just the point estimate)
+has actually crossed above 50%, since the interval and the raw rate can grow
+apart if the hit rate drifts as n increases.
 
 ### 2026-09-10 - cc/2026-09-10b - Verdicts on the five methodology threads
 

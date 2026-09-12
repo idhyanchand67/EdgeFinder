@@ -297,6 +297,7 @@
   .track-summary .stat .label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
   .track-summary .stat .value { font-family: "Big Shoulders Display", sans-serif; font-weight: 700; font-size: 20px; }
   .track-summary .stat .value.accent { color: var(--accent); }
+  .track-summary .stat .sub { font-size: 10.5px; color: var(--muted); font-weight: 500; }
   #trackTbl { min-width: 760px; }
   #trackTbl th, #trackTbl td { padding: 8px 12px; font-size: 12.5px; }
   .pill.pending { background: var(--panel-2); color: var(--muted); }
@@ -399,6 +400,10 @@ edge = hit_rate - implied_probability</span>
         the real price we actually saw, not a historical stand-in, checked against real outcomes as
         they happen. It only gets more meaningful over time - there's no way to backfill history we
         don't have.</p>
+      <p>At the sample sizes this starts at (tens of graded picks), a single hit-rate percentage
+        overstates how precisely it's known. The 95% CI shown next to it is a Wilson score interval
+        on the same hit/miss counts - if it still spans 50% at a given point, the headline number
+        isn't yet distinguishable from a coin flip.</p>
       <div id="trackSummary" class="track-summary"></div>
       <div class="table-wrap" style="margin-top:12px;">
         <table id="trackTbl">
@@ -536,9 +541,18 @@ renderSummary();
 
 function renderTrackRecord() {
   const tr = META.track_record || {};
+  // Wilson 95% CI (src/track_record.py:wilson_interval) - at n in the tens, the
+  // point estimate alone overstates precision. Shown as a sub-line so the
+  // headline number is never presented without it.
+  const hasCi = tr.hit_rate_low != null && tr.hit_rate_high != null;
   const stats = [
     { label: "Graded picks", value: String(tr.graded ?? 0) },
-    { label: "Hit rate (excl. pushes)", value: tr.hit_rate != null ? `${(tr.hit_rate * 100).toFixed(0)}%` : "–", accent: true },
+    {
+      label: "Hit rate (excl. pushes)",
+      value: tr.hit_rate != null ? `${(tr.hit_rate * 100).toFixed(0)}%` : "–",
+      sub: hasCi ? `95% CI ${(tr.hit_rate_low * 100).toFixed(0)}–${(tr.hit_rate_high * 100).toFixed(0)}%` : null,
+      accent: true,
+    },
     { label: "Avg edge at pick", value: tr.avg_edge_at_pick != null ? `+${(tr.avg_edge_at_pick * 100).toFixed(0)}pp` : "–" },
     { label: "Still pending", value: String(tr.pending ?? 0) },
   ];
@@ -546,6 +560,7 @@ function renderTrackRecord() {
     <div class="stat">
       <span class="label">${s.label}</span>
       <span class="value${s.accent ? " accent" : ""}">${s.value}</span>
+      ${s.sub ? `<span class="sub">${s.sub}</span>` : ""}
     </div>
   `).join("");
 

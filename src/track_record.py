@@ -6,6 +6,7 @@ available. This tests the actual live edge metric - using today's real
 posted price - against real future outcomes.
 """
 import csv
+import math
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -203,14 +204,32 @@ def find_stale_pending(log_df: pd.DataFrame, now: datetime = None) -> pd.DataFra
     return pending[age > STALE_THRESHOLD]
 
 
+def wilson_interval(hits: int, n: int, z: float = 1.96) -> tuple[float, float] | None:
+    """95%-by-default Wilson score interval for a binomial proportion. At the
+    sample sizes this track record runs at (tens of graded picks), a point
+    estimate alone overstates precision - see AI_NOTES.md, "headline hit rate"
+    thread. Plain-Wald (p +/- z*sqrt(p(1-p)/n)) misbehaves near 0/1 and for
+    small n; Wilson doesn't."""
+    if not n:
+        return None
+    phat = hits / n
+    denom = 1 + z ** 2 / n
+    center = phat + z ** 2 / (2 * n)
+    adj = z * math.sqrt(phat * (1 - phat) / n + z ** 2 / (4 * n ** 2))
+    return ((center - adj) / denom, (center + adj) / denom)
+
+
 def summary(log_df: pd.DataFrame) -> dict:
     graded = log_df[log_df["status"] == "graded"]
     decisive = graded[graded["result"] != "PUSH"]
-    hits = (decisive["result"] == "HIT").sum()
+    hits = int((decisive["result"] == "HIT").sum())
     total = len(decisive)
+    interval = wilson_interval(hits, total)
     return {
         "graded": int(total),
         "pending": int((log_df["status"] == "pending").sum()),
         "hit_rate": round(hits / total, 3) if total else None,
+        "hit_rate_low": round(interval[0], 3) if interval else None,
+        "hit_rate_high": round(interval[1], 3) if interval else None,
         "avg_edge_at_pick": round(graded["edge_at_pick"].astype(float).mean(), 4) if len(graded) else None,
     }

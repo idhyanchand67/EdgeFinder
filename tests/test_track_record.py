@@ -170,6 +170,24 @@ def test_summary_excludes_pushes_from_hit_rate():
     assert s["graded"] == 2  # PUSH excluded from the decisive count
     assert s["hit_rate"] == 0.5
     assert s["pending"] == 1
+    # Wilson 95% CI for 1/2 is wide and symmetric around 0.5 - just check it
+    # brackets the point estimate rather than pinning exact floats.
+    assert s["hit_rate_low"] < 0.5 < s["hit_rate_high"]
+
+
+def test_summary_hit_rate_has_no_interval_when_nothing_graded():
+    log_df = pd.DataFrame([_pending_log_row(status="pending")])
+    s = track_record.summary(log_df)
+    assert s["hit_rate"] is None
+    assert s["hit_rate_low"] is None
+    assert s["hit_rate_high"] is None
+
+
+def test_wilson_interval_matches_known_value():
+    # Cross-checked against AI_NOTES.md's own worked example: 23/37 -> 46.1%-75.9%.
+    low, high = track_record.wilson_interval(23, 37)
+    assert round(low * 100, 1) == 46.1
+    assert round(high * 100, 1) == 75.9
 
 
 def test_find_stale_pending_flags_a_pick_whose_game_ended_over_a_day_ago():
