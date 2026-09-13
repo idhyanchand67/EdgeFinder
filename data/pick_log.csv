@@ -94,7 +94,7 @@ nfl|00-0026498|player_pass_tds|1.5|2026-09-11T00:37:25Z,2026-09-11 01:07 UTC,nfl
 nfl|00-0036244|player_receptions|1.5|2026-09-11T00:37:25Z,2026-09-11 01:07 UTC,nfl,NFL,00-0036244,Colby Parkinson,LA,player_receptions,Receptions,1.5,Over,-120,1.0,0.4545,10,2026-09-11T00:37:25Z,graded,1.0,MISS,2026-09-11 17:03 UTC
 nfl|00-0031381|player_receptions|3.5|2026-09-11T00:37:25Z,2026-09-11 01:07 UTC,nfl,NFL,00-0031381,Davante Adams,LA,player_receptions,Receptions,3.5,Over,115,0.9,0.4349,10,2026-09-11T00:37:25Z,graded,3.0,MISS,2026-09-11 17:03 UTC
 nfl|00-0033119|player_pass_tds|1.5|2026-09-13T20:25:00Z,2026-09-11 01:07 UTC,nfl,NFL,00-0033119,Jacoby Brissett,ARI,player_pass_tds,Pass TDs,1.5,Over,160,0.8,0.4154,10,2026-09-13T20:25:00Z,pending,,,
-mlb|5124004|batter_hits|0.5|2026-09-12T02:16:00Z,2026-09-11 17:03 UTC,mlb,MLB,5124004,Ethan Salas,SD,batter_hits,Hits,0.5,Under,125,1.0,0.5556,5,2026-09-12T02:16:00Z,pending,,,
+mlb|5124004|batter_hits|0.5|2026-09-12T02:16:00Z,2026-09-11 17:03 UTC,mlb,MLB,5124004,Ethan Salas,SD,batter_hits,Hits,0.5,Under,125,1.0,0.5556,5,2026-09-12T02:16:00Z,graded,0.0,HIT,2026-09-13 01:02 UTC
 mlb|33377|batter_rbis|0.5|2026-09-11T23:11:00Z,2026-09-11 17:03 UTC,mlb,MLB,33377,Teoscar Hernandez,LAD,batter_rbis,RBIs,0.5,Over,199,0.8,0.4656,10,2026-09-11T23:11:00Z,graded,0.0,MISS,2026-09-12 16:20 UTC
 nfl|00-0038120|player_receptions|2.5|2026-09-13T17:00:00Z,2026-09-11 17:03 UTC,nfl,NFL,00-0038120,Breece Hall,NYJ,player_receptions,Receptions,2.5,Under,110,0.9,0.4238,10,2026-09-13T17:00:00Z,pending,,,
 mlb|36364|batter_hits|0.5|2026-09-12T02:16:00Z,2026-09-11 17:03 UTC,mlb,MLB,36364,Jake Cronenworth,SD,batter_hits,Hits,0.5,Under,160,0.8,0.4154,10,2026-09-12T02:16:00Z,graded,1.0,MISS,2026-09-12 16:20 UTC
@@ -109,3 +109,7 @@ nfl|00-0040242|player_reception_yds|5.5|2026-09-13T20:25:00Z,2026-09-12 16:21 UT
 mlb|42536|batter_hits|0.5|2026-09-12T20:06:00Z,2026-09-12 16:21 UTC,mlb,MLB,42536,Kyren Paris,LAA,batter_hits,Hits,0.5,Under,-110,1.0,0.4762,6,2026-09-12T20:06:00Z,pending,,,
 nfl|00-0040583|player_rush_yds|26.5|2026-09-13T17:00:00Z,2026-09-12 16:21 UTC,nfl,NFL,00-0040583,Woody Marks,HOU,player_rush_yds,Rush Yds,26.5,Over,-114,1.0,0.4673,10,2026-09-13T17:00:00Z,pending,,,
 nfl|00-0040583|player_rush_yds|24.5|2026-09-13T17:00:00Z,2026-09-12 16:21 UTC,nfl,NFL,00-0040583,Woody Marks,HOU,player_rush_yds,Rush Yds,24.5,Over,-114,1.0,0.4673,10,2026-09-13T17:00:00Z,pending,,,
+mlb|33712|batter_rbis|0.5|2026-09-12T23:16:00Z,2026-09-13 01:03 UTC,mlb,MLB,33712,Kyle Schwarber,PHI,batter_rbis,RBIs,0.5,Over,800,0.6,0.4889,10,2026-09-12T23:16:00Z,pending,,,
+mlb|34982|batter_rbis|0.5|2026-09-12T23:16:00Z,2026-09-13 01:03 UTC,mlb,MLB,34982,Austin Riley,ATL,batter_rbis,RBIs,0.5,Over,700,0.6,0.475,10,2026-09-12T23:16:00Z,pending,,,
+mlb|5124076|batter_hits|0.5|2026-09-12T23:39:00Z,2026-09-13 01:03 UTC,mlb,MLB,5124076,Leo Bernal,STL,batter_hits,Hits,0.5,Over,135,0.9,0.4745,10,2026-09-12T23:39:00Z,pending,,,
+nfl|00-0040583|player_rush_yds|25.5|2026-09-13T17:00:00Z,2026-09-13 01:03 UTC,nfl,NFL,00-0040583,Woody Marks,HOU,player_rush_yds,Rush Yds,25.5,Over,-113,1.0,0.4695,10,2026-09-13T17:00:00Z,pending,,,
