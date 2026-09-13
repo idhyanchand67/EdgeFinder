@@ -170,6 +170,32 @@ def test_summary_excludes_pushes_from_hit_rate():
     assert s["graded"] == 2  # PUSH excluded from the decisive count
     assert s["hit_rate"] == 0.5
     assert s["pending"] == 1
+    assert s["hit_rate_low"] < 0.5 < s["hit_rate_high"]  # wide CI at n=2, correctly straddles 50%
+
+
+def test_summary_has_no_confidence_interval_before_anything_is_graded():
+    log_df = pd.DataFrame([_pending_log_row(status="pending")])
+    s = track_record.summary(log_df)
+    assert s["hit_rate"] is None
+    assert s["hit_rate_low"] is None
+    assert s["hit_rate_high"] is None
+
+
+def test_wilson_interval_matches_a_known_worked_example():
+    # 23/37 -> 95% CI (0.461, 0.759), independently verified - this is exactly
+    # the case that motivated adding the interval: a 62.2% headline hit rate
+    # whose real range still contains a coin flip.
+    low, high = track_record.wilson_interval(23, 37)
+    assert round(low, 3) == 0.461
+    assert round(high, 3) == 0.759
+
+
+def test_wilson_interval_stays_within_bounds_at_extreme_proportions():
+    # The normal approximation can push outside [0, 1] at p=0 or p=1 - Wilson must not.
+    low, high = track_record.wilson_interval(0, 5)
+    assert 0 <= low <= high <= 1
+    low, high = track_record.wilson_interval(5, 5)
+    assert 0 <= low <= high <= 1
 
 
 def test_find_stale_pending_flags_a_pick_whose_game_ended_over_a_day_ago():

@@ -203,14 +203,34 @@ def find_stale_pending(log_df: pd.DataFrame, now: datetime = None) -> pd.DataFra
     return pending[age > STALE_THRESHOLD]
 
 
+def wilson_interval(hits: int, n: int, z: float = 1.96) -> tuple[float, float]:
+    """Wilson score interval for a binomial proportion - a small-sample hit
+    rate (this log runs in the dozens, not thousands) has real uncertainty
+    around it that a bare percentage hides. The normal-approximation interval
+    (p +/- z*sqrt(p(1-p)/n)) can extend past 0 or 1 and misbehaves badly at
+    small n; Wilson stays in [0, 1] and is the standard fix."""
+    p_hat = hits / n
+    denom = 1 + z ** 2 / n
+    center = p_hat + z ** 2 / (2 * n)
+    adjustment = z * ((p_hat * (1 - p_hat) / n + z ** 2 / (4 * n ** 2)) ** 0.5)
+    # Mathematically guaranteed within [0, 1]; clamp away the float round-off
+    # that can otherwise land a hair below 0 or above 1 at p_hat = 0 or 1.
+    low = max(0.0, (center - adjustment) / denom)
+    high = min(1.0, (center + adjustment) / denom)
+    return (low, high)
+
+
 def summary(log_df: pd.DataFrame) -> dict:
     graded = log_df[log_df["status"] == "graded"]
     decisive = graded[graded["result"] != "PUSH"]
     hits = (decisive["result"] == "HIT").sum()
     total = len(decisive)
+    hit_rate_low, hit_rate_high = wilson_interval(hits, total) if total else (None, None)
     return {
         "graded": int(total),
         "pending": int((log_df["status"] == "pending").sum()),
         "hit_rate": round(hits / total, 3) if total else None,
+        "hit_rate_low": round(hit_rate_low, 3) if total else None,
+        "hit_rate_high": round(hit_rate_high, 3) if total else None,
         "avg_edge_at_pick": round(graded["edge_at_pick"].astype(float).mean(), 4) if len(graded) else None,
     }

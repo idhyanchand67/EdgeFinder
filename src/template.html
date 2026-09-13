@@ -297,6 +297,7 @@
   .track-summary .stat .label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
   .track-summary .stat .value { font-family: "Big Shoulders Display", sans-serif; font-weight: 700; font-size: 20px; }
   .track-summary .stat .value.accent { color: var(--accent); }
+  .track-summary .stat .sub { font-size: 11px; color: var(--muted); font-family: "IBM Plex Mono", monospace; }
   #trackTbl { min-width: 760px; }
   #trackTbl th, #trackTbl td { padding: 8px 12px; font-size: 12.5px; }
   .pill.pending { background: var(--panel-2); color: var(--muted); }
@@ -399,6 +400,10 @@ edge = hit_rate - implied_probability</span>
         the real price we actually saw, not a historical stand-in, checked against real outcomes as
         they happen. It only gets more meaningful over time - there's no way to backfill history we
         don't have.</p>
+      <p class="note">The hit rate's 95% CI is a <a href="https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval" target="_blank" rel="noopener">Wilson score interval</a> -
+        the honest range the true hit rate could fall in, given how few picks have been graded so far.
+        A small graded sample makes for a wide interval; if it still spans 50%, the hit rate isn't
+        distinguishable from a coin flip yet, whatever the headline percentage says.</p>
       <div id="trackSummary" class="track-summary"></div>
       <div class="table-wrap" style="margin-top:12px;">
         <table id="trackTbl">
@@ -536,9 +541,12 @@ renderSummary();
 
 function renderTrackRecord() {
   const tr = META.track_record || {};
+  const hitRateSub = (tr.hit_rate_low != null && tr.hit_rate_high != null)
+    ? `95% CI ${(tr.hit_rate_low * 100).toFixed(0)}–${(tr.hit_rate_high * 100).toFixed(0)}%`
+    : null;
   const stats = [
     { label: "Graded picks", value: String(tr.graded ?? 0) },
-    { label: "Hit rate (excl. pushes)", value: tr.hit_rate != null ? `${(tr.hit_rate * 100).toFixed(0)}%` : "–", accent: true },
+    { label: "Hit rate (excl. pushes)", value: tr.hit_rate != null ? `${(tr.hit_rate * 100).toFixed(0)}%` : "–", accent: true, sub: hitRateSub },
     { label: "Avg edge at pick", value: tr.avg_edge_at_pick != null ? `+${(tr.avg_edge_at_pick * 100).toFixed(0)}pp` : "–" },
     { label: "Still pending", value: String(tr.pending ?? 0) },
   ];
@@ -546,6 +554,7 @@ function renderTrackRecord() {
     <div class="stat">
       <span class="label">${s.label}</span>
       <span class="value${s.accent ? " accent" : ""}">${s.value}</span>
+      ${s.sub ? `<span class="sub">${s.sub}</span>` : ""}
     </div>
   `).join("");
 
