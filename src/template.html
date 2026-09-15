@@ -603,9 +603,16 @@ const marketSel = document.getElementById("fMarket");
   const o = document.createElement("option"); o.value = key; o.textContent = label; marketSel.appendChild(o);
 });
 const bookSel = document.getElementById("fBook");
-[...new Set(rows.map(r => r.sportsbook).filter(Boolean))].sort().forEach(book => {
+const books = [...new Set(rows.map(r => r.sportsbook).filter(Boolean))].sort();
+books.forEach(book => {
   const o = document.createElement("option"); o.value = book; o.textContent = book; bookSel.appendChild(o);
 });
+// Defaults to one book so the same player/line doesn't show up twice at
+// slightly different prices just because two books both listed it - "All"
+// is still one click away in the filter. Falls back to All on its own if
+// FanDuel isn't in the current slate, rather than a default that silently
+// resolves to no selection.
+if (books.includes("FanDuel")) bookSel.value = "FanDuel";
 
 let sortKey = "edge", sortDir = -1;
 
