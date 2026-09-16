@@ -168,20 +168,29 @@ nfl|00-0036158|player_rush_yds|19.5|2026-09-15T00:16:13Z,2026-09-15 01:29 UTC,nf
 mlb|4837405|pitcher_outs|20.5|2026-09-14T23:46:00Z,2026-09-15 01:29 UTC,mlb,MLB,4837405,Quinn Mathews,STL,pitcher_outs,Outs Recorded,20.5,Under,-110,1.0,0.4762,5,2026-09-14T23:46:00Z,graded,20.0,HIT,2026-09-15 17:41 UTC
 nfl|00-0036158|player_rush_yds|30.5|2026-09-15T00:16:13Z,2026-09-15 01:29 UTC,nfl,NFL,00-0036158,J.K. Dobbins,DEN,player_rush_yds,Rush Yds,30.5,Over,-111,1.0,0.4739,10,2026-09-15T00:16:13Z,graded,36.0,HIT,2026-09-15 17:40 UTC
 nfl|00-0039901|player_receptions|1.5|2026-09-18T00:15:00Z,2026-09-15 17:41 UTC,nfl,NFL,00-0039901,Keon Coleman,BUF,player_receptions,Receptions,1.5,Over,172,0.9,0.5324,10,2026-09-18T00:15:00Z,pending,,,
-mlb|4917694|batter_rbis|0.5|2026-09-15T22:40:00Z,2026-09-15 17:41 UTC,mlb,MLB,4917694,Elly De La Cruz,CIN,batter_rbis,RBIs,0.5,Over,243,0.8,0.5085,10,2026-09-15T22:40:00Z,pending,,,
+mlb|4917694|batter_rbis|0.5|2026-09-15T22:40:00Z,2026-09-15 17:41 UTC,mlb,MLB,4917694,Elly De La Cruz,CIN,batter_rbis,RBIs,0.5,Over,243,0.8,0.5085,10,2026-09-15T22:40:00Z,graded,0.0,MISS,2026-09-16 17:38 UTC
 nfl|00-0034753|player_reception_yds|50.5|2026-09-20T17:00:00Z,2026-09-15 17:41 UTC,nfl,NFL,00-0034753,Mark Andrews,BAL,player_reception_yds,Rec Yds,50.5,Under,-115,1.0,0.4651,10,2026-09-20T17:00:00Z,pending,,,
-mlb|4722962|batter_hits|0.5|2026-09-15T22:40:00Z,2026-09-15 17:41 UTC,mlb,MLB,4722962,Petey Halpin,CLE,batter_hits,Hits,0.5,Under,126,0.9,0.4575,10,2026-09-15T22:40:00Z,pending,,,
-mlb|39907|batter_hits|0.5|2026-09-15T22:40:00Z,2026-09-15 17:41 UTC,mlb,MLB,39907,Tommy Edman,LAD,batter_hits,Hits,0.5,Under,190,0.8,0.4552,10,2026-09-15T22:40:00Z,pending,,,
-mlb|4917694|batter_home_runs|0.5|2026-09-15T22:40:00Z,2026-09-15 17:41 UTC,mlb,MLB,4917694,Elly De La Cruz,CIN,batter_home_runs,Home Runs,0.5,Over,475,0.6,0.4261,10,2026-09-15T22:40:00Z,pending,,,
-mlb|33377|batter_rbis|0.5|2026-09-15T22:40:00Z,2026-09-15 17:41 UTC,mlb,MLB,33377,Teoscar Hernandez,LAD,batter_rbis,RBIs,0.5,Over,157,0.8,0.4109,10,2026-09-15T22:40:00Z,pending,,,
-mlb|42411|batter_hits|0.5|2026-09-15T22:40:00Z,2026-09-15 17:41 UTC,mlb,MLB,42411,Luisangel Acuna,CHW,batter_hits,Hits,0.5,Under,102,0.9,0.405,10,2026-09-15T22:40:00Z,pending,,,
-mlb|41359|batter_home_runs|0.5|2026-09-15T22:40:00Z,2026-09-15 17:41 UTC,mlb,MLB,41359,Richie Palacios,TB,batter_home_runs,Home Runs,0.5,Over,850,0.5,0.3947,10,2026-09-15T22:40:00Z,pending,,,
-mlb|41359|batter_rbis|0.5|2026-09-15T22:40:00Z,2026-09-15 17:41 UTC,mlb,MLB,41359,Richie Palacios,TB,batter_rbis,RBIs,0.5,Over,226,0.7,0.3933,10,2026-09-15T22:40:00Z,pending,,,
-mlb|4717833|batter_hits|0.5|2026-09-15T23:40:17Z,2026-09-16 01:26 UTC,mlb,MLB,4717833,Pete Crow-Armstrong,CHC,batter_hits,Hits,0.5,Over,450,0.8,0.6182,10,2026-09-15T23:40:17Z,pending,,,
-mlb|41219|batter_rbis|0.5|2026-09-15T23:40:17Z,2026-09-16 01:26 UTC,mlb,MLB,41219,Nico Hoerner,CHC,batter_rbis,RBIs,0.5,Over,500,0.7,0.5333,10,2026-09-15T23:40:17Z,pending,,,
-mlb|4109223|batter_hits|0.5|2026-09-16T00:11:00Z,2026-09-16 01:26 UTC,mlb,MLB,4109223,Michael Massey,KC,batter_hits,Hits,0.5,Over,170,0.9,0.5296,10,2026-09-16T00:11:00Z,pending,,,
-mlb|39706|batter_hits|0.5|2026-09-16T00:11:00Z,2026-09-16 01:26 UTC,mlb,MLB,39706,Isaac Paredes,HOU,batter_hits,Hits,0.5,Over,165,0.9,0.5226,10,2026-09-16T00:11:00Z,pending,,,
-mlb|4843048|batter_hits|0.5|2026-09-15T23:45:50Z,2026-09-16 01:26 UTC,mlb,MLB,4843048,Nathan Church,STL,batter_hits,Hits,0.5,Over,160,0.9,0.5154,10,2026-09-15T23:45:50Z,pending,,,
-mlb|41219|batter_hits|0.5|2026-09-15T23:40:17Z,2026-09-16 01:26 UTC,mlb,MLB,41219,Nico Hoerner,CHC,batter_hits,Hits,0.5,Over,235,0.8,0.5015,10,2026-09-15T23:40:17Z,pending,,,
-mlb|32150|batter_hits|0.5|2026-09-16T00:06:00Z,2026-09-16 01:26 UTC,mlb,MLB,32150,Trevor Story,BOS,batter_hits,Hits,0.5,Over,150,0.9,0.5,10,2026-09-16T00:06:00Z,pending,,,
-mlb|42415|batter_rbis|0.5|2026-09-15T23:40:17Z,2026-09-16 01:26 UTC,mlb,MLB,42415,Michael Busch,CHC,batter_rbis,RBIs,0.5,Over,650,0.6,0.4667,10,2026-09-15T23:40:17Z,pending,,,
+mlb|4722962|batter_hits|0.5|2026-09-15T22:40:00Z,2026-09-15 17:41 UTC,mlb,MLB,4722962,Petey Halpin,CLE,batter_hits,Hits,0.5,Under,126,0.9,0.4575,10,2026-09-15T22:40:00Z,graded,0.0,HIT,2026-09-16 17:38 UTC
+mlb|39907|batter_hits|0.5|2026-09-15T22:40:00Z,2026-09-15 17:41 UTC,mlb,MLB,39907,Tommy Edman,LAD,batter_hits,Hits,0.5,Under,190,0.8,0.4552,10,2026-09-15T22:40:00Z,graded,1.0,MISS,2026-09-16 17:38 UTC
+mlb|4917694|batter_home_runs|0.5|2026-09-15T22:40:00Z,2026-09-15 17:41 UTC,mlb,MLB,4917694,Elly De La Cruz,CIN,batter_home_runs,Home Runs,0.5,Over,475,0.6,0.4261,10,2026-09-15T22:40:00Z,graded,0.0,MISS,2026-09-16 17:38 UTC
+mlb|33377|batter_rbis|0.5|2026-09-15T22:40:00Z,2026-09-15 17:41 UTC,mlb,MLB,33377,Teoscar Hernandez,LAD,batter_rbis,RBIs,0.5,Over,157,0.8,0.4109,10,2026-09-15T22:40:00Z,graded,2.0,HIT,2026-09-16 17:38 UTC
+mlb|42411|batter_hits|0.5|2026-09-15T22:40:00Z,2026-09-15 17:41 UTC,mlb,MLB,42411,Luisangel Acuna,CHW,batter_hits,Hits,0.5,Under,102,0.9,0.405,10,2026-09-15T22:40:00Z,graded,0.0,HIT,2026-09-16 17:38 UTC
+mlb|41359|batter_home_runs|0.5|2026-09-15T22:40:00Z,2026-09-15 17:41 UTC,mlb,MLB,41359,Richie Palacios,TB,batter_home_runs,Home Runs,0.5,Over,850,0.5,0.3947,10,2026-09-15T22:40:00Z,graded,0.0,MISS,2026-09-16 17:38 UTC
+mlb|41359|batter_rbis|0.5|2026-09-15T22:40:00Z,2026-09-15 17:41 UTC,mlb,MLB,41359,Richie Palacios,TB,batter_rbis,RBIs,0.5,Over,226,0.7,0.3933,10,2026-09-15T22:40:00Z,graded,0.0,MISS,2026-09-16 17:38 UTC
+mlb|4717833|batter_hits|0.5|2026-09-15T23:40:17Z,2026-09-16 01:26 UTC,mlb,MLB,4717833,Pete Crow-Armstrong,CHC,batter_hits,Hits,0.5,Over,450,0.8,0.6182,10,2026-09-15T23:40:17Z,graded,0.0,MISS,2026-09-16 17:38 UTC
+mlb|41219|batter_rbis|0.5|2026-09-15T23:40:17Z,2026-09-16 01:26 UTC,mlb,MLB,41219,Nico Hoerner,CHC,batter_rbis,RBIs,0.5,Over,500,0.7,0.5333,10,2026-09-15T23:40:17Z,graded,0.0,MISS,2026-09-16 17:38 UTC
+mlb|4109223|batter_hits|0.5|2026-09-16T00:11:00Z,2026-09-16 01:26 UTC,mlb,MLB,4109223,Michael Massey,KC,batter_hits,Hits,0.5,Over,170,0.9,0.5296,10,2026-09-16T00:11:00Z,graded,0.0,MISS,2026-09-16 17:38 UTC
+mlb|39706|batter_hits|0.5|2026-09-16T00:11:00Z,2026-09-16 01:26 UTC,mlb,MLB,39706,Isaac Paredes,HOU,batter_hits,Hits,0.5,Over,165,0.9,0.5226,10,2026-09-16T00:11:00Z,graded,0.0,MISS,2026-09-16 17:38 UTC
+mlb|4843048|batter_hits|0.5|2026-09-15T23:45:50Z,2026-09-16 01:26 UTC,mlb,MLB,4843048,Nathan Church,STL,batter_hits,Hits,0.5,Over,160,0.9,0.5154,10,2026-09-15T23:45:50Z,graded,0.0,MISS,2026-09-16 17:38 UTC
+mlb|41219|batter_hits|0.5|2026-09-15T23:40:17Z,2026-09-16 01:26 UTC,mlb,MLB,41219,Nico Hoerner,CHC,batter_hits,Hits,0.5,Over,235,0.8,0.5015,10,2026-09-15T23:40:17Z,graded,0.0,MISS,2026-09-16 17:38 UTC
+mlb|32150|batter_hits|0.5|2026-09-16T00:06:00Z,2026-09-16 01:26 UTC,mlb,MLB,32150,Trevor Story,BOS,batter_hits,Hits,0.5,Over,150,0.9,0.5,10,2026-09-16T00:06:00Z,graded,1.0,HIT,2026-09-16 17:38 UTC
+mlb|42415|batter_rbis|0.5|2026-09-15T23:40:17Z,2026-09-16 01:26 UTC,mlb,MLB,42415,Michael Busch,CHC,batter_rbis,RBIs,0.5,Over,650,0.6,0.4667,10,2026-09-15T23:40:17Z,graded,0.0,MISS,2026-09-16 17:38 UTC
+mlb|4791597|batter_strikeouts|4.5|2026-09-16T17:41:00Z,2026-09-16 17:38 UTC,mlb,MLB,4791597,Zebby Matthews,MIN,batter_strikeouts,Batter Ks,4.5,Under,100,1.0,0.5,10,2026-09-16T17:41:00Z,pending,,,
+mlb|4179551|pitcher_outs|14.5|2026-09-16T22:41:00Z,2026-09-16 17:38 UTC,mlb,MLB,4179551,Brady Basso,ATH,pitcher_outs,Outs Recorded,14.5,Under,-111,1.0,0.4739,10,2026-09-16T22:41:00Z,pending,,,
+mlb|5007707|batter_rbis|0.5|2026-09-16T17:11:00Z,2026-09-16 17:38 UTC,mlb,MLB,5007707,Travis Bazzana,CLE,batter_rbis,RBIs,0.5,Over,340,0.7,0.4727,10,2026-09-16T17:11:00Z,pending,,,
+mlb|4917694|batter_home_runs|0.5|2026-09-16T22:41:00Z,2026-09-16 17:38 UTC,mlb,MLB,4917694,Elly De La Cruz,CIN,batter_home_runs,Home Runs,0.5,Over,475,0.6,0.4261,10,2026-09-16T22:41:00Z,pending,,,
+mlb|33696|batter_strikeouts|5.5|2026-09-16T17:41:00Z,2026-09-16 17:38 UTC,mlb,MLB,33696,Carlos Rodon,NYY,batter_strikeouts,Batter Ks,5.5,Under,-139,1.0,0.4184,5,2026-09-16T17:41:00Z,pending,,,
+mlb|5007707|batter_hits|0.5|2026-09-16T17:11:00Z,2026-09-16 17:38 UTC,mlb,MLB,5007707,Travis Bazzana,CLE,batter_hits,Hits,0.5,Over,105,0.9,0.4122,10,2026-09-16T17:11:00Z,pending,,,
+mlb|4179551|pitcher_strikeouts|2.5|2026-09-16T22:41:00Z,2026-09-16 17:38 UTC,mlb,MLB,4179551,Brady Basso,ATH,pitcher_strikeouts,Pitcher Ks,2.5,Under,105,0.9,0.4122,10,2026-09-16T22:41:00Z,pending,,,
+mlb|4917694|batter_rbis|0.5|2026-09-16T22:41:00Z,2026-09-16 17:38 UTC,mlb,MLB,4917694,Elly De La Cruz,CIN,batter_rbis,RBIs,0.5,Over,238,0.7,0.4041,10,2026-09-16T22:41:00Z,pending,,,
+mlb|42179|batter_rbis|0.5|2026-09-16T19:08:00Z,2026-09-16 17:38 UTC,mlb,MLB,42179,Riley Greene,DET,batter_rbis,RBIs,0.5,Over,144,0.8,0.3902,10,2026-09-16T19:08:00Z,pending,,,
