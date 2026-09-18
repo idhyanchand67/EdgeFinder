@@ -203,11 +203,21 @@ mlb|41219|batter_rbis|0.5|2026-09-16T23:41:00Z,2026-09-17 01:26 UTC,mlb,MLB,4121
 mlb|42411|batter_hits|0.5|2026-09-17T23:41:00Z,2026-09-17 01:26 UTC,mlb,MLB,42411,Luisangel Acuna,CHW,batter_hits,Hits,0.5,Under,140,0.9,0.4833,10,2026-09-17T23:41:00Z,pending,,,
 nfl|00-0034960|player_reception_yds|34.5|2026-09-20T20:05:00Z,2026-09-17 01:26 UTC,nfl,NFL,00-0034960,Jakobi Meyers,JAX,player_reception_yds,Rec Yds,34.5,Over,-114,1.0,0.4673,10,2026-09-20T20:05:00Z,pending,,,
 mlb|42406|batter_strikeouts|5.5|2026-09-17T01:39:00Z,2026-09-17 01:26 UTC,mlb,MLB,42406,George Kirby,SEA,batter_strikeouts,Batter Ks,5.5,Under,-124,1.0,0.4464,10,2026-09-17T01:39:00Z,graded,0.0,HIT,2026-09-17 17:39 UTC
-mlb|5131743|batter_hits|0.5|2026-09-17T16:38:00Z,2026-09-17 17:39 UTC,mlb,MLB,5131743,Rafael Flores Jr.,PIT,batter_hits,Hits,0.5,Over,105,1.0,0.5122,10,2026-09-17T16:38:00Z,pending,,,
-mlb|4417795|batter_hits|1.5|2026-09-17T16:38:00Z,2026-09-17 17:39 UTC,mlb,MLB,4417795,Sal Frelick,MIL,batter_hits,Hits,1.5,Under,-110,1.0,0.4762,10,2026-09-17T16:38:00Z,pending,,,
+mlb|5131743|batter_hits|0.5|2026-09-17T16:38:00Z,2026-09-17 17:39 UTC,mlb,MLB,5131743,Rafael Flores Jr.,PIT,batter_hits,Hits,0.5,Over,105,1.0,0.5122,10,2026-09-17T16:38:00Z,graded,0.0,MISS,2026-09-18 01:17 UTC
+mlb|4417795|batter_hits|1.5|2026-09-17T16:38:00Z,2026-09-17 17:39 UTC,mlb,MLB,4417795,Sal Frelick,MIL,batter_hits,Hits,1.5,Under,-110,1.0,0.4762,10,2026-09-17T16:38:00Z,graded,2.0,MISS,2026-09-18 01:17 UTC
 nfl|00-0034960|player_reception_yds|36.5|2026-09-20T20:05:00Z,2026-09-17 17:39 UTC,nfl,NFL,00-0034960,Jakobi Meyers,JAX,player_reception_yds,Rec Yds,36.5,Over,-114,1.0,0.4673,10,2026-09-20T20:05:00Z,pending,,,
 nfl|00-0034960|player_reception_yds|37.5|2026-09-20T20:05:00Z,2026-09-17 17:39 UTC,nfl,NFL,00-0034960,Jakobi Meyers,JAX,player_reception_yds,Rec Yds,37.5,Over,-114,1.0,0.4673,10,2026-09-20T20:05:00Z,pending,,,
 nfl|00-0039299|player_rush_yds|34.5|2026-09-20T20:25:00Z,2026-09-17 17:39 UTC,nfl,NFL,00-0039299,George Holani,SEA,player_rush_yds,Rush Yds,34.5,Under,-114,1.0,0.4673,10,2026-09-20T20:25:00Z,pending,,,
-mlb|40429|pitcher_outs|17.5|2026-09-17T19:10:00Z,2026-09-17 17:39 UTC,mlb,MLB,40429,Michael King,SD,pitcher_outs,Outs Recorded,17.5,Over,114,0.9,0.4327,10,2026-09-17T19:10:00Z,pending,,,
+mlb|40429|pitcher_outs|17.5|2026-09-17T19:10:00Z,2026-09-17 17:39 UTC,mlb,MLB,40429,Michael King,SD,pitcher_outs,Outs Recorded,17.5,Over,114,0.9,0.4327,10,2026-09-17T19:10:00Z,graded,18.0,HIT,2026-09-18 01:17 UTC
 nfl|00-0040719|player_receptions|1.5|2026-09-20T20:05:00Z,2026-09-17 17:39 UTC,nfl,NFL,00-0040719,Bhayshul Tuten,JAX,player_receptions,Receptions,1.5,Under,-132,1.0,0.431,10,2026-09-20T20:05:00Z,pending,,,
 mlb|4872685|batter_hits|0.5|2026-09-17T23:41:00Z,2026-09-17 17:39 UTC,mlb,MLB,4872685,Colson Montgomery,CHW,batter_hits,Hits,0.5,Under,113,0.9,0.4305,10,2026-09-17T23:41:00Z,pending,,,
+mlb|31399|batter_hits|0.5|2026-09-17T23:41:00Z,2026-09-18 01:18 UTC,mlb,MLB,31399,Randal Grichuk,CHW,batter_hits,Hits,0.5,Over,380,0.9,0.6917,10,2026-09-17T23:41:00Z,pending,,,
+mlb|42179|batter_rbis|0.5|2026-09-17T23:41:00Z,2026-09-18 01:18 UTC,mlb,MLB,42179,Riley Greene,DET,batter_rbis,RBIs,0.5,Over,700,0.8,0.675,10,2026-09-17T23:41:00Z,pending,,,
+nfl|00-0039364|player_receptions|1.5|2026-09-18T00:17:36Z,2026-09-18 01:18 UTC,nfl,NFL,00-0039364,Sione Vaki,DET,player_receptions,Receptions,1.5,Under,165,1.0,0.6226,10,2026-09-18T00:17:36Z,pending,,,
+mlb|5148964|batter_hits|0.5|2026-09-17T23:41:00Z,2026-09-18 01:18 UTC,mlb,MLB,5148964,Max Clark,DET,batter_hits,Hits,0.5,Over,320,0.8,0.5619,10,2026-09-17T23:41:00Z,pending,,,
+nfl|00-0039901|player_receptions|3.5|2026-09-18T00:17:36Z,2026-09-18 01:18 UTC,nfl,NFL,00-0039901,Keon Coleman,BUF,player_receptions,Receptions,3.5,Under,170,0.9,0.5296,10,2026-09-18T00:17:36Z,pending,,,
+nfl|00-0036550|player_receptions|2.5|2026-09-20T17:00:00Z,2026-09-18 01:18 UTC,nfl,NFL,00-0036550,Rashod Bateman,BAL,player_receptions,Receptions,2.5,Under,106,1.0,0.5146,10,2026-09-20T17:00:00Z,pending,,,
+mlb|5208019|batter_hits|0.5|2026-09-17T23:16:00Z,2026-09-18 01:18 UTC,mlb,MLB,5208019,A.J. Ewing,NYM,batter_hits,Hits,0.5,Over,210,0.8,0.4774,10,2026-09-17T23:16:00Z,pending,,,
+nfl|00-0039364|player_reception_yds|16.5|2026-09-18T00:17:36Z,2026-09-18 01:18 UTC,nfl,NFL,00-0039364,Sione Vaki,DET,player_reception_yds,Rec Yds,16.5,Under,-110,1.0,0.4762,10,2026-09-18T00:17:36Z,pending,,,
+nfl|00-0035689|player_reception_yds|5.5|2026-09-18T00:17:36Z,2026-09-18 01:18 UTC,nfl,NFL,00-0035689,Dawson Knox,BUF,player_reception_yds,Rec Yds,5.5,Over,-112,1.0,0.4717,10,2026-09-18T00:17:36Z,pending,,,
+nfl|00-0039299|player_rush_yds|33.5|2026-09-20T20:25:00Z,2026-09-18 01:18 UTC,nfl,NFL,00-0039299,George Holani,SEA,player_rush_yds,Rush Yds,33.5,Under,-113,1.0,0.4695,10,2026-09-20T20:25:00Z,pending,,,
