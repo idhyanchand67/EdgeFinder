@@ -221,18 +221,21 @@ mlb|5208019|batter_hits|0.5|2026-09-17T23:16:00Z,2026-09-18 01:18 UTC,mlb,MLB,52
 nfl|00-0039364|player_reception_yds|16.5|2026-09-18T00:17:36Z,2026-09-18 01:18 UTC,nfl,NFL,00-0039364,Sione Vaki,DET,player_reception_yds,Rec Yds,16.5,Under,-110,1.0,0.4762,10,2026-09-18T00:17:36Z,graded,13.0,HIT,2026-09-18 17:06 UTC
 nfl|00-0035689|player_reception_yds|5.5|2026-09-18T00:17:36Z,2026-09-18 01:18 UTC,nfl,NFL,00-0035689,Dawson Knox,BUF,player_reception_yds,Rec Yds,5.5,Over,-112,1.0,0.4717,10,2026-09-18T00:17:36Z,graded,5.0,MISS,2026-09-18 17:06 UTC
 nfl|00-0039299|player_rush_yds|33.5|2026-09-20T20:25:00Z,2026-09-18 01:18 UTC,nfl,NFL,00-0039299,George Holani,SEA,player_rush_yds,Rush Yds,33.5,Under,-113,1.0,0.4695,10,2026-09-20T20:25:00Z,pending,,,
-mlb|39907|batter_hits|0.5|2026-09-19T02:15:00Z,2026-09-18 17:06 UTC,mlb,MLB,39907,Tommy Edman,LAD,batter_hits,Hits,0.5,Under,185,0.9,0.5491,10,2026-09-19T02:15:00Z,pending,,,
-mlb|4917812|batter_rbis|0.5|2026-09-18T22:41:00Z,2026-09-18 17:06 UTC,mlb,MLB,4917812,Carter Jensen,KC,batter_rbis,RBIs,0.5,Over,237,0.8,0.5033,10,2026-09-18T22:41:00Z,pending,,,
+mlb|39907|batter_hits|0.5|2026-09-19T02:15:00Z,2026-09-18 17:06 UTC,mlb,MLB,39907,Tommy Edman,LAD,batter_hits,Hits,0.5,Under,185,0.9,0.5491,10,2026-09-19T02:15:00Z,graded,0.0,HIT,2026-09-19 16:31 UTC
+mlb|4917812|batter_rbis|0.5|2026-09-18T22:41:00Z,2026-09-18 17:06 UTC,mlb,MLB,4917812,Carter Jensen,KC,batter_rbis,RBIs,0.5,Over,237,0.8,0.5033,10,2026-09-18T22:41:00Z,graded,0.0,MISS,2026-09-19 16:31 UTC
 mlb|42536|batter_hits|0.5|2026-09-19T01:39:00Z,2026-09-18 17:06 UTC,mlb,MLB,42536,Kyren Paris,LAA,batter_hits,Hits,0.5,Under,-110,1.0,0.4762,8,2026-09-19T01:39:00Z,pending,,,
 nfl|00-0039299|player_rush_yds|31.5|2026-09-20T20:25:00Z,2026-09-18 17:06 UTC,nfl,NFL,00-0039299,George Holani,SEA,player_rush_yds,Rush Yds,31.5,Under,-111,1.0,0.4739,10,2026-09-20T20:25:00Z,pending,,,
-mlb|5017075|batter_hits|0.5|2026-09-18T22:41:00Z,2026-09-18 17:06 UTC,mlb,MLB,5017075,Carlos Jorge,CIN,batter_hits,Hits,0.5,Under,140,0.889,0.4723,9,2026-09-18T22:41:00Z,pending,,,
+mlb|5017075|batter_hits|0.5|2026-09-18T22:41:00Z,2026-09-18 17:06 UTC,mlb,MLB,5017075,Carlos Jorge,CIN,batter_hits,Hits,0.5,Under,140,0.889,0.4723,9,2026-09-18T22:41:00Z,graded,1.0,MISS,2026-09-19 16:31 UTC
 nfl|00-0039299|player_rush_yds|32.5|2026-09-20T20:25:00Z,2026-09-18 17:06 UTC,nfl,NFL,00-0039299,George Holani,SEA,player_rush_yds,Rush Yds,32.5,Under,-114,1.0,0.4673,10,2026-09-20T20:25:00Z,pending,,,
-mlb|42598|batter_hits|0.5|2026-09-18T23:11:00Z,2026-09-19 01:11 UTC,mlb,MLB,42598,Shea Langeliers,ATH,batter_hits,Hits,0.5,Over,330,1.0,0.7674,10,2026-09-18T23:11:00Z,pending,,,
-mlb|5080756|batter_hits|0.5|2026-09-18T23:11:00Z,2026-09-19 01:11 UTC,mlb,MLB,5080756,Henry Bolte,ATH,batter_hits,Hits,0.5,Over,370,0.9,0.6872,10,2026-09-18T23:11:00Z,pending,,,
-mlb|41996|batter_hits|0.5|2026-09-18T23:11:00Z,2026-09-19 01:11 UTC,mlb,MLB,41996,Steven Kwan,CLE,batter_hits,Hits,0.5,Over,255,0.9,0.6183,10,2026-09-18T23:11:00Z,pending,,,
+mlb|42598|batter_hits|0.5|2026-09-18T23:11:00Z,2026-09-19 01:11 UTC,mlb,MLB,42598,Shea Langeliers,ATH,batter_hits,Hits,0.5,Over,330,1.0,0.7674,10,2026-09-18T23:11:00Z,graded,0.0,MISS,2026-09-19 16:31 UTC
+mlb|5080756|batter_hits|0.5|2026-09-18T23:11:00Z,2026-09-19 01:11 UTC,mlb,MLB,5080756,Henry Bolte,ATH,batter_hits,Hits,0.5,Over,370,0.9,0.6872,10,2026-09-18T23:11:00Z,graded,0.0,MISS,2026-09-19 16:31 UTC
+mlb|41996|batter_hits|0.5|2026-09-18T23:11:00Z,2026-09-19 01:11 UTC,mlb,MLB,41996,Steven Kwan,CLE,batter_hits,Hits,0.5,Over,255,0.9,0.6183,10,2026-09-18T23:11:00Z,graded,0.0,MISS,2026-09-19 16:31 UTC
 mlb|4414215|pitcher_strikeouts|5.5|2026-09-19T20:11:00Z,2026-09-19 01:11 UTC,mlb,MLB,4414215,Christian Scott,NYM,pitcher_strikeouts,Pitcher Ks,5.5,Over,134,1.0,0.5726,9,2026-09-19T20:11:00Z,pending,,,
-mlb|4629089|pitcher_strikeouts|4.5|2026-09-19T00:11:00Z,2026-09-19 01:11 UTC,mlb,MLB,4629089,Bryan Woo,SEA,pitcher_strikeouts,Pitcher Ks,4.5,Over,125,1.0,0.5556,10,2026-09-19T00:11:00Z,pending,,,
-mlb|5148964|batter_hits|0.5|2026-09-18T23:41:00Z,2026-09-19 01:11 UTC,mlb,MLB,5148964,Max Clark,DET,batter_hits,Hits,0.5,Over,155,0.9,0.5078,10,2026-09-18T23:41:00Z,pending,,,
+mlb|4629089|pitcher_strikeouts|4.5|2026-09-19T00:11:00Z,2026-09-19 01:11 UTC,mlb,MLB,4629089,Bryan Woo,SEA,pitcher_strikeouts,Pitcher Ks,4.5,Over,125,1.0,0.5556,10,2026-09-19T00:11:00Z,graded,4.0,MISS,2026-09-19 16:31 UTC
+mlb|5148964|batter_hits|0.5|2026-09-18T23:41:00Z,2026-09-19 01:11 UTC,mlb,MLB,5148964,Max Clark,DET,batter_hits,Hits,0.5,Over,155,0.9,0.5078,10,2026-09-18T23:41:00Z,graded,1.0,HIT,2026-09-19 16:31 UTC
 nfl|00-0040075|player_receptions|1.5|2026-09-20T17:00:00Z,2026-09-19 01:11 UTC,nfl,NFL,00-0040075,LaJohntay Wester,BAL,player_receptions,Receptions,1.5,Under,150,0.9,0.5,10,2026-09-20T17:00:00Z,pending,,,
-mlb|4872681|batter_hits|1.5|2026-09-19T00:16:00Z,2026-09-19 01:11 UTC,mlb,MLB,4872681,Brady House,WSH,batter_hits,Hits,1.5,Under,-105,1.0,0.4878,10,2026-09-19T00:16:00Z,pending,,,
-mlb|5124076|batter_rbis|0.5|2026-09-19T00:16:00Z,2026-09-19 01:11 UTC,mlb,MLB,5124076,Leo Bernal,STL,batter_rbis,RBIs,0.5,Over,350,0.7,0.4778,10,2026-09-19T00:16:00Z,pending,,,
+mlb|4872681|batter_hits|1.5|2026-09-19T00:16:00Z,2026-09-19 01:11 UTC,mlb,MLB,4872681,Brady House,WSH,batter_hits,Hits,1.5,Under,-105,1.0,0.4878,10,2026-09-19T00:16:00Z,graded,1.0,HIT,2026-09-19 16:31 UTC
+mlb|5124076|batter_rbis|0.5|2026-09-19T00:16:00Z,2026-09-19 01:11 UTC,mlb,MLB,5124076,Leo Bernal,STL,batter_rbis,RBIs,0.5,Over,350,0.7,0.4778,10,2026-09-19T00:16:00Z,graded,0.0,MISS,2026-09-19 16:31 UTC
+mlb|39907|batter_hits|0.5|2026-09-20T01:11:00Z,2026-09-19 16:31 UTC,mlb,MLB,39907,Tommy Edman,LAD,batter_hits,Hits,0.5,Under,179,0.9,0.5416,10,2026-09-20T01:11:00Z,pending,,,
+nfl|00-0040075|player_reception_yds|20.5|2026-09-20T17:00:00Z,2026-09-19 16:31 UTC,nfl,NFL,00-0040075,LaJohntay Wester,BAL,player_reception_yds,Rec Yds,20.5,Under,-111,1.0,0.4739,10,2026-09-20T17:00:00Z,pending,,,
+mlb|4917812|batter_rbis|0.5|2026-09-19T22:41:00Z,2026-09-19 16:31 UTC,mlb,MLB,4917812,Carter Jensen,KC,batter_rbis,RBIs,0.5,Over,206,0.8,0.4732,10,2026-09-19T22:41:00Z,pending,,,
