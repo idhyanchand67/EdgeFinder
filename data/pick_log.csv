@@ -239,3 +239,6 @@ mlb|5124076|batter_rbis|0.5|2026-09-19T00:16:00Z,2026-09-19 01:11 UTC,mlb,MLB,51
 mlb|39907|batter_hits|0.5|2026-09-20T01:11:00Z,2026-09-19 16:31 UTC,mlb,MLB,39907,Tommy Edman,LAD,batter_hits,Hits,0.5,Under,179,0.9,0.5416,10,2026-09-20T01:11:00Z,pending,,,
 nfl|00-0040075|player_reception_yds|20.5|2026-09-20T17:00:00Z,2026-09-19 16:31 UTC,nfl,NFL,00-0040075,LaJohntay Wester,BAL,player_reception_yds,Rec Yds,20.5,Under,-111,1.0,0.4739,10,2026-09-20T17:00:00Z,pending,,,
 mlb|4917812|batter_rbis|0.5|2026-09-19T22:41:00Z,2026-09-19 16:31 UTC,mlb,MLB,4917812,Carter Jensen,KC,batter_rbis,RBIs,0.5,Over,206,0.8,0.4732,10,2026-09-19T22:41:00Z,pending,,,
+mlb|4654313|pitcher_strikeouts|6.5|2026-09-20T00:11:00Z,2026-09-20 01:11 UTC,mlb,MLB,4654313,Bryce Miller,SEA,pitcher_strikeouts,Pitcher Ks,6.5,Under,100,1.0,0.5,10,2026-09-20T00:11:00Z,pending,,,
+nfl|00-0040075|player_reception_yds|22.5|2026-09-20T17:00:00Z,2026-09-20 01:11 UTC,nfl,NFL,00-0040075,LaJohntay Wester,BAL,player_reception_yds,Rec Yds,22.5,Under,-111,1.0,0.4739,10,2026-09-20T17:00:00Z,pending,,,
+nfl|00-0040075|player_reception_yds|21.5|2026-09-20T17:00:00Z,2026-09-20 01:11 UTC,nfl,NFL,00-0040075,LaJohntay Wester,BAL,player_reception_yds,Rec Yds,21.5,Under,-114,1.0,0.4673,10,2026-09-20T17:00:00Z,pending,,,
