@@ -289,3 +289,4 @@ mlb|41221|batter_strikeouts|5.5|2026-09-23T01:41:00Z,2026-09-23 01:31 UTC,mlb,ML
 mlb|41415|batter_strikeouts|4.5|2026-09-23T01:41:00Z,2026-09-23 01:31 UTC,mlb,MLB,41415,Yusei Kikuchi,LAA,batter_strikeouts,Batter Ks,4.5,Under,117,1.0,0.5392,5,2026-09-23T01:41:00Z,pending,,,
 mlb|5016983|batter_strikeouts|3.5|2026-09-23T01:46:00Z,2026-09-23 01:31 UTC,mlb,MLB,5016983,Anthony Molina,SF,batter_strikeouts,Batter Ks,3.5,Under,117,1.0,0.5392,5,2026-09-23T01:46:00Z,pending,,,
 mlb|4109109|batter_rbis|0.5|2026-09-22T23:41:00Z,2026-09-23 01:31 UTC,mlb,MLB,4109109,Vinnie Pasquantino,KC,batter_rbis,RBIs,0.5,Over,900,0.6,0.5,10,2026-09-22T23:41:00Z,pending,,,
+mlb|38904|batter_hits|0.5|2026-09-23T00:08:20Z,2026-09-23 01:38 UTC,mlb,MLB,38904,Bo Bichette,NYM,batter_hits,Hits,0.5,Over,200,0.8,0.4667,10,2026-09-23T00:08:20Z,pending,,,
