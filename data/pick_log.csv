@@ -290,11 +290,17 @@ mlb|41415|batter_strikeouts|4.5|2026-09-23T01:41:00Z,2026-09-23 01:31 UTC,mlb,ML
 mlb|5016983|batter_strikeouts|3.5|2026-09-23T01:46:00Z,2026-09-23 01:31 UTC,mlb,MLB,5016983,Anthony Molina,SF,batter_strikeouts,Batter Ks,3.5,Under,117,1.0,0.5392,5,2026-09-23T01:46:00Z,graded,0.0,HIT,2026-09-23 17:52 UTC
 mlb|4109109|batter_rbis|0.5|2026-09-22T23:41:00Z,2026-09-23 01:31 UTC,mlb,MLB,4109109,Vinnie Pasquantino,KC,batter_rbis,RBIs,0.5,Over,900,0.6,0.5,10,2026-09-22T23:41:00Z,graded,5.0,HIT,2026-09-23 17:52 UTC
 mlb|38904|batter_hits|0.5|2026-09-23T00:08:20Z,2026-09-23 01:38 UTC,mlb,MLB,38904,Bo Bichette,NYM,batter_hits,Hits,0.5,Over,200,0.8,0.4667,10,2026-09-23T00:08:20Z,graded,1.0,HIT,2026-09-23 17:52 UTC
-mlb|33148|batter_strikeouts|3.5|2026-09-23T17:38:00Z,2026-09-23 17:52 UTC,mlb,MLB,33148,Chris Bassitt,BAL,batter_strikeouts,Batter Ks,3.5,Under,123,1.0,0.5516,7,2026-09-23T17:38:00Z,pending,,,
+mlb|33148|batter_strikeouts|3.5|2026-09-23T17:38:00Z,2026-09-23 17:52 UTC,mlb,MLB,33148,Chris Bassitt,BAL,batter_strikeouts,Batter Ks,3.5,Under,123,1.0,0.5516,7,2026-09-23T17:38:00Z,graded,0.0,HIT,2026-09-24 01:25 UTC
 mlb|4917812|batter_rbis|0.5|2026-09-23T23:41:00Z,2026-09-23 17:52 UTC,mlb,MLB,4917812,Carter Jensen,KC,batter_rbis,RBIs,0.5,Over,230,0.8,0.497,10,2026-09-23T23:41:00Z,pending,,,
 mlb|30948|pitcher_outs|15.5|2026-09-23T23:16:00Z,2026-09-23 17:52 UTC,mlb,MLB,30948,Chris Sale,ATL,pitcher_outs,Outs Recorded,15.5,Over,-105,1.0,0.4878,9,2026-09-23T23:16:00Z,pending,,,
 mlb|33481|batter_hits|0.5|2026-09-23T23:06:00Z,2026-09-23 17:52 UTC,mlb,MLB,33481,Yandy Diaz,TB,batter_hits,Hits,0.5,Under,180,0.8,0.4429,10,2026-09-23T23:06:00Z,pending,,,
-mlb|28976|batter_strikeouts|4.5|2026-09-23T17:38:00Z,2026-09-23 17:52 UTC,mlb,MLB,28976,Max Scherzer,TOR,batter_strikeouts,Batter Ks,4.5,Under,-130,1.0,0.4348,10,2026-09-23T17:38:00Z,pending,,,
-mlb|35002|batter_hits|1.5|2026-09-23T17:38:00Z,2026-09-23 17:52 UTC,mlb,MLB,35002,Vladimir Guerrero Jr.,TOR,batter_hits,Hits,1.5,Under,110,0.9,0.4238,10,2026-09-23T17:38:00Z,pending,,,
+mlb|28976|batter_strikeouts|4.5|2026-09-23T17:38:00Z,2026-09-23 17:52 UTC,mlb,MLB,28976,Max Scherzer,TOR,batter_strikeouts,Batter Ks,4.5,Under,-130,1.0,0.4348,10,2026-09-23T17:38:00Z,graded,0.0,HIT,2026-09-24 01:25 UTC
+mlb|35002|batter_hits|1.5|2026-09-23T17:38:00Z,2026-09-23 17:52 UTC,mlb,MLB,35002,Vladimir Guerrero Jr.,TOR,batter_hits,Hits,1.5,Under,110,0.9,0.4238,10,2026-09-23T17:38:00Z,graded,1.0,HIT,2026-09-24 01:25 UTC
 mlb|42933|batter_hits|0.5|2026-09-23T22:41:00Z,2026-09-23 17:52 UTC,mlb,MLB,42933,Jared Triolo,PIT,batter_hits,Hits,0.5,Under,107,0.9,0.4169,10,2026-09-23T22:41:00Z,pending,,,
 mlb|5197107|batter_hits|0.5|2026-09-24T02:11:00Z,2026-09-23 17:52 UTC,mlb,MLB,5197107,Brock Rodden,SEA,batter_hits,Hits,0.5,Under,-140,1.0,0.4167,10,2026-09-24T02:11:00Z,pending,,,
+mlb|42455|batter_hits|0.5|2026-09-23T23:41:00Z,2026-09-24 01:25 UTC,mlb,MLB,42455,Heriberto Hernandez,MIA,batter_hits,Hits,0.5,Over,360,0.9,0.6826,10,2026-09-23T23:41:00Z,pending,,,
+mlb|35397|batter_strikeouts|4.5|2026-09-24T01:41:00Z,2026-09-24 01:25 UTC,mlb,MLB,35397,Jeffrey Springs,ATH,batter_strikeouts,Batter Ks,4.5,Under,118,1.0,0.5413,9,2026-09-24T01:41:00Z,pending,,,
+mlb|35004|batter_hits|0.5|2026-09-24T00:06:00Z,2026-09-24 01:25 UTC,mlb,MLB,35004,Danny Jansen,TEX,batter_hits,Hits,0.5,Over,275,0.8,0.5333,10,2026-09-24T00:06:00Z,pending,,,
+mlb|5073992|batter_rbis|0.5|2026-09-23T23:41:00Z,2026-09-24 01:25 UTC,mlb,MLB,5073992,Javier Sanoja,MIA,batter_rbis,RBIs,0.5,Over,1200,0.6,0.5231,10,2026-09-23T23:41:00Z,pending,,,
+mlb|4917787|batter_hits|1.5|2026-09-24T00:41:00Z,2026-09-24 01:25 UTC,mlb,MLB,4917787,Adael Amador,COL,batter_hits,Hits,1.5,Under,105,1.0,0.5122,10,2026-09-24T00:41:00Z,pending,,,
+mlb|38904|batter_hits|0.5|2026-09-24T00:06:00Z,2026-09-24 01:25 UTC,mlb,MLB,38904,Bo Bichette,NYM,batter_hits,Hits,0.5,Over,190,0.8,0.4552,10,2026-09-24T00:06:00Z,pending,,,
