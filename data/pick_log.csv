@@ -323,15 +323,22 @@ mlb|5080766|batter_hits|0.5|2026-09-25T01:41:00Z,2026-09-25 01:32 UTC,mlb,MLB,50
 nfl|00-0040737|player_receptions|3.5|2026-09-28T00:20:00Z,2026-09-25 01:32 UTC,nfl,NFL,00-0040737,Terrance Ferguson,LA,player_receptions,Receptions,3.5,Under,112,0.9,0.4283,10,2026-09-28T00:20:00Z,pending,,,
 nfl|00-0039364|player_rush_yds|9.5|2026-09-27T17:00:00Z,2026-09-25 17:58 UTC,nfl,NFL,00-0039364,Sione Vaki,DET,player_rush_yds,Rush Yds,9.5,Under,-109,1.0,0.4785,10,2026-09-27T17:00:00Z,pending,,,
 nfl|00-0039364|player_rush_yds|11.5|2026-09-27T17:00:00Z,2026-09-25 17:58 UTC,nfl,NFL,00-0039364,Sione Vaki,DET,player_rush_yds,Rush Yds,11.5,Under,-109,1.0,0.4785,10,2026-09-27T17:00:00Z,pending,,,
-mlb|39961|batter_rbis|0.5|2026-09-25T22:41:00Z,2026-09-25 17:58 UTC,mlb,MLB,39961,Brandon Lowe,PIT,batter_rbis,RBIs,0.5,Over,210,0.8,0.4774,10,2026-09-25T22:41:00Z,pending,,,
+mlb|39961|batter_rbis|0.5|2026-09-25T22:41:00Z,2026-09-25 17:58 UTC,mlb,MLB,39961,Brandon Lowe,PIT,batter_rbis,RBIs,0.5,Over,210,0.8,0.4774,10,2026-09-25T22:41:00Z,graded,0.0,MISS,2026-09-26 17:11 UTC
 nfl|00-0039364|player_rush_yds|10.5|2026-09-27T17:00:00Z,2026-09-25 17:58 UTC,nfl,NFL,00-0039364,Sione Vaki,DET,player_rush_yds,Rush Yds,10.5,Under,-114,1.0,0.4673,10,2026-09-27T17:00:00Z,pending,,,
 nfl|00-0034837|player_reception_yds|12.5|2026-09-27T17:00:00Z,2026-09-25 17:58 UTC,nfl,NFL,00-0034837,Calvin Ridley,TEN,player_reception_yds,Rec Yds,12.5,Over,-120,1.0,0.4545,10,2026-09-27T17:00:00Z,pending,,,
-mlb|31261|batter_hits|0.5|2026-09-26T01:41:00Z,2026-09-25 17:58 UTC,mlb,MLB,31261,Nolan Arenado,ARI,batter_hits,Hits,0.5,Over,-133,1.0,0.4292,10,2026-09-26T01:41:00Z,pending,,,
-mlb|39895|batter_hits|0.5|2026-09-25T23:41:00Z,2026-09-26 01:35 UTC,mlb,MLB,39895,William Contreras,MIL,batter_hits,Hits,0.5,Over,650,0.9,0.7667,10,2026-09-25T23:41:00Z,pending,,,
-mlb|5203102|batter_hits|0.5|2026-09-25T23:42:04Z,2026-09-26 01:35 UTC,mlb,MLB,5203102,Kyle Karros,COL,batter_hits,Hits,0.5,Over,320,0.8,0.5619,10,2026-09-25T23:42:04Z,pending,,,
-mlb|4629081|batter_hits|0.5|2026-09-26T00:11:00Z,2026-09-26 01:35 UTC,mlb,MLB,4629081,Brooks Lee,MIN,batter_hits,Hits,0.5,Over,185,0.9,0.5491,10,2026-09-26T00:11:00Z,pending,,,
-mlb|39895|batter_rbis|0.5|2026-09-25T23:41:00Z,2026-09-26 01:35 UTC,mlb,MLB,39895,William Contreras,MIL,batter_rbis,RBIs,0.5,Over,950,0.6,0.5048,10,2026-09-25T23:41:00Z,pending,,,
-mlb|4721302|batter_strikeouts|3.5|2026-09-26T01:41:00Z,2026-09-26 01:35 UTC,mlb,MLB,4721302,Brandon Pfaadt,ARI,batter_strikeouts,Batter Ks,3.5,Under,100,1.0,0.5,10,2026-09-26T01:41:00Z,pending,,,
-mlb|4717803|batter_strikeouts|5.5|2026-09-26T01:41:00Z,2026-09-26 01:35 UTC,mlb,MLB,4717803,Hunter Brown,HOU,batter_strikeouts,Batter Ks,5.5,Under,-106,1.0,0.4854,10,2026-09-26T01:41:00Z,pending,,,
-mlb|39961|batter_home_runs|0.5|2026-09-25T23:08:00Z,2026-09-26 01:35 UTC,mlb,MLB,39961,Brandon Lowe,PIT,batter_home_runs,Home Runs,0.5,Over,6000,0.5,0.4836,10,2026-09-25T23:08:00Z,pending,,,
-mlb|4941056|batter_hits|0.5|2026-09-25T23:41:00Z,2026-09-26 01:35 UTC,mlb,MLB,4941056,JJ Wetherholt,STL,batter_hits,Hits,0.5,Over,320,0.7,0.4619,10,2026-09-25T23:41:00Z,pending,,,
+mlb|31261|batter_hits|0.5|2026-09-26T01:41:00Z,2026-09-25 17:58 UTC,mlb,MLB,31261,Nolan Arenado,ARI,batter_hits,Hits,0.5,Over,-133,1.0,0.4292,10,2026-09-26T01:41:00Z,graded,1.0,HIT,2026-09-26 17:11 UTC
+mlb|39895|batter_hits|0.5|2026-09-25T23:41:00Z,2026-09-26 01:35 UTC,mlb,MLB,39895,William Contreras,MIL,batter_hits,Hits,0.5,Over,650,0.9,0.7667,10,2026-09-25T23:41:00Z,graded,1.0,HIT,2026-09-26 17:11 UTC
+mlb|5203102|batter_hits|0.5|2026-09-25T23:42:04Z,2026-09-26 01:35 UTC,mlb,MLB,5203102,Kyle Karros,COL,batter_hits,Hits,0.5,Over,320,0.8,0.5619,10,2026-09-25T23:42:04Z,graded,0.0,MISS,2026-09-26 17:11 UTC
+mlb|4629081|batter_hits|0.5|2026-09-26T00:11:00Z,2026-09-26 01:35 UTC,mlb,MLB,4629081,Brooks Lee,MIN,batter_hits,Hits,0.5,Over,185,0.9,0.5491,10,2026-09-26T00:11:00Z,graded,0.0,MISS,2026-09-26 17:11 UTC
+mlb|39895|batter_rbis|0.5|2026-09-25T23:41:00Z,2026-09-26 01:35 UTC,mlb,MLB,39895,William Contreras,MIL,batter_rbis,RBIs,0.5,Over,950,0.6,0.5048,10,2026-09-25T23:41:00Z,graded,1.0,HIT,2026-09-26 17:11 UTC
+mlb|4721302|batter_strikeouts|3.5|2026-09-26T01:41:00Z,2026-09-26 01:35 UTC,mlb,MLB,4721302,Brandon Pfaadt,ARI,batter_strikeouts,Batter Ks,3.5,Under,100,1.0,0.5,10,2026-09-26T01:41:00Z,graded,0.0,HIT,2026-09-26 17:11 UTC
+mlb|4717803|batter_strikeouts|5.5|2026-09-26T01:41:00Z,2026-09-26 01:35 UTC,mlb,MLB,4717803,Hunter Brown,HOU,batter_strikeouts,Batter Ks,5.5,Under,-106,1.0,0.4854,10,2026-09-26T01:41:00Z,graded,0.0,HIT,2026-09-26 17:11 UTC
+mlb|39961|batter_home_runs|0.5|2026-09-25T23:08:00Z,2026-09-26 01:35 UTC,mlb,MLB,39961,Brandon Lowe,PIT,batter_home_runs,Home Runs,0.5,Over,6000,0.5,0.4836,10,2026-09-25T23:08:00Z,graded,0.0,MISS,2026-09-26 17:11 UTC
+mlb|4941056|batter_hits|0.5|2026-09-25T23:41:00Z,2026-09-26 01:35 UTC,mlb,MLB,4941056,JJ Wetherholt,STL,batter_hits,Hits,0.5,Over,320,0.7,0.4619,10,2026-09-25T23:41:00Z,graded,0.0,MISS,2026-09-26 17:11 UTC
+nfl|00-0038416|player_pass_tds|0.5|2026-09-29T00:15:00Z,2026-09-26 17:11 UTC,nfl,NFL,00-0038416,Tyson Bagent,CHI,player_pass_tds,Pass TDs,0.5,Under,178,1.0,0.6403,7,2026-09-29T00:15:00Z,pending,,,
+mlb|38420|batter_hits|0.5|2026-09-26T17:11:00Z,2026-09-26 17:11 UTC,mlb,MLB,38420,Zach McKinstry,DET,batter_hits,Hits,0.5,Under,-104,1.0,0.4902,10,2026-09-26T17:11:00Z,pending,,,
+nfl|00-0038416|player_pass_yds|174.5|2026-09-29T00:15:00Z,2026-09-26 17:11 UTC,nfl,NFL,00-0038416,Tyson Bagent,CHI,player_pass_yds,Pass Yds,174.5,Under,-114,1.0,0.4673,7,2026-09-29T00:15:00Z,pending,,,
+mlb|42884|batter_hits|0.5|2026-09-26T19:08:00Z,2026-09-26 17:11 UTC,mlb,MLB,42884,Josh Smith,TOR,batter_hits,Hits,0.5,Under,125,0.9,0.4556,10,2026-09-26T19:08:00Z,pending,,,
+nfl|00-0040075|player_reception_yds|17.5|2026-09-27T20:25:00Z,2026-09-26 17:11 UTC,nfl,NFL,00-0040075,LaJohntay Wester,BAL,player_reception_yds,Rec Yds,17.5,Under,-120,1.0,0.4545,10,2026-09-27T20:25:00Z,pending,,,
+nfl|00-0034796|player_rush_yds|43.5|2026-09-27T20:25:00Z,2026-09-26 17:11 UTC,nfl,NFL,00-0034796,Lamar Jackson,BAL,player_rush_yds,Rush Yds,43.5,Under,-120,1.0,0.4545,10,2026-09-27T20:25:00Z,pending,,,
+nfl|00-0039364|player_rush_yds|12.5|2026-09-27T17:00:00Z,2026-09-26 17:11 UTC,nfl,NFL,00-0039364,Sione Vaki,DET,player_rush_yds,Rush Yds,12.5,Under,-122,1.0,0.4505,10,2026-09-27T17:00:00Z,pending,,,
