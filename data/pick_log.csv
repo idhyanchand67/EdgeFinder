@@ -368,7 +368,7 @@ nfl|00-0036244|player_reception_yds|5.5|2026-09-28T00:22:52Z,2026-09-28 01:41 UT
 nfl|00-0036158|player_rush_yds|29.5|2026-09-28T00:22:52Z,2026-09-28 01:41 UTC,nfl,NFL,00-0036158,J.K. Dobbins,DEN,player_rush_yds,Rush Yds,29.5,Over,-125,1.0,0.4444,10,2026-09-28T00:22:52Z,graded,49.0,HIT,2026-09-28 20:07 UTC
 nfl|00-0036422|player_reception_yds|0.5|2026-09-28T00:22:52Z,2026-09-28 01:41 UTC,nfl,NFL,00-0036422,Adam Trautman,DEN,player_reception_yds,Rec Yds,0.5,Over,105,0.9,0.4122,10,2026-09-28T00:22:52Z,pending,,,
 mlb|5149070|batter_rbis|0.5|2026-09-30T00:10:00Z,2026-09-28 20:08 UTC,mlb,MLB,5149070,George Lombard Jr.,NYY,batter_rbis,RBIs,0.5,Over,375,0.6,0.3895,10,2026-09-30T00:10:00Z,pending,,,
-mlb|32177|batter_hits|0.5|2026-09-29T18:00:00Z,2026-09-28 20:08 UTC,mlb,MLB,32177,J.T. Realmuto,PHI,batter_hits,Hits,0.5,Under,-105,0.9,0.3878,10,2026-09-29T18:00:00Z,pending,,,
+mlb|32177|batter_hits|0.5|2026-09-29T18:00:00Z,2026-09-28 20:08 UTC,mlb,MLB,32177,J.T. Realmuto,PHI,batter_hits,Hits,0.5,Under,-105,0.9,0.3878,10,2026-09-29T18:00:00Z,graded,1.0,MISS,2026-09-30 02:09 UTC
 nfl|00-0036407|player_receptions|1.5|2026-10-02T00:15:00Z,2026-09-28 20:08 UTC,nfl,NFL,00-0036407,Jerry Jeudy,CLE,player_receptions,Receptions,1.5,Over,137,0.8,0.3781,10,2026-10-02T00:15:00Z,pending,,,
 nfl|00-0036912|player_reception_yds|62.5|2026-09-29T00:15:00Z,2026-09-28 20:08 UTC,nfl,NFL,00-0036912,DeVonta Smith,PHI,player_reception_yds,Rec Yds,62.5,Under,135,0.8,0.3745,10,2026-09-29T00:15:00Z,graded,65.0,MISS,2026-09-29 18:38 UTC
 nfl|00-0030061|player_reception_yds|10.5|2026-09-29T00:15:00Z,2026-09-28 20:08 UTC,nfl,NFL,00-0030061,Zach Ertz,PHI,player_reception_yds,Rec Yds,10.5,Over,-113,0.9,0.3695,10,2026-09-29T00:15:00Z,graded,9.0,MISS,2026-09-29 18:38 UTC
@@ -389,7 +389,13 @@ mlb|34401|pitcher_outs|12.5|2026-09-30T02:00:00Z,2026-09-29 02:35 UTC,mlb,MLB,34
 nfl|00-0040735|player_receptions|7.5|2026-09-29T00:16:16Z,2026-09-29 02:35 UTC,nfl,NFL,00-0040735,Luther Burden III,CHI,player_receptions,Receptions,7.5,Under,100,0.9,0.4,10,2026-09-29T00:16:16Z,graded,7.0,HIT,2026-09-29 18:38 UTC
 mlb|34401|pitcher_outs|13.5|2026-09-30T02:10:00Z,2026-09-29 18:39 UTC,mlb,MLB,34401,Matthew Boyd,CHC,pitcher_outs,Outs Recorded,13.5,Over,-107,1.0,0.4831,10,2026-09-30T02:10:00Z,pending,,,
 mlb|34401|pitcher_outs|12.5|2026-09-30T02:10:00Z,2026-09-29 18:39 UTC,mlb,MLB,34401,Matthew Boyd,CHC,pitcher_outs,Outs Recorded,12.5,Over,-150,1.0,0.4,10,2026-09-30T02:10:00Z,pending,,,
-mlb|39667|pitcher_strikeouts|3.5|2026-09-29T18:16:21Z,2026-09-29 18:39 UTC,mlb,MLB,39667,Jesus Luzardo,PHI,pitcher_strikeouts,Pitcher Ks,3.5,Over,-105,0.9,0.3878,10,2026-09-29T18:16:21Z,pending,,,
-mlb|30948|pitcher_outs|17.5|2026-09-29T18:16:21Z,2026-09-29 18:39 UTC,mlb,MLB,30948,Chris Sale,ATL,pitcher_outs,Outs Recorded,17.5,Over,-110,0.9,0.3762,10,2026-09-29T18:16:21Z,pending,,,
+mlb|39667|pitcher_strikeouts|3.5|2026-09-29T18:16:21Z,2026-09-29 18:39 UTC,mlb,MLB,39667,Jesus Luzardo,PHI,pitcher_strikeouts,Pitcher Ks,3.5,Over,-105,0.9,0.3878,10,2026-09-29T18:16:21Z,graded,6.0,HIT,2026-09-30 02:09 UTC
+mlb|30948|pitcher_outs|17.5|2026-09-29T18:16:21Z,2026-09-29 18:39 UTC,mlb,MLB,30948,Chris Sale,ATL,pitcher_outs,Outs Recorded,17.5,Over,-110,0.9,0.3762,10,2026-09-29T18:16:21Z,graded,19.0,HIT,2026-09-30 02:09 UTC
 nfl|00-0032268|player_pass_yds|213.5|2026-10-04T13:30:00Z,2026-09-29 18:39 UTC,nfl,NFL,00-0032268,Marcus Mariota,WAS,player_pass_yds,Pass Yds,213.5,Under,-111,0.9,0.3739,10,2026-10-04T13:30:00Z,pending,,,
 nfl|00-0040128|player_reception_yds|47.5|2026-10-04T13:30:00Z,2026-09-29 18:39 UTC,nfl,NFL,00-0040128,Tyler Warren,IND,player_reception_yds,Rec Yds,47.5,Under,-111,0.9,0.3739,10,2026-10-04T13:30:00Z,pending,,,
+mlb|40429|batter_strikeouts|4.5|2026-09-30T02:10:00Z,2026-09-30 02:09 UTC,mlb,MLB,40429,Michael King,SD,batter_strikeouts,Batter Ks,4.5,Under,-114,1.0,0.4673,10,2026-09-30T02:10:00Z,pending,,,
+mlb|4717803|pitcher_outs|14.5|2026-09-30T21:00:00Z,2026-09-30 02:09 UTC,mlb,MLB,4717803,Hunter Brown,HOU,pitcher_outs,Outs Recorded,14.5,Over,-148,1.0,0.4032,10,2026-09-30T21:00:00Z,pending,,,
+nfl|00-0026498|player_pass_tds|1.5|2026-10-04T17:00:00Z,2026-09-30 02:09 UTC,nfl,NFL,00-0026498,Matthew Stafford,LA,player_pass_tds,Pass TDs,1.5,Over,-103,0.9,0.3926,10,2026-10-04T17:00:00Z,pending,,,
+nfl|00-0040583|player_reception_yds|8.5|2026-10-04T17:00:00Z,2026-09-30 02:09 UTC,nfl,NFL,00-0040583,Woody Marks,HOU,player_reception_yds,Rec Yds,8.5,Under,-108,0.9,0.3808,10,2026-10-04T17:00:00Z,pending,,,
+mlb|34973|pitcher_outs|14.5|2026-09-30T18:00:00Z,2026-09-30 02:09 UTC,mlb,MLB,34973,Tyler Mahle,ATL,pitcher_outs,Outs Recorded,14.5,Over,-169,1.0,0.3717,10,2026-09-30T18:00:00Z,pending,,,
+mlb|4089862|batter_hits|0.5|2026-09-30T18:00:00Z,2026-09-30 02:09 UTC,mlb,MLB,4089862,Ha-Seong Kim,ATL,batter_hits,Hits,0.5,Under,-112,0.9,0.3717,10,2026-09-30T18:00:00Z,pending,,,
