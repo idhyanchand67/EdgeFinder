@@ -397,14 +397,19 @@ mlb|40429|batter_strikeouts|4.5|2026-09-30T02:10:00Z,2026-09-30 02:09 UTC,mlb,ML
 mlb|4717803|pitcher_outs|14.5|2026-09-30T21:00:00Z,2026-09-30 02:09 UTC,mlb,MLB,4717803,Hunter Brown,HOU,pitcher_outs,Outs Recorded,14.5,Over,-148,1.0,0.4032,10,2026-09-30T21:00:00Z,pending,,,
 nfl|00-0026498|player_pass_tds|1.5|2026-10-04T17:00:00Z,2026-09-30 02:09 UTC,nfl,NFL,00-0026498,Matthew Stafford,LA,player_pass_tds,Pass TDs,1.5,Over,-103,0.9,0.3926,10,2026-10-04T17:00:00Z,pending,,,
 nfl|00-0040583|player_reception_yds|8.5|2026-10-04T17:00:00Z,2026-09-30 02:09 UTC,nfl,NFL,00-0040583,Woody Marks,HOU,player_reception_yds,Rec Yds,8.5,Under,-108,0.9,0.3808,10,2026-10-04T17:00:00Z,pending,,,
-mlb|34973|pitcher_outs|14.5|2026-09-30T18:00:00Z,2026-09-30 02:09 UTC,mlb,MLB,34973,Tyler Mahle,ATL,pitcher_outs,Outs Recorded,14.5,Over,-169,1.0,0.3717,10,2026-09-30T18:00:00Z,pending,,,
-mlb|4089862|batter_hits|0.5|2026-09-30T18:00:00Z,2026-09-30 02:09 UTC,mlb,MLB,4089862,Ha-Seong Kim,ATL,batter_hits,Hits,0.5,Under,-112,0.9,0.3717,10,2026-09-30T18:00:00Z,pending,,,
+mlb|34973|pitcher_outs|14.5|2026-09-30T18:00:00Z,2026-09-30 02:09 UTC,mlb,MLB,34973,Tyler Mahle,ATL,pitcher_outs,Outs Recorded,14.5,Over,-169,1.0,0.3717,10,2026-09-30T18:00:00Z,graded,21.0,HIT,2026-10-01 02:10 UTC
+mlb|4089862|batter_hits|0.5|2026-09-30T18:00:00Z,2026-09-30 02:09 UTC,mlb,MLB,4089862,Ha-Seong Kim,ATL,batter_hits,Hits,0.5,Under,-112,0.9,0.3717,10,2026-09-30T18:00:00Z,graded,0.0,HIT,2026-10-01 02:10 UTC
 nfl|00-0038416|player_pass_yds|202.5|2026-10-04T17:00:00Z,2026-09-30 18:27 UTC,nfl,NFL,00-0038416,Tyson Bagent,CHI,player_pass_yds,Pass Yds,202.5,Under,-114,1.0,0.4673,7,2026-10-04T17:00:00Z,pending,,,
 nfl|00-0039794|player_rush_yds|55.5|2026-10-04T17:00:00Z,2026-09-30 18:27 UTC,nfl,NFL,00-0039794,Braelon Allen,NYJ,player_rush_yds,Rush Yds,55.5,Under,-114,1.0,0.4673,10,2026-10-04T17:00:00Z,pending,,,
 nfl|00-0038416|player_pass_yds|200.5|2026-10-04T17:00:00Z,2026-09-30 18:27 UTC,nfl,NFL,00-0038416,Tyson Bagent,CHI,player_pass_yds,Pass Yds,200.5,Under,-115,1.0,0.4651,7,2026-10-04T17:00:00Z,pending,,,
 mlb|32082|pitcher_outs|15.5|2026-10-01T00:00:00Z,2026-09-30 18:27 UTC,mlb,MLB,32082,Sonny Gray,BOS,pitcher_outs,Outs Recorded,15.5,Over,125,0.9,0.4556,10,2026-10-01T00:00:00Z,pending,,,
-mlb|34973|pitcher_outs|14.5|2026-09-30T18:16:00Z,2026-09-30 18:27 UTC,mlb,MLB,34973,Tyler Mahle,ATL,pitcher_outs,Outs Recorded,14.5,Over,-120,1.0,0.4545,10,2026-09-30T18:16:00Z,pending,,,
-mlb|42359|batter_strikeouts|6.5|2026-09-30T18:16:00Z,2026-09-30 18:27 UTC,mlb,MLB,42359,Cristopher Sanchez,PHI,batter_strikeouts,Batter Ks,6.5,Under,-127,1.0,0.4405,10,2026-09-30T18:16:00Z,pending,,,
+mlb|34973|pitcher_outs|14.5|2026-09-30T18:16:00Z,2026-09-30 18:27 UTC,mlb,MLB,34973,Tyler Mahle,ATL,pitcher_outs,Outs Recorded,14.5,Over,-120,1.0,0.4545,10,2026-09-30T18:16:00Z,graded,21.0,HIT,2026-10-01 02:10 UTC
+mlb|42359|batter_strikeouts|6.5|2026-09-30T18:16:00Z,2026-09-30 18:27 UTC,mlb,MLB,42359,Cristopher Sanchez,PHI,batter_strikeouts,Batter Ks,6.5,Under,-127,1.0,0.4405,10,2026-09-30T18:16:00Z,graded,0.0,HIT,2026-10-01 02:10 UTC
 nfl|00-0036550|player_receptions|2.5|2026-10-04T17:00:00Z,2026-09-30 18:27 UTC,nfl,NFL,00-0036550,Rashod Bateman,BAL,player_receptions,Receptions,2.5,Under,116,0.9,0.437,10,2026-10-04T17:00:00Z,pending,,,
-mlb|30951|batter_hits|1.5|2026-09-30T18:16:00Z,2026-09-30 18:27 UTC,mlb,MLB,30951,Bryce Harper,PHI,batter_hits,Hits,1.5,Under,105,0.9,0.4122,10,2026-09-30T18:16:00Z,pending,,,
-mlb|34973|pitcher_outs|13.5|2026-09-30T18:16:00Z,2026-09-30 18:27 UTC,mlb,MLB,34973,Tyler Mahle,ATL,pitcher_outs,Outs Recorded,13.5,Over,-145,1.0,0.4082,10,2026-09-30T18:16:00Z,pending,,,
+mlb|30951|batter_hits|1.5|2026-09-30T18:16:00Z,2026-09-30 18:27 UTC,mlb,MLB,30951,Bryce Harper,PHI,batter_hits,Hits,1.5,Under,105,0.9,0.4122,10,2026-09-30T18:16:00Z,graded,2.0,MISS,2026-10-01 02:10 UTC
+mlb|34973|pitcher_outs|13.5|2026-09-30T18:16:00Z,2026-09-30 18:27 UTC,mlb,MLB,34973,Tyler Mahle,ATL,pitcher_outs,Outs Recorded,13.5,Over,-145,1.0,0.4082,10,2026-09-30T18:16:00Z,graded,21.0,HIT,2026-10-01 02:10 UTC
+mlb|42178|batter_hits|0.5|2026-10-01T00:15:00Z,2026-10-01 02:10 UTC,mlb,MLB,42178,Adley Rutschman,BOS,batter_hits,Hits,0.5,Over,330,0.8,0.5674,10,2026-10-01T00:15:00Z,pending,,,
+nfl|00-0038416|player_rush_yds|14.5|2026-10-04T17:00:00Z,2026-10-01 02:10 UTC,nfl,NFL,00-0038416,Tyson Bagent,CHI,player_rush_yds,Rush Yds,14.5,Under,-128,1.0,0.4386,7,2026-10-04T17:00:00Z,pending,,,
+mlb|32667|batter_strikeouts|4.5|2026-10-01T02:10:00Z,2026-10-01 02:10 UTC,mlb,MLB,32667,Kevin Gausman,CHC,batter_strikeouts,Batter Ks,4.5,Under,-137,1.0,0.4219,10,2026-10-01T02:10:00Z,pending,,,
+nfl|00-0040718|player_reception_yds|6.5|2026-10-04T17:00:00Z,2026-10-01 02:10 UTC,nfl,NFL,00-0040718,Travis Hunter,JAX,player_reception_yds,Rec Yds,6.5,Over,154,0.8,0.4063,10,2026-10-04T17:00:00Z,pending,,,
+nfl|00-0038090|player_receptions|1.5|2026-10-04T17:00:00Z,2026-10-01 02:10 UTC,nfl,NFL,00-0038090,Skyy Moore,GB,player_receptions,Receptions,1.5,Under,152,0.8,0.4032,10,2026-10-04T17:00:00Z,pending,,,
