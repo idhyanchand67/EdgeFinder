@@ -434,3 +434,5 @@ nfl|00-0040142|player_rush_yds|33.5|2026-10-04T17:00:00Z,2026-10-02 18:26 UTC,nf
 nfl|00-0040154|player_reception_yds|11.5|2026-10-04T20:05:00Z,2026-10-02 18:26 UTC,nfl,NFL,00-0040154,Tai Felton,MIN,player_reception_yds,Rec Yds,11.5,Under,-114,1.0,0.4673,10,2026-10-04T20:05:00Z,pending,,,
 nfl|00-0040154|player_receptions|1.5|2026-10-04T20:05:00Z,2026-10-02 18:26 UTC,nfl,NFL,00-0040154,Tai Felton,MIN,player_receptions,Receptions,1.5,Under,-132,1.0,0.431,10,2026-10-04T20:05:00Z,pending,,,
 nfl|00-0035535|player_receptions|1.5|2026-10-04T13:30:00Z,2026-10-02 18:26 UTC,nfl,NFL,00-0035535,Darius Slayton,IND,player_receptions,Receptions,1.5,Over,168,0.8,0.4269,10,2026-10-04T13:30:00Z,pending,,,
+nfl|00-0040142|player_rush_yds|32.5|2026-10-04T17:00:00Z,2026-10-03 01:58 UTC,nfl,NFL,00-0040142,Kaleb Johnson,GB,player_rush_yds,Rush Yds,32.5,Under,-112,1.0,0.4717,10,2026-10-04T17:00:00Z,pending,,,
+nfl|00-0040154|player_reception_yds|14.5|2026-10-04T20:05:00Z,2026-10-03 01:58 UTC,nfl,NFL,00-0040154,Tai Felton,MIN,player_reception_yds,Rec Yds,14.5,Under,-114,1.0,0.4673,10,2026-10-04T20:05:00Z,pending,,,
