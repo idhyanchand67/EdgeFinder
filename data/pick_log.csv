@@ -439,8 +439,15 @@ nfl|00-0040154|player_reception_yds|14.5|2026-10-04T20:05:00Z,2026-10-03 01:58 U
 nfl|00-0038416|player_pass_yds|195.5|2026-10-04T17:00:00Z,2026-10-03 17:18 UTC,nfl,NFL,00-0038416,Tyson Bagent,CHI,player_pass_yds,Pass Yds,195.5,Under,-110,1.0,0.4762,7,2026-10-04T17:00:00Z,pending,,,
 nfl|00-0040154|player_reception_yds|13.5|2026-10-04T20:05:00Z,2026-10-03 17:18 UTC,nfl,NFL,00-0040154,Tai Felton,MIN,player_reception_yds,Rec Yds,13.5,Under,-114,1.0,0.4673,10,2026-10-04T20:05:00Z,pending,,,
 nfl|00-0038416|player_pass_yds|203.5|2026-10-04T17:00:00Z,2026-10-03 17:18 UTC,nfl,NFL,00-0038416,Tyson Bagent,CHI,player_pass_yds,Pass Yds,203.5,Under,-115,1.0,0.4651,7,2026-10-04T17:00:00Z,pending,,,
-mlb|39895|batter_hits|0.5|2026-10-04T00:38:44Z,2026-10-04 02:41 UTC,mlb,MLB,39895,William Contreras,MIL,batter_hits,Hits,0.5,Over,200,0.9,0.5667,10,2026-10-04T00:38:44Z,pending,,,
-mlb|42958|batter_hits|0.5|2026-10-04T00:38:44Z,2026-10-04 02:41 UTC,mlb,MLB,42958,Joey Ortiz,MIL,batter_hits,Hits,0.5,Over,155,0.9,0.5078,10,2026-10-04T00:38:44Z,pending,,,
-mlb|4872691|batter_hits|0.5|2026-10-04T00:38:44Z,2026-10-04 02:41 UTC,mlb,MLB,4872691,Jackson Merrill,SD,batter_hits,Hits,0.5,Over,225,0.8,0.4923,10,2026-10-04T00:38:44Z,pending,,,
+mlb|39895|batter_hits|0.5|2026-10-04T00:38:44Z,2026-10-04 02:41 UTC,mlb,MLB,39895,William Contreras,MIL,batter_hits,Hits,0.5,Over,200,0.9,0.5667,10,2026-10-04T00:38:44Z,graded,1.0,HIT,2026-10-04 17:35 UTC
+mlb|42958|batter_hits|0.5|2026-10-04T00:38:44Z,2026-10-04 02:41 UTC,mlb,MLB,42958,Joey Ortiz,MIL,batter_hits,Hits,0.5,Over,155,0.9,0.5078,10,2026-10-04T00:38:44Z,graded,0.0,MISS,2026-10-04 17:35 UTC
+mlb|4872691|batter_hits|0.5|2026-10-04T00:38:44Z,2026-10-04 02:41 UTC,mlb,MLB,4872691,Jackson Merrill,SD,batter_hits,Hits,0.5,Over,225,0.8,0.4923,10,2026-10-04T00:38:44Z,graded,0.0,MISS,2026-10-04 17:35 UTC
 nfl|00-0040128|player_reception_yds|56.5|2026-10-04T13:30:00Z,2026-10-04 02:41 UTC,nfl,NFL,00-0040128,Tyler Warren,IND,player_reception_yds,Rec Yds,56.5,Under,-110,1.0,0.4762,10,2026-10-04T13:30:00Z,pending,,,
 nfl|00-0039299|player_rush_yds|31.5|2026-10-04T20:25:00Z,2026-10-04 02:41 UTC,nfl,NFL,00-0039299,George Holani,SEA,player_rush_yds,Rush Yds,31.5,Under,-110,1.0,0.4762,10,2026-10-04T20:25:00Z,pending,,,
+nfl|00-0026498|player_pass_tds|1.5|2026-10-04T17:02:38Z,2026-10-04 17:36 UTC,nfl,NFL,00-0026498,Matthew Stafford,LA,player_pass_tds,Pass TDs,1.5,Over,150,0.9,0.5,10,2026-10-04T17:02:38Z,pending,,,
+nfl|00-0040154|player_reception_yds|15.5|2026-10-04T20:05:00Z,2026-10-04 17:36 UTC,nfl,NFL,00-0040154,Tai Felton,MIN,player_reception_yds,Rec Yds,15.5,Under,-105,1.0,0.4878,10,2026-10-04T20:05:00Z,pending,,,
+nfl|00-0038611|player_rush_yds|11.5|2026-10-04T17:02:35Z,2026-10-04 17:36 UTC,nfl,NFL,00-0038611,Chris Rodriguez Jr.,JAX,player_rush_yds,Rush Yds,11.5,Over,-110,1.0,0.4762,10,2026-10-04T17:02:35Z,pending,,,
+nhl|4697468|player_shots_on_goal|1.5|2026-10-04T22:10:00Z,2026-10-04 17:36 UTC,nhl,NHL,4697468,Will Cuylle,NYR,player_shots_on_goal,Shots on Goal,1.5,Over,-110,1.0,0.4762,5,2026-10-04T22:10:00Z,pending,,,
+nfl|00-0038416|player_rush_yds|11.5|2026-10-04T17:02:29Z,2026-10-04 17:36 UTC,nfl,NFL,00-0038416,Tyson Bagent,CHI,player_rush_yds,Rush Yds,11.5,Under,-112,1.0,0.4717,7,2026-10-04T17:02:29Z,pending,,,
+nfl|00-0039794|player_rush_yds|47.5|2026-10-04T17:02:29Z,2026-10-04 17:36 UTC,nfl,NFL,00-0039794,Braelon Allen,NYJ,player_rush_yds,Rush Yds,47.5,Under,-114,1.0,0.4673,10,2026-10-04T17:02:29Z,pending,,,
+nfl|00-0040138|player_reception_yds|58.5|2026-10-04T17:02:51Z,2026-10-04 17:36 UTC,nfl,NFL,00-0040138,Jaylin Noel,HOU,player_reception_yds,Rec Yds,58.5,Under,-114,1.0,0.4673,10,2026-10-04T17:02:51Z,pending,,,
