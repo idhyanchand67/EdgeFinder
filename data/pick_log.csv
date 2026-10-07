@@ -467,24 +467,31 @@ nfl|00-0038542|player_receptions|1.5|2026-10-06T00:17:17Z,2026-10-06 02:59 UTC,n
 nfl|00-0032392|player_receptions|1.5|2026-10-06T00:17:17Z,2026-10-06 02:59 UTC,nfl,NFL,00-0032392,Austin Hooper,ATL,player_receptions,Receptions,1.5,Over,600,0.7,0.5571,10,2026-10-06T00:17:17Z,graded,1.0,MISS,2026-10-06 18:55 UTC
 nfl|00-0038542|player_reception_yds|2.5|2026-10-06T00:17:17Z,2026-10-06 02:59 UTC,nfl,NFL,00-0038542,Bijan Robinson,ATL,player_reception_yds,Rec Yds,2.5,Over,120,1.0,0.5455,10,2026-10-06T00:17:17Z,graded,2.0,MISS,2026-10-06 18:55 UTC
 nfl|00-0039917|player_pass_tds|0.5|2026-10-06T00:17:17Z,2026-10-06 02:59 UTC,nfl,NFL,00-0039917,Michael Penix Jr.,ATL,player_pass_tds,Pass TDs,0.5,Over,450,0.7,0.5182,10,2026-10-06T00:17:17Z,graded,1.0,HIT,2026-10-06 18:55 UTC
-nhl|3114770|player_goals|0.5|2026-10-06T23:10:00Z,2026-10-06 02:59 UTC,nhl,NHL,3114770,Nick Schmaltz,UTA,player_goals,Goals,0.5,Over,240,0.8,0.5059,5,2026-10-06T23:10:00Z,pending,,,
-nhl|5048894|player_goals|0.5|2026-10-07T01:10:00Z,2026-10-06 02:59 UTC,nhl,NHL,5048894,Bobby McMann,SEA,player_goals,Goals,0.5,Over,240,0.8,0.5059,5,2026-10-07T01:10:00Z,pending,,,
+nhl|3114770|player_goals|0.5|2026-10-06T23:10:00Z,2026-10-06 02:59 UTC,nhl,NHL,3114770,Nick Schmaltz,UTA,player_goals,Goals,0.5,Over,240,0.8,0.5059,5,2026-10-06T23:10:00Z,graded,1.0,HIT,2026-10-07 19:21 UTC
+nhl|5048894|player_goals|0.5|2026-10-07T01:10:00Z,2026-10-06 02:59 UTC,nhl,NHL,5048894,Bobby McMann,SEA,player_goals,Goals,0.5,Over,240,0.8,0.5059,5,2026-10-07T01:10:00Z,graded,0.0,MISS,2026-10-07 19:21 UTC
 nfl|00-0039917|player_rush_yds|5.5|2026-10-06T00:17:17Z,2026-10-06 02:59 UTC,nfl,NFL,00-0039917,Michael Penix Jr.,ATL,player_rush_yds,Rush Yds,5.5,Over,750,0.6,0.4824,10,2026-10-06T00:17:17Z,graded,-2.0,MISS,2026-10-06 18:55 UTC
 nfl|00-0037746|player_rush_yds|51.5|2026-10-06T00:17:17Z,2026-10-06 02:59 UTC,nfl,NFL,00-0037746,Brian Robinson,ATL,player_rush_yds,Rush Yds,51.5,Under,-110,1.0,0.4762,10,2026-10-06T00:17:17Z,graded,62.0,MISS,2026-10-06 18:55 UTC
-nhl|5149211|player_assists|0.5|2026-10-06T23:10:00Z,2026-10-06 18:55 UTC,nhl,NHL,5149211,Easton Cowan,TOR,player_assists,Assists,0.5,Over,295,0.8,0.5468,5,2026-10-06T23:10:00Z,pending,,,
-nhl|4024857|player_assists|0.5|2026-10-06T23:10:00Z,2026-10-06 18:55 UTC,nhl,NHL,4024857,Clayton Keller,UTA,player_assists,Assists,0.5,Over,-105,1.0,0.4878,5,2026-10-06T23:10:00Z,pending,,,
-nhl|4781552|player_assists|0.5|2026-10-07T01:10:00Z,2026-10-06 18:55 UTC,nhl,NHL,4781552,Matty Beniers,SEA,player_assists,Assists,0.5,Over,220,0.8,0.4875,5,2026-10-07T01:10:00Z,pending,,,
+nhl|5149211|player_assists|0.5|2026-10-06T23:10:00Z,2026-10-06 18:55 UTC,nhl,NHL,5149211,Easton Cowan,TOR,player_assists,Assists,0.5,Over,295,0.8,0.5468,5,2026-10-06T23:10:00Z,graded,0.0,MISS,2026-10-07 19:21 UTC
+nhl|4024857|player_assists|0.5|2026-10-06T23:10:00Z,2026-10-06 18:55 UTC,nhl,NHL,4024857,Clayton Keller,UTA,player_assists,Assists,0.5,Over,-105,1.0,0.4878,5,2026-10-06T23:10:00Z,graded,1.0,HIT,2026-10-07 19:21 UTC
+nhl|4781552|player_assists|0.5|2026-10-07T01:10:00Z,2026-10-06 18:55 UTC,nhl,NHL,4781552,Matty Beniers,SEA,player_assists,Assists,0.5,Over,220,0.8,0.4875,5,2026-10-07T01:10:00Z,graded,0.0,MISS,2026-10-07 19:21 UTC
 nfl|00-0039794|player_rush_yds|70.5|2026-10-11T17:00:00Z,2026-10-06 18:55 UTC,nfl,NFL,00-0039794,Braelon Allen,NYJ,player_rush_yds,Rush Yds,70.5,Under,-113,1.0,0.4695,10,2026-10-11T17:00:00Z,pending,,,
 nfl|00-0039794|player_rush_yds|69.5|2026-10-11T17:00:00Z,2026-10-06 18:55 UTC,nfl,NFL,00-0039794,Braelon Allen,NYJ,player_rush_yds,Rush Yds,69.5,Under,-113,1.0,0.4695,10,2026-10-11T17:00:00Z,pending,,,
-nhl|5080157|player_points|0.5|2026-10-07T00:10:00Z,2026-10-06 18:55 UTC,nhl,NHL,5080157,Frank Nazar,CHI,player_points,Points,0.5,Under,-114,1.0,0.4673,5,2026-10-07T00:10:00Z,pending,,,
-nhl|4697468|player_shots_on_goal|1.5|2026-10-06T23:40:00Z,2026-10-06 18:55 UTC,nhl,NHL,4697468,Will Cuylle,NYR,player_shots_on_goal,Shots on Goal,1.5,Over,-130,1.0,0.4348,6,2026-10-06T23:40:00Z,pending,,,
-nhl|5103645|player_assists|0.5|2026-10-06T23:10:00Z,2026-10-06 18:55 UTC,nhl,NHL,5103645,Jackson Blake,CAR,player_assists,Assists,0.5,Over,170,0.8,0.4296,5,2026-10-06T23:10:00Z,pending,,,
+nhl|5080157|player_points|0.5|2026-10-07T00:10:00Z,2026-10-06 18:55 UTC,nhl,NHL,5080157,Frank Nazar,CHI,player_points,Points,0.5,Under,-114,1.0,0.4673,5,2026-10-07T00:10:00Z,graded,2.0,MISS,2026-10-07 19:21 UTC
+nhl|4697468|player_shots_on_goal|1.5|2026-10-06T23:40:00Z,2026-10-06 18:55 UTC,nhl,NHL,4697468,Will Cuylle,NYR,player_shots_on_goal,Shots on Goal,1.5,Over,-130,1.0,0.4348,6,2026-10-06T23:40:00Z,graded,4.0,HIT,2026-10-07 19:21 UTC
+nhl|5103645|player_assists|0.5|2026-10-06T23:10:00Z,2026-10-06 18:55 UTC,nhl,NHL,5103645,Jackson Blake,CAR,player_assists,Assists,0.5,Over,170,0.8,0.4296,5,2026-10-06T23:10:00Z,graded,1.0,HIT,2026-10-07 19:21 UTC
 mlb|34973|pitcher_outs|14.5|2026-10-07T22:10:00Z,2026-10-07 02:25 UTC,mlb,MLB,34973,Tyler Mahle,ATL,pitcher_outs,Outs Recorded,14.5,Over,-105,1.0,0.4878,10,2026-10-07T22:10:00Z,pending,,,
 nfl|00-0039794|player_rush_yds|68.5|2026-10-11T17:00:00Z,2026-10-07 02:25 UTC,nfl,NFL,00-0039794,Braelon Allen,NYJ,player_rush_yds,Rush Yds,68.5,Under,-113,1.0,0.4695,10,2026-10-11T17:00:00Z,pending,,,
-mlb|31283|batter_hits|1.5|2026-10-07T01:40:00Z,2026-10-07 02:25 UTC,mlb,MLB,31283,Christian Yelich,MIL,batter_hits,Hits,1.5,Under,-135,1.0,0.4255,10,2026-10-07T01:40:00Z,pending,,,
+mlb|31283|batter_hits|1.5|2026-10-07T01:40:00Z,2026-10-07 02:25 UTC,mlb,MLB,31283,Christian Yelich,MIL,batter_hits,Hits,1.5,Under,-135,1.0,0.4255,10,2026-10-07T01:40:00Z,graded,2.0,MISS,2026-10-07 19:21 UTC
 nfl|00-0038416|player_pass_tds|1.5|2026-10-11T17:00:00Z,2026-10-07 02:25 UTC,nfl,NFL,00-0038416,Tyson Bagent,CHI,player_pass_tds,Pass TDs,1.5,Under,-136,1.0,0.4237,8,2026-10-11T17:00:00Z,pending,,,
 mlb|33372|pitcher_outs|12.5|2026-10-08T00:00:00Z,2026-10-07 02:25 UTC,mlb,MLB,33372,Nick Martinez,TB,pitcher_outs,Outs Recorded,12.5,Over,140,0.8,0.3833,10,2026-10-08T00:00:00Z,pending,,,
 nfl|00-0037120|player_rush_yds|16.5|2026-10-09T00:15:00Z,2026-10-07 02:25 UTC,nfl,NFL,00-0037120,Tyler Goodson,DAL,player_rush_yds,Rush Yds,16.5,Under,-114,0.9,0.3673,10,2026-10-09T00:15:00Z,pending,,,
-nhl|3114722|player_points|0.5|2026-10-07T02:21:34Z,2026-10-07 02:25 UTC,nhl,NHL,3114722,Sam Reinhart,FLA,player_points,Points,0.5,Under,130,0.8,0.3652,5,2026-10-07T02:21:34Z,pending,,,
-mlb|4917869|batter_rbis|0.5|2026-10-07T01:40:00Z,2026-10-07 02:25 UTC,mlb,MLB,4917869,Jackson Chourio,MIL,batter_rbis,RBIs,0.5,Over,310,0.6,0.3561,10,2026-10-07T01:40:00Z,pending,,,
+nhl|3114722|player_points|0.5|2026-10-07T02:21:34Z,2026-10-07 02:25 UTC,nhl,NHL,3114722,Sam Reinhart,FLA,player_points,Points,0.5,Under,130,0.8,0.3652,5,2026-10-07T02:21:34Z,graded,0.0,HIT,2026-10-07 19:21 UTC
+mlb|4917869|batter_rbis|0.5|2026-10-07T01:40:00Z,2026-10-07 02:25 UTC,mlb,MLB,4917869,Jackson Chourio,MIL,batter_rbis,RBIs,0.5,Over,310,0.6,0.3561,10,2026-10-07T01:40:00Z,graded,1.0,HIT,2026-10-07 19:21 UTC
 nfl|00-0038416|player_pass_yds|219.5|2026-10-11T17:00:00Z,2026-10-07 02:25 UTC,nfl,NFL,00-0038416,Tyson Bagent,CHI,player_pass_yds,Pass Yds,219.5,Under,-113,0.875,0.3445,8,2026-10-11T17:00:00Z,pending,,,
+nhl|4697405|player_assists|0.5|2026-10-07T23:40:00Z,2026-10-07 19:21 UTC,nhl,NHL,4697405,Hendrix Lapierre,PIT,player_assists,Assists,0.5,Over,310,0.8,0.5561,5,2026-10-07T23:40:00Z,pending,,,
+nhl|5103825|player_points|0.5|2026-10-07T23:40:00Z,2026-10-07 19:21 UTC,nhl,NHL,5103825,Declan Carlile,PIT,player_points,Points,0.5,Over,270,0.8,0.5297,5,2026-10-07T23:40:00Z,pending,,,
+nhl|3895074|player_points|1.5|2026-10-08T02:00:00Z,2026-10-07 19:21 UTC,nhl,NHL,3895074,Connor McDavid,EDM,player_points,Points,1.5,Over,100,1.0,0.5,5,2026-10-08T02:00:00Z,pending,,,
+mlb|4918251|pitcher_outs|8.5|2026-10-08T02:00:00Z,2026-10-07 19:21 UTC,mlb,MLB,4918251,Robert Gasser,MIL,pitcher_outs,Outs Recorded,8.5,Over,-112,1.0,0.4717,10,2026-10-08T02:00:00Z,pending,,,
+mlb|34973|pitcher_outs|13.5|2026-10-07T22:10:00Z,2026-10-07 19:21 UTC,mlb,MLB,34973,Tyler Mahle,ATL,pitcher_outs,Outs Recorded,13.5,Over,-113,1.0,0.4695,10,2026-10-07T22:10:00Z,pending,,,
+nhl|4697405|player_points|0.5|2026-10-07T23:40:00Z,2026-10-07 19:21 UTC,nhl,NHL,4697405,Hendrix Lapierre,PIT,player_points,Points,0.5,Over,195,0.8,0.461,5,2026-10-07T23:40:00Z,pending,,,
+mlb|4918251|pitcher_outs|7.5|2026-10-08T02:00:00Z,2026-10-07 19:21 UTC,mlb,MLB,4918251,Robert Gasser,MIL,pitcher_outs,Outs Recorded,7.5,Over,-125,1.0,0.4444,10,2026-10-08T02:00:00Z,pending,,,
