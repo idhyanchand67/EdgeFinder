@@ -536,3 +536,8 @@ mlb|4917869|batter_rbis|0.5|2026-10-12T00:00:00Z,2026-10-10 17:52 UTC,mlb,MLB,49
 nhl|3942033|player_points|0.5|2026-10-10T20:10:00Z,2026-10-10 17:52 UTC,nhl,NHL,3942033,Ryan Shea,EDM,player_points,Points,0.5,Over,190,0.833,0.4882,6,2026-10-10T20:10:00Z,pending,,,
 nhl|4352750|player_assists|0.5|2026-10-11T02:10:00Z,2026-10-10 17:52 UTC,nhl,NHL,4352750,Joel Farabee,CGY,player_assists,Assists,0.5,Over,185,0.833,0.4821,6,2026-10-11T02:10:00Z,pending,,,
 nhl|5103645|player_assists|0.5|2026-10-10T23:10:00Z,2026-10-10 17:52 UTC,nhl,NHL,5103645,Jackson Blake,CAR,player_assists,Assists,0.5,Over,165,0.857,0.4796,7,2026-10-10T23:10:00Z,pending,,,
+mlb|5136929|batter_hits|0.5|2026-10-11T00:01:00Z,2026-10-11 01:55 UTC,mlb,MLB,5136929,Chase Meidroth,CHW,batter_hits,Hits,0.5,Over,190,0.9,0.5552,10,2026-10-11T00:01:00Z,pending,,,
+mlb|5207167|batter_hits|0.5|2026-10-11T00:01:00Z,2026-10-11 01:55 UTC,mlb,MLB,5207167,Sam Antonacci,CHW,batter_hits,Hits,0.5,Over,275,0.8,0.5333,10,2026-10-11T00:01:00Z,pending,,,
+nhl|2593311|player_shots_on_goal|1.5|2026-10-11T02:10:00Z,2026-10-11 01:55 UTC,nhl,NHL,2593311,Erik Haula,LA,player_shots_on_goal,Shots on Goal,1.5,Over,110,1.0,0.5238,5,2026-10-11T02:10:00Z,pending,,,
+mlb|4872595|batter_hits|0.5|2026-10-11T00:01:00Z,2026-10-11 01:55 UTC,mlb,MLB,4872595,Munetaka Murakami,CHW,batter_hits,Hits,0.5,Over,400,0.7,0.5,10,2026-10-11T00:01:00Z,pending,,,
+mlb|4872595|batter_rbis|0.5|2026-10-11T00:01:00Z,2026-10-11 01:55 UTC,mlb,MLB,4872595,Munetaka Murakami,CHW,batter_rbis,RBIs,0.5,Over,850,0.6,0.4947,10,2026-10-11T00:01:00Z,pending,,,
