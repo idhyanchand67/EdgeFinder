@@ -635,3 +635,8 @@ nfl|00-0040646|player_reception_yds|24.5|2026-10-18T20:25:00Z,2026-10-16 17:25 U
 mlb|33372|pitcher_strikeouts|2.5|2026-10-17T00:00:00Z,2026-10-16 17:25 UTC,mlb,MLB,33372,Nick Martinez,TB,pitcher_strikeouts,Pitcher Ks,2.5,Over,121,0.9,0.4475,10,2026-10-17T00:00:00Z,pending,,,
 nfl|00-0040666|player_rush_yds|32.5|2026-10-18T20:25:00Z,2026-10-16 17:25 UTC,nfl,NFL,00-0040666,Omarion Hampton,LAC,player_rush_yds,Rush Yds,32.5,Over,-108,0.9,0.3808,10,2026-10-18T20:25:00Z,pending,,,
 nfl|00-0036139|player_receptions|1.5|2026-10-18T17:00:00Z,2026-10-16 17:25 UTC,nfl,NFL,00-0036139,Rico Dowdle,PIT,player_receptions,Receptions,1.5,Over,-110,0.9,0.3762,10,2026-10-18T17:00:00Z,pending,,,
+nfl|00-0037258|player_receptions|1.5|2026-10-18T17:00:00Z,2026-10-17 01:20 UTC,nfl,NFL,00-0037258,Dameon Pierce,PHI,player_receptions,Receptions,1.5,Under,145,0.9,0.4918,10,2026-10-18T17:00:00Z,pending,,,
+nfl|00-0039021|player_rush_yds|20.5|2026-10-18T17:00:00Z,2026-10-17 01:20 UTC,nfl,NFL,00-0039021,Roschon Johnson,CHI,player_rush_yds,Rush Yds,20.5,Under,-109,1.0,0.4785,10,2026-10-18T17:00:00Z,pending,,,
+nfl|00-0040646|player_reception_yds|25.5|2026-10-18T20:25:00Z,2026-10-17 01:20 UTC,nfl,NFL,00-0040646,Jalen Royals,KC,player_reception_yds,Rec Yds,25.5,Under,-113,1.0,0.4695,6,2026-10-18T20:25:00Z,pending,,,
+nfl|00-0039021|player_rush_yds|22.5|2026-10-18T17:00:00Z,2026-10-17 01:20 UTC,nfl,NFL,00-0039021,Roschon Johnson,CHI,player_rush_yds,Rush Yds,22.5,Under,-114,1.0,0.4673,10,2026-10-18T17:00:00Z,pending,,,
+nfl|00-0037258|player_reception_yds|11.5|2026-10-18T17:00:00Z,2026-10-17 01:20 UTC,nfl,NFL,00-0037258,Dameon Pierce,PHI,player_reception_yds,Rec Yds,11.5,Under,-114,1.0,0.4673,10,2026-10-18T17:00:00Z,pending,,,
