@@ -628,11 +628,11 @@ nfl|00-0038543|player_reception_yds|71.5|2026-10-16T00:15:50Z,2026-10-16 01:22 U
 nhl|5188613|player_points|0.5|2026-10-16T02:00:00Z,2026-10-16 01:22 UTC,nhl,NHL,5188613,Aydar Suniev,CGY,player_points,Points,0.5,Over,195,0.8,0.461,5,2026-10-16T02:00:00Z,graded,0.0,MISS,2026-10-16 17:25 UTC
 nhl|4352750|player_assists|0.5|2026-10-16T02:00:00Z,2026-10-16 01:22 UTC,nhl,NHL,4352750,Joel Farabee,CGY,player_assists,Assists,0.5,Over,235,0.75,0.4515,8,2026-10-16T02:00:00Z,graded,1.0,HIT,2026-10-16 17:25 UTC
 mlb|31283|batter_hits|0.5|2026-10-16T00:08:22Z,2026-10-16 01:22 UTC,mlb,MLB,31283,Christian Yelich,MIL,batter_hits,Hits,0.5,Over,170,0.8,0.4296,10,2026-10-16T00:08:22Z,graded,0.0,MISS,2026-10-16 17:25 UTC
-mlb|33372|pitcher_strikeouts|2.5|2026-10-16T22:00:00Z,2026-10-16 01:22 UTC,mlb,MLB,33372,Nick Martinez,TB,pitcher_strikeouts,Pitcher Ks,2.5,Over,111,0.9,0.4261,10,2026-10-16T22:00:00Z,pending,,,
+mlb|33372|pitcher_strikeouts|2.5|2026-10-16T22:00:00Z,2026-10-16 01:22 UTC,mlb,MLB,33372,Nick Martinez,TB,pitcher_strikeouts,Pitcher Ks,2.5,Over,111,0.9,0.4261,10,2026-10-16T22:00:00Z,graded,3.0,HIT,2026-10-18 16:33 UTC
 nfl|00-0039811|player_rush_yds|43.5|2026-10-19T00:20:00Z,2026-10-16 17:25 UTC,nfl,NFL,00-0039811,MarShawn Lloyd,GB,player_rush_yds,Rush Yds,43.5,Under,-110,1.0,0.4762,6,2026-10-19T00:20:00Z,pending,,,
 nfl|00-0040646|player_reception_yds|23.5|2026-10-18T20:25:00Z,2026-10-16 17:25 UTC,nfl,NFL,00-0040646,Jalen Royals,KC,player_reception_yds,Rec Yds,23.5,Under,-111,1.0,0.4739,6,2026-10-18T20:25:00Z,pending,,,
 nfl|00-0040646|player_reception_yds|24.5|2026-10-18T20:25:00Z,2026-10-16 17:25 UTC,nfl,NFL,00-0040646,Jalen Royals,KC,player_reception_yds,Rec Yds,24.5,Under,-114,1.0,0.4673,6,2026-10-18T20:25:00Z,pending,,,
-mlb|33372|pitcher_strikeouts|2.5|2026-10-17T00:00:00Z,2026-10-16 17:25 UTC,mlb,MLB,33372,Nick Martinez,TB,pitcher_strikeouts,Pitcher Ks,2.5,Over,121,0.9,0.4475,10,2026-10-17T00:00:00Z,pending,,,
+mlb|33372|pitcher_strikeouts|2.5|2026-10-17T00:00:00Z,2026-10-16 17:25 UTC,mlb,MLB,33372,Nick Martinez,TB,pitcher_strikeouts,Pitcher Ks,2.5,Over,121,0.9,0.4475,10,2026-10-17T00:00:00Z,graded,3.0,HIT,2026-10-18 16:33 UTC
 nfl|00-0040666|player_rush_yds|32.5|2026-10-18T20:25:00Z,2026-10-16 17:25 UTC,nfl,NFL,00-0040666,Omarion Hampton,LAC,player_rush_yds,Rush Yds,32.5,Over,-108,0.9,0.3808,10,2026-10-18T20:25:00Z,pending,,,
 nfl|00-0036139|player_receptions|1.5|2026-10-18T17:00:00Z,2026-10-16 17:25 UTC,nfl,NFL,00-0036139,Rico Dowdle,PIT,player_receptions,Receptions,1.5,Over,-110,0.9,0.3762,10,2026-10-18T17:00:00Z,pending,,,
 nfl|00-0037258|player_receptions|1.5|2026-10-18T17:00:00Z,2026-10-17 01:20 UTC,nfl,NFL,00-0037258,Dameon Pierce,PHI,player_receptions,Receptions,1.5,Under,145,0.9,0.4918,10,2026-10-18T17:00:00Z,pending,,,
@@ -640,7 +640,7 @@ nfl|00-0039021|player_rush_yds|20.5|2026-10-18T17:00:00Z,2026-10-17 01:20 UTC,nf
 nfl|00-0040646|player_reception_yds|25.5|2026-10-18T20:25:00Z,2026-10-17 01:20 UTC,nfl,NFL,00-0040646,Jalen Royals,KC,player_reception_yds,Rec Yds,25.5,Under,-113,1.0,0.4695,6,2026-10-18T20:25:00Z,pending,,,
 nfl|00-0039021|player_rush_yds|22.5|2026-10-18T17:00:00Z,2026-10-17 01:20 UTC,nfl,NFL,00-0039021,Roschon Johnson,CHI,player_rush_yds,Rush Yds,22.5,Under,-114,1.0,0.4673,10,2026-10-18T17:00:00Z,pending,,,
 nfl|00-0037258|player_reception_yds|11.5|2026-10-18T17:00:00Z,2026-10-17 01:20 UTC,nfl,NFL,00-0037258,Dameon Pierce,PHI,player_reception_yds,Rec Yds,11.5,Under,-114,1.0,0.4673,10,2026-10-18T17:00:00Z,pending,,,
-mlb|33372|pitcher_strikeouts|2.5|2026-10-18T00:00:00Z,2026-10-17 16:26 UTC,mlb,MLB,33372,Nick Martinez,TB,pitcher_strikeouts,Pitcher Ks,2.5,Over,139,0.9,0.4816,10,2026-10-18T00:00:00Z,pending,,,
+mlb|33372|pitcher_strikeouts|2.5|2026-10-18T00:00:00Z,2026-10-17 16:26 UTC,mlb,MLB,33372,Nick Martinez,TB,pitcher_strikeouts,Pitcher Ks,2.5,Over,139,0.9,0.4816,10,2026-10-18T00:00:00Z,graded,3.0,HIT,2026-10-18 16:33 UTC
 nfl|00-0037258|player_reception_yds|10.5|2026-10-18T17:00:00Z,2026-10-17 16:26 UTC,nfl,NFL,00-0037258,Dameon Pierce,PHI,player_reception_yds,Rec Yds,10.5,Under,-108,1.0,0.4808,10,2026-10-18T17:00:00Z,pending,,,
 nfl|00-0039021|player_rush_yds|21.5|2026-10-18T17:00:00Z,2026-10-17 16:26 UTC,nfl,NFL,00-0039021,Roschon Johnson,CHI,player_rush_yds,Rush Yds,21.5,Under,-111,1.0,0.4739,10,2026-10-18T17:00:00Z,pending,,,
 nba|4871145|player_threes|1.5|2026-10-21T23:40:00Z,2026-10-18 01:04 UTC,nba,NBA,4871145,Josh Giddey,CHI,player_threes,3-Pointers Made,1.5,Under,105,1.0,0.5122,5,2026-10-21T23:40:00Z,pending,,,
@@ -649,3 +649,10 @@ nba|3975|player_points|24.5|2026-10-22T02:00:00Z,2026-10-18 01:04 UTC,nba,NBA,39
 nfl|00-0037258|player_reception_yds|8.5|2026-10-18T17:00:00Z,2026-10-18 01:04 UTC,nfl,NFL,00-0037258,Dameon Pierce,PHI,player_reception_yds,Rec Yds,8.5,Under,-110,1.0,0.4762,10,2026-10-18T17:00:00Z,pending,,,
 nfl|00-0039811|player_rush_yds|44.5|2026-10-19T00:20:00Z,2026-10-18 01:04 UTC,nfl,NFL,00-0039811,MarShawn Lloyd,GB,player_rush_yds,Rush Yds,44.5,Under,-110,1.0,0.4762,6,2026-10-19T00:20:00Z,pending,,,
 nba|3975|player_points_rebounds|28.5|2026-10-22T02:00:00Z,2026-10-18 01:04 UTC,nba,NBA,3975,Stephen Curry,GS,player_points_rebounds,Pts+Reb,28.5,Under,-110,1.0,0.4762,5,2026-10-22T02:00:00Z,pending,,,
+nfl|00-0040583|player_receptions|0.5|2026-10-18T13:32:38Z,2026-10-18 16:33 UTC,nfl,NFL,00-0040583,Woody Marks,HOU,player_receptions,Receptions,0.5,Over,290,0.9,0.6436,10,2026-10-18T13:32:38Z,pending,,,
+nfl|00-0036554|player_receptions|2.5|2026-10-18T13:32:38Z,2026-10-18 16:33 UTC,nfl,NFL,00-0036554,Nico Collins,HOU,player_receptions,Receptions,2.5,Over,180,1.0,0.6429,10,2026-10-18T13:32:38Z,pending,,,
+nfl|00-0037258|player_rush_yds|42.5|2026-10-18T17:00:00Z,2026-10-18 16:33 UTC,nfl,NFL,00-0037258,Dameon Pierce,PHI,player_rush_yds,Rush Yds,42.5,Under,170,0.9,0.5296,10,2026-10-18T17:00:00Z,pending,,,
+nfl|00-0038794|player_receptions|2.5|2026-10-18T17:00:00Z,2026-10-18 16:33 UTC,nfl,NFL,00-0038794,Jaleel McLaughlin,CLE,player_receptions,Receptions,2.5,Under,105,1.0,0.5122,10,2026-10-18T17:00:00Z,pending,,,
+nba|4711294|player_points_rebounds|21.5|2026-10-21T23:40:00Z,2026-10-18 16:33 UTC,nba,NBA,4711294,Matas Buzelis,CHI,player_points_rebounds,Pts+Reb,21.5,Under,-102,1.0,0.495,5,2026-10-21T23:40:00Z,pending,,,
+nba|4871145|player_points|14.5|2026-10-21T23:40:00Z,2026-10-18 16:33 UTC,nba,NBA,4871145,Josh Giddey,CHI,player_points,Points,14.5,Under,-104,1.0,0.4902,5,2026-10-21T23:40:00Z,pending,,,
+nba|3975|player_points_rebounds_assists|33.5|2026-10-22T02:00:00Z,2026-10-18 16:33 UTC,nba,NBA,3975,Stephen Curry,GS,player_points_rebounds_assists,Pts+Reb+Ast,33.5,Under,-108,1.0,0.4808,5,2026-10-22T02:00:00Z,pending,,,
